@@ -1,1 +1,162 @@
 @import "tailwindcss";
+
+/*  */
+@keyframes toggleAnimation {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(0.95);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  .toggle-animation {
+    animation: toggleAnimation 0.2s ease-in-out;
+  }
+@theme {
+
+    /* Primary Colors */
+    --color-primary: #0284c7;        /* لون أساسي */
+    --color-primary-light: #0ea5e9;  /* لون أساسي فاتح */
+    --color-primary-dark: #0369a1;   /* لون أساسي غامق */
+  
+    /* Background Colors */
+    --color-bg-primary: #f0f9ff;     /* خلفية رئيسية */
+    --color-bg-secondary: #e0f2fe;   /* خلفية ثانوية */
+    --color-bg-tertiary: #bae6fd;    /* خلفية ثالثية */
+    --color-background: #ffffff;    /* خلفية ثالثية */
+  
+    /* Text Colors */
+    --color-text-primary: #075985;   /* نص رئيسي */
+    --color-text-secondary: #0369a1; /* نص ثانوي */
+    --color-text-tertiary: #0284c7;  /* نص ثالثي */
+    --color-text-error: #da4b2c;
+  
+    /* Border Colors */
+    --color-border-primary: #cacfcf; /* حدود رئيسية */
+    --color-border-secondary: #7dd3fc; /* حدود ثانوية */
+    --color-border-focus: #bae6fd;   /* حدود عند التركيز */
+    --color-border-error: #da4b2c;   /* حدود عند التركيز */
+    --color-destructive: #da4b2c;   /* حدود عند التركيز */
+  
+    /* Input Colors */
+    --color-input-bg: #f0f9ff;       /* خلفية حقل الإدخال */
+    --color-input-border: #d6e0e0;   /* حدود حقل الإدخال */
+    --color-input-focus: #0284c7;    /* حدود عند التركيز */
+    --color-input-disabled: #e0f2fe; /* خلفية حقل الإدخال المعطل */
+  
+    /* Status Colors */
+    --color-success: #22c55e;        /* لون النجاح */
+    --color-warning: #f59e0b;        /* لون التحذير */
+    --color-error: #ef4444;          /* لون الخطأ */
+    --color-info: #0284c7;           /* لون المعلومات */
+  
+    /* Dark Mode Colors */
+    --color-dark-bg-primary: #1e293b;        /* خلفية رئيسية للوضع الليلي */
+    --color-dark-bg-secondary: #334155;      /* خلفية ثانوية للوضع الليلي */
+    --color-dark-text-primary: #f8fafc;      /* نص رئيسي للوضع الليلي */
+    --color-dark-text-secondary: #cbd5e1;    /* نص ثانوي للوضع الليلي */
+    --color-dark-border-primary: #475569;    /* حدود رئيسية للوضع الليلي */
+    --color-dark-border-secondary: #64748b;  /* حدود ثانوية للوضع الليلي */
+  
+    /* Interactive Colors */
+    --color-button-bg: var(--color-primary);        /* خلفية الزر */
+    --color-button-text: #ffffff;                  /* نص الزر */
+    --color-button-hover: var(--color-primary-light); /* خلفية الزر عند التحويم */
+    --color-button-active: var(--color-primary-dark); /* خلفية الزر عند النقر */
+  
+    --color-link: var(--color-primary);            /* لون الروابط */
+    --color-link-hover: var(--color-primary-light); /* لون الروابط عند التحويم */
+    --color-link-active: var(--color-primary-dark); /* لون الروابط عند النقر */
+  
+    --color-icon: var(--color-text-primary);       /* لون الأيقونات */
+    --color-icon-hover: var(--color-primary);      /* لون الأيقونات عند التحويم */
+  
+    /* Table Colors */
+    --color-table-header-bg: var(--color-bg-secondary); /* خلفية رأس الجدول */
+    --color-table-header-text: var(--color-text-primary); /* نص رأس الجدول */
+    --color-table-row-bg: var(--color-bg-primary);      /* خلفية صف الجدول */
+    --color-table-row-hover: var(--color-bg-tertiary);  /* خلفية صف الجدول عند التحويم */
+    --color-table-border: var(--color-border-primary);  /* حدود الجدول */
+  
+    /* Form Colors */
+    --color-form-label: var(--color-text-primary);      /* لون تسمية الفورم */
+    --color-form-placeholder: var(--color-text-tertiary); /* لون النص الموضعي */
+    --color-form-error: var(--color-error);             /* لون خطأ الفورم */
+    --color-form-success: var(--color-success);         /* لون نجاح الفورم */
+  
+    /* Card Colors */
+    --color-card-bg: var(--color-bg-primary);           /* خلفية الكروت */
+    --color-card-border: var(--color-border-primary);   /* حدود الكروت */
+    --color-card-shadow: rgba(0, 0, 0, 0.1);            /* ظل الكروت */
+  
+    /* Gradient Colors */
+    --color-gradient-primary: linear-gradient(45deg, var(--color-primary), var(--color-primary-light)); /* تدرج لوني رئيسي */
+    --color-gradient-secondary: linear-gradient(45deg, var(--color-primary-dark), var(--color-primary)); /* تدرج لوني ثانوي */
+
+
+   
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* Hide scrollbar */
+}
+
+/* Hide scrollbar for IE, Edge, and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  overflow-y: scroll; /* Allow vertical scrolling */
+}
+
+
+/* تخصيص شريط التمرير */
+::-webkit-scrollbar {
+  width: 14px;
+}
+
+/* تخصيص المسار */
+::-webkit-scrollbar-track {
+  background: linear-gradient(45deg, #e0e0e0, #f9f9f9);
+  border-radius: 7px;
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
+}
+
+/* تخصيص المقبض */
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #a0a0a0, #7d7d7d);
+  border-radius: 7px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+/* تأثير التظليل على المقبض */
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(45deg, #7d7d7d, #5a5a5a);
+  transform: scale(1.05);
+}
+
+/* إضافة ظل للمقبض */
+::-webkit-scrollbar-thumb {
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+/* تأثير تموج عند التفاعل */
+@keyframes rippleEffect {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.1),
+                0 0 0 0 rgba(0, 0, 0, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 10px rgba(0, 0, 0, 0),
+                0 0 0 20px rgba(0, 0, 0, 0);
+  }
+}
+
+::-webkit-scrollbar-thumb:active {
+  animation: rippleEffect 0.4s forwards;
+}
