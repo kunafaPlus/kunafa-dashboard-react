@@ -29,12 +29,7 @@ function App() {
           label: "Advance Form",
           href: "/form/advance-form",
         },
-        {
-          id: "item-2",
-          icon: <MdInput />,
-          label: "User Profile",
-          href: "/form/user-profile",
-        },
+
 
 
         
@@ -58,7 +53,7 @@ function App() {
         }}
       />
 
-      <div className="overflow-scroll overflow-x-hidden w-[100vw]">
+      <div className="overflow-scroll overflow-x-hidden w-[100vw] bg-gray-50">
         <AdvancedNavbar />
         <main className="w-full p-4">
           <PerfectScrollbar

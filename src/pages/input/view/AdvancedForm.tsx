@@ -4,64 +4,82 @@ import { ColorPicker } from "../component/ColorPicker";
 import { CurrencyInput } from "../component/CurrencyInput";
 import { CustomInputWithRightText } from "../component/CustomInputWithRightText";
 import { CustomSelect } from "../component/CustomSelect";
+import { FileDropzone } from "../component/FileDropzone";
+import { FileUploader } from "../component/FileUploader";
 import { FloatLabel } from "../component/FloatLabel";
+import { OTPInput } from "../component/OTPInput";
+import { RichTextEditor } from "../component/RichTextEditor";
+import { SignaturePad } from "../component/SignaturePad";
+import { TagInput } from "../component/TagInput";
+import { VoiceInput } from "../component/VoiceInput";
 
 const AdvancedForm = () => {
-    const { register, setValue, errors, formData }=useForm()
+  const { register, setValue, errors, formData } = useForm();
 
   return (
     <Card title="بيانات متقدمة">
-      <ColorPicker
-        {...register("pickedColor", {
-          required: "الرجاء اختيار لون",
+      {" "}
+      <SignaturePad
+        {...register("signature", {
+          required: "الرجاء إضافة التوقيع",
         })}
-        label="اختر لونًا"
-        error={errors.pickedColor}
+        label=" التوقيع"
+        error={errors.signature}
       />
-      <CurrencyInput
-        {...register("price", {
-          required: true,
-          validate: {
-            maxValue: (value) => value <= 1000000 || "السعر لا يمكن أن يتجاوز 1,000,000",
-            minValue: (value) => value >= 1 || "السعر يجب أن يكون على الأقل 1",
-          },
+      <TagInput
+        {...register("tags", {
+          required: "الرجاء إضافة وسوم",
         })}
-        label="السعر"
-        error={errors.price}
-        currencySymbol="ر.س"
-        currencyCode="SAR"
-        locale="ar-SA"
+        label="الوسوم"
+        error={errors.tags}
+        placeholder="أضف وسماً..."
+        suggestions={["React", "JavaScript", "CSS", "HTML"]}
+        maxTags={5}
       />
-      <CustomInputWithRightText
-        {...register("username", {
-          required: "اسم المستخدم مطلوب",
-          validate: {
-            minValue: (value) => value >= 1 || "السعر يجب أن يكون على الأقل 1",
-          },
+      <RichTextEditor
+        {...register("content", {
+          required: "المحتوى مطلوب",
         })}
-        label="اسم المستخدم"
-        placeholder="أدخل اسم المستخدم"
-        error={errors.username}
-        rightText="@"
+        label="المحتوى"
+        error={errors.content}
       />
-      <CustomSelect
-        {...register("category", {
-          required: "الرجاء اختيار فئة",
+      <OTPInput
+        {...register("otp", {
+          required: "الرجاء إدخال رمز التحقق",
         })}
-        options={[
-          { value: "technology", label: "تقنية" },
-          { value: "design", label: "تصميم" },
-          { value: "marketing", label: "تسويق" },
-        ]}
-        label="الفئة"
-        error={errors.category}
+        length={6}
+        label="رمز التحقق"
+        error={errors.otp}
       />
-      <FloatLabel
-        {...register("floatField", {
-          required: "هذا الحقل مطلوب",
+      <VoiceInput
+        {...register("voiceNote", {
+          required: "الرجاء تسجيل ملاحظة صوتية",
         })}
-        label="حقل عائم"
-        error={errors.floatField}
+        label="ملاحظة صوتية"
+        maxDuration={300} // 5 minutes
+        error={errors.voiceNote}
+        onAudioData={(blob:any) => {
+          // This will be called when audio data is available
+          console.log("Audio Blob:", blob);
+          setValue("voiceNote", blob); // Update the form value with the audio blob
+        }}
+      />
+      <FileDropzone
+        {...register("files", {
+          required: "الرجاء اختيار ملفات",
+        })}
+        label="رفع الملفات"
+        accept={[".pdf", ".doc", ".docx"]}
+        maxFiles={5}
+        error={errors.files}
+      />
+      <FileUploader
+        {...register("avatar", {
+          required: "الرجاء اختيار صورة",
+        })}
+        label="الصورة الشخصية"
+        accept="image/*"
+        error={errors.avatar}
       />
     </Card>
   );
