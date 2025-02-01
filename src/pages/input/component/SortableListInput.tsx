@@ -54,6 +54,7 @@ interface SortableListInputProps{
   onDragEnd?: (event: DragEndEvent) => void;
   allowRemove?: boolean;
   onRemove?: (item: SortableItem) => void;
+  className?: string;
 }
 
 interface SortableItemProps extends SortableItem {

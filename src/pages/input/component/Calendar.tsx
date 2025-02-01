@@ -176,7 +176,7 @@ const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
                 disabled={isDisabled}
                 className={cn(
                   "p-2 rounded-sm hover:bg-accent transition-colors",
-                  isSelected && "bg-primary text-primary-foreground",
+                  isSelected && "bg-primary text-white",
                   isDisabled && "opacity-50 cursor-not-allowed"
                 )}
               >

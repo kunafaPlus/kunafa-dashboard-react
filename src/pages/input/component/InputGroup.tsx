@@ -1,5 +1,5 @@
 import * as React from "react";
-import { cva } from "class-variance-authority";
+import { cva, VariantProps } from "class-variance-authority";
 import { cn } from "../../../utils/cn";
 import { InputGroupContextValue, InputGroupProps } from "../utils/type";
 
@@ -38,7 +38,7 @@ const InputGroup = React.forwardRef<HTMLDivElement, InputGroupProps>(
       <InputGroupContext.Provider value={{ variant, size, disabled }}>
         <div
           ref={ref}
-          className={cn(inputGroupVariants({ variant, size }), className)}
+          className={cn(inputGroupVariants({ variant, size }as {variant:VariantProps<typeof inputGroupVariants>["variant"], size:VariantProps<typeof inputGroupVariants>["size"]}), className)}
           {...props}
         >
           {children}

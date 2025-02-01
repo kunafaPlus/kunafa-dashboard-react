@@ -8,8 +8,8 @@ export const navbarVariants = cva(
         default: "bg-background border-b",
         transparent: "bg-transparent",
         floating: "bg-background/80 backdrop-blur-sm shadow-sm",
-        colored: "bg-primary text-primary-foreground",
-        gradient: "bg-gradient-to-r from-primary to-secondary text-primary-foreground",
+        colored: "bg-primary text-white",
+        gradient: "bg-gradient-to-r from-primary to-secondary text-white",
       },
       size: {
         sm: "h-12",

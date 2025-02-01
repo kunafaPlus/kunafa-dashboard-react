@@ -187,7 +187,7 @@ function SearchInput<T>({
           onFocus={() => setIsOpen(true)}
           placeholder={placeholder}
           className={cn(
-            searchInputVariants({ variant, size }),
+            searchInputVariants({ variant, size }as{}),
             "pl-10 bg-transparent transition-colors outline-input-focus border-input-border disabled:opacity-50 disabled:cursor-not-allowed",
             error && "border-destructive focus:ring-destructive",
             className

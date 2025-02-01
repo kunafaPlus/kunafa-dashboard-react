@@ -194,7 +194,7 @@ const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
             onMouseLeave={() => setShowTooltipValue(false)}
           >
             {showTooltip && showTooltipValue && (
-              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-primary text-primary-foreground text-xs rounded shadow">
+              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-primary text-white text-xs rounded shadow">
                 {currentValue}
               </div>
             )}

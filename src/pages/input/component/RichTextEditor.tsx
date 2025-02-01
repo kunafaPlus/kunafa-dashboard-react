@@ -97,7 +97,7 @@ const RichTextEditor = React.forwardRef<HTMLDivElement, RichTextEditorProps>(
     return (
       <div
         className={cn(
-          richTextEditorVariants({ variant, size }),
+          richTextEditorVariants({ variant, size } as{}),
           error && "border-red-500",
           className
         )}

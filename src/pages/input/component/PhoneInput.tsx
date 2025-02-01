@@ -6,7 +6,7 @@ import { parsePhoneNumber, CountryCode, AsYouType } from "libphonenumber-js";
 // Define PhoneNumber type for better type safety
 interface PhoneNumber {
   number: string;
-  countryCode: CountryCode;
+  countryCode: string;
   isValid: boolean;
   formatted: string;
   international: string;
@@ -40,9 +40,9 @@ interface PhoneInputProps
     VariantProps<typeof phoneInputVariants> {
   value?: string;
   onChange?: (value: PhoneNumber) => void;
-  defaultCountry?: CountryCode;
-  onlyCountries?: CountryCode[];
-  preferredCountries?: CountryCode[];
+  defaultCountry?: string;
+  onlyCountries?: string[];
+  preferredCountries?: string[];
   error?: string;
   label?: string;
   hint?: string;
@@ -51,13 +51,14 @@ interface PhoneInputProps
   showFormatted?: boolean;
   validateOnBlur?: boolean;
 }
-
+interface CountryData {
+  [key: string]: { name: string; flag: string,code?:string };
+}
 // Country data can be moved to a separate file or fetched dynamically
-const COUNTRY_DATA: Record<CountryCode, { name: string; flag: string }> = {
-  US: { name: "United States", flag: "🇺🇸" },
-  GB: { name: "United Kingdom", flag: "🇬🇧" },
-  SA: { name: "Saudi Arabia", flag: "🇸🇦" },
-  // Add more countries as needed
+const COUNTRY_DATA: CountryData = {
+  US: { name: "United States", flag: "🇺🇸",code:"12" },
+  GB: { name: "United Kingdom", flag: "🇬🇧",code:"12" },
+  SA: { name: "Saudi Arabia", flag: "🇸🇦" ,code:"12"},
 };
 
 // Function to get country code based on country code
@@ -133,7 +134,7 @@ const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
     },
     ref
   ) => {
-    const [selectedCountry, setSelectedCountry] = useState<CountryCode>(defaultCountry);
+    const [selectedCountry, setSelectedCountry] = useState<any>(defaultCountry);
     const [inputValue, setInputValue] = useState<string>(value || "");
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const dropdownRef = useRef<HTMLDivElement>(null);

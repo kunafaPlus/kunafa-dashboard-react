@@ -144,7 +144,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, MultiSelectProps>(
       )}
       <div
         className={cn(
-          multiSelectVariants({ variant, size }),
+          multiSelectVariants({ variant, size }as {}),
           error && "border-red-500",
           disabled && "opacity-50 cursor-not-allowed"
         )}
