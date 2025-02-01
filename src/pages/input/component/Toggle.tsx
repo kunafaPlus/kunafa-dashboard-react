@@ -10,7 +10,7 @@ import { ToggleProps } from "../utils/type";
     variants: {
       variant: {
         default: "bg-transparent hover:bg-muted",
-        primary: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-md hover:shadow-lg",
+        primary: "bg-primary text-white hover:bg-primary/90 shadow-md hover:shadow-lg",
         destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-md hover:shadow-lg",
         outline: "border border-input bg-transparent hover:bg-accent hover:text-accent-foreground shadow-sm hover:shadow-md",
         ghost: "bg-transparent hover:bg-accent hover:text-accent-foreground",

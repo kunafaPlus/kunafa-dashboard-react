@@ -28,9 +28,14 @@
     --color-bg-secondary: #e0f2fe;   /* خلفية ثانوية */
     --color-bg-tertiary: #bae6fd;    /* خلفية ثالثية */
     --color-background: #ffffff;    /* خلفية ثالثية */
+
+
+    
   
     /* Text Colors */
     --color-text-primary: #075985;   /* نص رئيسي */
+    --color-primary-foreground:"#fff";
+    --color-destructive-foreground :"#fff";
     --color-text-secondary: #0369a1; /* نص ثانوي */
     --color-text-tertiary: #0284c7;  /* نص ثالثي */
     --color-text-error: #da4b2c;

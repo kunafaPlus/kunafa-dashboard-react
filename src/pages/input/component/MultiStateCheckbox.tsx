@@ -144,8 +144,8 @@ const MultiStateCheckbox = React.forwardRef<HTMLInputElement, MultiStateCheckbox
           <div
             className={cn(
               multiStateCheckboxVariants({ variant, size }),
-              internalValue === true && "bg-primary text-primary-foreground border-primary",
-              internalValue === "indeterminate" && "bg-primary/50 text-primary-foreground border-primary/50",
+              internalValue === true && "bg-primary text-white border-primary",
+              internalValue === "indeterminate" && "bg-primary/50 text-white border-primary/50",
               error && "border-destructive",
               className
             )}

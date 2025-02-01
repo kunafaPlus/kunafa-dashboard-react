@@ -35,6 +35,20 @@ function App() {
         
       ],
     },
+    {
+      id: "section-2",
+      title: "Button",
+      items: [
+        {
+          id: "button",
+          icon: <MdInput />,
+          label: "button Form",
+          href: "/button",
+        },
+        
+      ],
+    },
+
   ];
   return (
     <div className="flex overflow-hidden max-h-screen  ">
