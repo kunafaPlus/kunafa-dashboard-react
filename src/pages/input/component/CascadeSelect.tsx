@@ -35,6 +35,7 @@ const CascadeSelect = React.forwardRef<HTMLDivElement, CascadeSelectProps>(
       variant,
       size,
       label,
+
       options,
       value = [],
       onChange,
@@ -141,7 +142,7 @@ const CascadeSelect = React.forwardRef<HTMLDivElement, CascadeSelectProps>(
     return (
       <div
         ref={ref}
-        className={cn(cascadeSelectVariants({ variant, size }), className)}
+        className={cn(cascadeSelectVariants({ variant, size }as {variant: VariantProps<typeof cascadeSelectVariants>["variant"]; size: VariantProps<typeof cascadeSelectVariants>["size"]}), className)}
         {...props}
       >
         {label&& <p>{label}</p>}

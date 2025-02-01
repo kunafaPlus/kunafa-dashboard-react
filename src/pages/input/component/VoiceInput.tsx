@@ -282,7 +282,7 @@ const VoiceInput = forwardRef<HTMLDivElement, VoiceInputProps>(
         >
           <div
             className={cn(
-              voiceInputVariants({ variant, size }),
+              voiceInputVariants({ variant, size }as{}),
               "flex items-center gap-3"
             )}
           >
@@ -294,7 +294,7 @@ const VoiceInput = forwardRef<HTMLDivElement, VoiceInputProps>(
                 "p-3 rounded-full transition-colors",
                 isRecording
                   ? "bg-destructive text-destructive-foreground"
-                  : "bg-primary text-primary-foreground",
+                  : "bg-primary text-white",
                 disabled && "opacity-50 cursor-not-allowed"
               )}
             >

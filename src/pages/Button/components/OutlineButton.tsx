@@ -8,7 +8,7 @@ const outlineButtonVariants = cva(
     variants: {
       variant: {
         default:
-          "border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground",
+          "border-2 border-primary text-primary hover:bg-primary hover:text-white",
         destructive:
           "border-2 border-destructive text-destructive hover:bg-destructive hover:text-destructive-foreground",
         secondary:

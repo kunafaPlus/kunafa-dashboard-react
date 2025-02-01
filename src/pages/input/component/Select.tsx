@@ -73,11 +73,11 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
     ref
   ) => {
     const [isOpen, setIsOpen] = React.useState(false);
-    const [selectedValue, setSelectedValue] = React.useState(value);
+    const [selectedValue, setSelectedValue] = React.useState<unknown>(value);
     const containerRef = React.useRef<HTMLDivElement>(null);
 
     const handleSelect = (optionValue: string) => {
-      setSelectedValue(optionValue);
+      setSelectedValue(optionValue)
       setIsOpen(false);
       
       if (onChange) {
@@ -111,7 +111,7 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
         {label&&<p>{label}</p>}
         <div
           className={cn(
-            selectVariants({ variant, size, fullWidth }),
+            selectVariants({ variant, size, fullWidth }as{}),
             "cursor-pointer",
             className
           )}

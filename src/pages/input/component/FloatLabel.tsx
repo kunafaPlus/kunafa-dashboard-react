@@ -1,5 +1,5 @@
 import * as React from "react";
-import { cva } from "class-variance-authority";
+import { cva, VariantProps } from "class-variance-authority";
 import {  FloatLabelProps } from "../utils/type";
 import { cn } from "../../../utils/cn";
 
@@ -74,7 +74,7 @@ const FloatLabel = React.forwardRef<HTMLInputElement, FloatLabelProps>(
     return (
       <div
         className={cn(
-          floatLabelVariants({ variant, size }),
+          floatLabelVariants({ variant, size }as {variant:VariantProps<typeof floatLabelVariants>["variant"], size:VariantProps<typeof floatLabelVariants>["size"]}),
           containerClassName
         )}
       >
@@ -86,6 +86,8 @@ const FloatLabel = React.forwardRef<HTMLInputElement, FloatLabelProps>(
           )}
 
           <input
+          
+          {...props}
             ref={ref}
             {...props}
             className={cn(
@@ -105,7 +107,7 @@ const FloatLabel = React.forwardRef<HTMLInputElement, FloatLabelProps>(
             required={required}
             aria-invalid={Boolean(error)}
             aria-describedby={error ? `${props.id}-error` : undefined}
-          />
+          ></input>
 
           {endIcon && (
             <div className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
@@ -114,7 +116,6 @@ const FloatLabel = React.forwardRef<HTMLInputElement, FloatLabelProps>(
           )}
 
           <label
-            htmlFor={props.id}
             className={cn(
               "absolute left-3 transition-all duration-200 pointer-events-none",
               startIcon && "left-10",

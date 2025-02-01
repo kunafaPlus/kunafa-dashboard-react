@@ -240,7 +240,7 @@ const SignaturePad = React.forwardRef<HTMLDivElement, SignaturePadProps>(
         {label&&<p>{label}</p>}
         <div
           className={cn(
-            signaturePadVariants({ variant, size }),
+            signaturePadVariants({ variant, size }as{}),
             disabled && "opacity-50 cursor-not-allowed"
           )}
           {...props}

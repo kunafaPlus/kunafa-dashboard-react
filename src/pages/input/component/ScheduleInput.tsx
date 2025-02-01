@@ -207,7 +207,7 @@ const ScheduleInput = React.forwardRef<HTMLDivElement, ScheduleInputProps>(
     return (
       <div
         ref={containerRef}
-        className={cn(scheduleInputVariants({ variant, size }), className)}
+        className={cn(scheduleInputVariants({ variant, size }as{}), className)}
         {...props}
       >
         <div className="space-y-4">

@@ -26,7 +26,7 @@ const listBoxVariants = cva(
 
 interface ListBoxOption {
   value: string;
-  label: React.ReactNode;
+  label: string;
   disabled?: boolean;
   description?: React.ReactNode;
   icon?: React.ReactNode;
@@ -34,8 +34,7 @@ interface ListBoxOption {
 }
 
 interface ListBoxProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange">,
-    VariantProps<typeof listBoxVariants> {
+   {
   options: ListBoxOption[];
   value?: string | string[];
   onChange?: (value: string | string[]) => void;
@@ -50,6 +49,9 @@ interface ListBoxProps
   renderOption?: (option: ListBoxOption) => React.ReactNode;
   filterOption?: (option: ListBoxOption, searchValue: string) => boolean;
   compareOption?: (option: ListBoxOption, value: string) => boolean;
+  className?: string;
+  variant?: VariantProps<typeof listBoxVariants>["variant"];
+  size?: VariantProps<typeof listBoxVariants>["size"];
 }
 
 const ListBox = React.forwardRef<HTMLDivElement, ListBoxProps>(

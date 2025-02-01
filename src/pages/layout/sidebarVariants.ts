@@ -8,8 +8,8 @@ export const sidebarVariants = cva(
         default: "bg-gray-900 text-white no-scrollbar ",
         floating: "bg-background/80 backdrop-blur-sm shadow-lg",
         minimal: "bg-transparent",
-        colored: "bg-primary text-primary-foreground",
-        gradient: "bg-gradient-to-b from-primary to-secondary text-primary-foreground",
+        colored: "bg-primary text-white",
+        gradient: "bg-gradient-to-b from-primary to-secondary text-white",
       },
       size: {
         sm: "w-16",

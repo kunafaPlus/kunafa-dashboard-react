@@ -1,5 +1,5 @@
 import * as React from "react";
-import { cva } from "class-variance-authority";
+import { cva, VariantProps } from "class-variance-authority";
 import { ColorPickerProps } from "../utils/type";
 import { cn } from "../../../utils/cn";
 
@@ -50,7 +50,7 @@ export const ColorPicker = React.forwardRef<HTMLInputElement, ColorPickerProps>(
               "h-10 w-full cursor-pointer rounded border border-input",
               error&&"border-red-400",
               className,
-              colorPickerVariants({ variant, size }) // Apply variants here
+              colorPickerVariants({ variant, size } as {variant:VariantProps<typeof colorPickerVariants>["variant"], size:VariantProps<typeof colorPickerVariants>["size"]}) // Apply variants here
             )}
             {...props}
           />

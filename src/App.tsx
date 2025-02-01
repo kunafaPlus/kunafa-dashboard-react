@@ -42,8 +42,21 @@ function App() {
         {
           id: "button",
           icon: <MdInput />,
-          label: "button Form",
+          label: "button ",
           href: "/button",
+        },
+        
+      ],
+    },
+    {
+      id: "section-3",
+      title: "Dialog",
+      items: [
+        {
+          id: "dialog",
+          icon: <MdInput />,
+          label: "dialog ",
+          href: "/dialog",
         },
         
       ],

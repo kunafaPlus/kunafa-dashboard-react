@@ -241,7 +241,7 @@ const MatrixInput = React.forwardRef<HTMLDivElement, MatrixInputProps>(
     const matrix = value || defaultMatrix;
 
     return (
-      <div ref={containerRef} className={cn(matrixInputVariants({ variant, size }), className)}>
+      <div ref={containerRef} className={cn(matrixInputVariants({ variant, size }as {}), className)}>
         {label && (
           <label className="block text-sm font-medium text-gray-700">
             {label}

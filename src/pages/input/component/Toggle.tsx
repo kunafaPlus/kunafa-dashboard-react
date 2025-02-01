@@ -66,10 +66,9 @@ const Toggle = React.forwardRef<HTMLButtonElement, ToggleProps>(
       <button
         ref={ref}
         type="button"
-        aria-pressed={isPressed}
-        data-state={isPressed ? "on" : "off"}
+        
         className={cn(
-          toggleVariants({ variant, size, rounded, className }),
+          toggleVariants({ variant, size, rounded, className }as{}),
           isPressed && "bg-accent text-accent-foreground shadow-inner",
           iconOnly && "p-0 aspect-square" // إذا كان الزر يحتوي على أيقونة فقط
         )}

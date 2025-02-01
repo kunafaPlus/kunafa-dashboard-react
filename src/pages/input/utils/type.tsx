@@ -1,22 +1,23 @@
-import { ChangeEvent, ReactNode, SelectHTMLAttributes } from "react";
-import { colorPickerVariants } from "../ColorPicker";
-import { VariantProps } from "class-variance-authority";
-import { floatLabelVariants } from "../FloatLabel";
-import { inputGroupVariants } from "../InputGroup";
-import { inputNumberVariants } from "../InputNumber";
-import { Matrix, matrixInputVariants } from "../MatrixInput";
-import { multiSelectVariants } from "../MultiSelect";
-import { cascadeSelectVariants } from "../CascadeSelect";
-import { richTextEditorVariants } from "../RichTextEditor";
-import { scheduleInputVariants } from "../ScheduleInput";
-import { searchInputVariants } from "../SearchInput";
-import { selectVariants } from "../Select";
-import { signaturePadVariants } from "../SignaturePad";
-import { tagInputVariants } from "../TagInput";
-import { toggleVariants } from "../Toggle";
-import { voiceInputVariants } from "../VoiceInput";
-import { phoneInputVariants } from "../PhoneInput";
+import React, { ChangeEvent, ReactNode, SelectHTMLAttributes } from "react";
+// import { colorPickerVariants } from "../ColorPicker";
+// import { VariantProps } from "class-variance-authority";
+// import { floatLabelVariants } from "../FloatLabel";
+// import { inputGroupVariants } from "../InputGroup";
+// import { inputNumberVariants } from "../InputNumber";
+// import { Matrix, matrixInputVariants } from "../MatrixInput";
+// import { multiSelectVariants } from "../MultiSelect";
+// import { cascadeSelectVariants } from "../CascadeSelect";
+// import { richTextEditorVariants } from "../RichTextEditor";
+// import { scheduleInputVariants } from "../ScheduleInput";
+// import { searchInputVariants } from "../SearchInput";
+// import { selectVariants } from "../Select";
+// import { signaturePadVariants } from "../SignaturePad";
+// import { tagInputVariants } from "../TagInput";
+// import { toggleVariants } from "../Toggle";
+// import { voiceInputVariants } from "../VoiceInput";
+// import { phoneInputVariants } from "../PhoneInput";
 import { CountryCode } from "libphonenumber-js";
+type Matrix = number[][];
 
 // Common Types
 type InputChangeHandler = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
@@ -91,18 +92,20 @@ export interface CheckboxProps extends CommonInputProps {
   }
 
 
-  export interface ColorPickerProps extends VariantProps<typeof colorPickerVariants> {
+  export interface ColorPickerProps  {
     value?: string;
     onChange?: (value: string) => void;
     label?: string;
     error?: string;
     className?: string;
+    variant?: string; 
+    size?: string; 
   }
 
 export   interface CurrencyInputProps  {
-    variant?: string; // Define specific variants if needed
-    size?: string; // Define specific sizes if needed
-    value?: number | null; // Value should be a number or null
+    variant?: string; 
+    size?: string; 
+    value?: number | null; 
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
     currencySymbol?: string;
     currencyCode?: string;
@@ -140,30 +143,45 @@ export   interface CurrencyInputProps  {
   size?: "sm" | "md" | "lg";
 }
 export interface FloatLabelProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size">,
-    VariantProps<typeof floatLabelVariants> {
+  {
   label: string;
   error?: string;
   hint?: string;
   startIcon?: React.ReactNode;
   endIcon?: React.ReactNode;
   containerClassName?: string;
+  variant?: string; 
+  size?: string; 
+  value?: any; 
+  className?: string;
+  required?:boolean,
+  disabled?:boolean,
+  defaultValue?:string,
+  onFocus?:any
+  onChange?:any
+  onBlur?:any
+  id?:number
+
 }
 export interface InputGroupContextValue {
-  variant?: VariantProps<typeof inputGroupVariants>["variant"];
-  size?: VariantProps<typeof inputGroupVariants>["size"];
+  variant?: string; 
+  size?: string; 
+  value?: number | null; 
   disabled?: boolean;
 }
 
 export interface InputGroupProps
-  extends React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof inputGroupVariants> {
+  {
   disabled?: boolean;
+  variant?: string; 
+  size?: string; 
+  value?: number | null; 
+  className?:string,
+  children?:React.ReactNode
 }
 
 export interface InputNumberProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size" | "value" | "onChange" | "type">,
-    VariantProps<typeof inputNumberVariants> {
+  {
   value?: number;
   onChange?: (event: { target: { value: number } }) => void;
   label?: string;
@@ -181,11 +199,14 @@ export interface InputNumberProps
   buttonPlacement?: "right" | "sides" | "stacked";
   locale?: string;
   hint?: string;
+  variant?: string; 
+  size?: string; 
+  className?: string; 
+  disabled?: boolean; 
 }
 
 export interface MatrixInputProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, "value" | "onChange">,
-    VariantProps<typeof matrixInputVariants> {
+ {
   value?: Matrix;
   onChange?: (matrix: Matrix) => void;
   rows?: number;
@@ -204,6 +225,9 @@ export interface MatrixInputProps
   formatValue?: (value: number) => string;
   parseValue?: (value: string) => number;
   label?: string;
+  variant?: string; 
+  className?: string; 
+  size?: string; 
 }
 
 export interface Option {
@@ -214,9 +238,7 @@ export interface Option {
   icon?: React.ReactNode;
 }
 
-export interface MultiSelectProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange">,
-    VariantProps<typeof multiSelectVariants> {
+export interface MultiSelectProps {
   options: Option[];
   value?: string[];
   defaultValue?: string[];
@@ -232,6 +254,9 @@ export interface MultiSelectProps
   chipVariant?: "default" | "rounded" | "square";
   renderOption?: (option: Option) => React.ReactNode;
   label?: string;
+  variant?: string; 
+  size?: string; 
+  className?:string
 }
 
 export interface CascadeOption {
@@ -242,9 +267,7 @@ export interface CascadeOption {
   icon?: React.ReactNode;
 }
 
-export interface CascadeSelectProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange">,
-    VariantProps<typeof cascadeSelectVariants> {
+export interface CascadeSelectProps {
   options: CascadeOption[];
   value?: string[];
   onChange?: (value: string[]) => void;
@@ -255,7 +278,10 @@ export interface CascadeSelectProps
   clearable?: boolean;
   searchable?: boolean;
   label?:string,
+  variant?: string; 
+  size?: string; 
   error?:string
+  className?:string
 }
 export interface OTPInputProps {
   value?: string;
@@ -269,9 +295,7 @@ export interface OTPInputProps {
   className?:string
 }
 
-export interface RichTextEditorProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange">,
-    VariantProps<typeof richTextEditorVariants> {
+export interface RichTextEditorProps {
   value?: string;
   label?: string;
   defaultValue?: string;
@@ -280,6 +304,9 @@ export interface RichTextEditorProps
   placeholder?: string;
   readOnly?: boolean;
   error?: string;
+  variant?: string; 
+  size?: string; 
+  className?:string,
   toolbar?: ("bold" | "italic" | "underline" | "link" | "image" | "list" | "heading")[];
 }
 
@@ -295,8 +322,7 @@ export interface Schedule {
 }
 
 export interface ScheduleInputProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, "value" | "onChange">,
-    VariantProps<typeof scheduleInputVariants> {
+   {
   value?: Schedule;
   onChange?: (schedule: Schedule) => void;
   minTime?: string;
@@ -311,15 +337,23 @@ export interface ScheduleInputProps
   allowOverlap?: boolean;
   validateTimeSlot?: (slot: TimeSlot) => boolean;
   onInvalidTimeSlot?: (slot: TimeSlot) => void;
+  variant?: string; 
+  size?: string; 
+  className?:string,
+
+  
 }
 export interface SearchResult<T> {
   id: string | number;
+  className?:string,
+
   title: string;
   description?: string;
   data: T;
+  query?:any
 }
 
-export interface SearchInputProps<T> extends VariantProps<typeof searchInputVariants> {
+export interface SearchInputProps<T>  {
   className?: string;
   results?: SearchResult<T>[];
   onSearch?: (query: string) => void;
@@ -340,14 +374,25 @@ export interface SearchInputProps<T> extends VariantProps<typeof searchInputVari
   filterResults?: (results: SearchResult<T>[], query: string) => SearchResult<T>[];
   disabled?: boolean;
   placeholder?:string
+  variant?: string; 
+  size?: string; 
+  value?: number | null; 
 }
-export interface SelectProps
-  extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>, "size">,
-    VariantProps<typeof selectVariants> {
+
+export interface SelectProps {
   options: Array<{ value: string; label: string }>;
   placeholder?: string;
   label?:string
   error?:string
+  variant?: string; 
+  size?: string; 
+  className?: string; 
+  onChange?: (e:unknown)=>void; 
+
+  value?: number | null; 
+  disabled?:boolean,
+  fullWidth?:boolean,
+
 }
 
 
@@ -358,9 +403,9 @@ export interface Point {
 }
 
 export interface SignaturePadProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange">,
-    VariantProps<typeof signaturePadVariants> {
+{
   value?: string;
+  className?: string;
   onChange?: (value: string) => void;
   onBegin?: () => void;
   onEnd?: () => void;
@@ -375,11 +420,11 @@ export interface SignaturePadProps
   hint?: string;
   disabled?: boolean;
   label?:string
+  variant?: string; 
+  size?: string; 
 }
 
-export interface TagInputProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size" | "value" | "onChange">,
-    VariantProps<typeof tagInputVariants> {
+export interface TagInputProps{
   value?: string[];
   onChange?: (event: { target: { value: string[] } }) => void;
   label?: string;
@@ -390,15 +435,24 @@ export interface TagInputProps
   suggestions?: string[];
   allowDuplicates?: boolean;
   delimiter?: string | RegExp;
+  className:string,
+  variant:string,
+  size:string,
+
 }
 
-export interface ToggleProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof toggleVariants> {
+export interface ToggleProps{
   pressed?: boolean;
   onPressedChange?: (pressed: boolean) => void;
   iconOnly?: boolean;
   errors?:string
+  variant?: string; 
+  size?: string; 
+  value?: number | null; 
+  className?:string
+  rounded?:string
+  children?:ReactNode
+  onClick:(event:unknown)=>void
 }
 
 
@@ -416,9 +470,7 @@ export interface TreeSelectProps extends Omit<React.InputHTMLAttributes<HTMLInpu
   error?: string;
   placeholder?: string;
 }
-export interface VoiceInputProps
-extends Omit<React.HTMLAttributes<HTMLDivElement>, "value" | "onChange">,
-  VariantProps<typeof voiceInputVariants> {
+export interface VoiceInputProps {
 value?: Blob;
 onChange?: (event: { target: { value: Blob } }) => void;
 onAudioData?: (blob: Blob) => void;
@@ -432,6 +484,9 @@ autoStart?: boolean;
 visualizer?: boolean;
 disabled?: boolean;
 label?: string;
+variant?: string; 
+className?: string; 
+size?: string; 
 }
 export interface FileWithPreview extends File {
   preview?: string;
@@ -487,9 +542,7 @@ export interface PhoneNumber {
   national: string;
   countryCallingCode: string;
 }
-export interface PhoneInputProps
-extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "value" | "onChange" | "size">,
-  VariantProps<typeof phoneInputVariants> {
+export interface PhoneInputProps {
 value?: string;
 onChange?: (value: PhoneNumber) => void;
 defaultCountry?: CountryCode;
@@ -503,4 +556,6 @@ showCountryCode?: boolean;
 showFormatted?: boolean;
 validateOnBlur?: boolean;
 disabled?: boolean;
+variant?: string; 
+size?: string; 
 }
