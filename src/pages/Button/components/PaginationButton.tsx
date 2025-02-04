@@ -1,34 +1,35 @@
-import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "../../../utils/cn";
+import { cva, type VariantProps } from 'class-variance-authority';
+import * as React from 'react';
+
+import { cn } from '../../../utils/cn';
 
 const paginationButtonVariants = cva(
-  "inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
+  'inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50',
   {
     variants: {
       variant: {
         default:
-          "bg-primary text-white hover:bg-primary/90 [&>*]:hover:bg-primary/90 [&>*.selected]:bg-primary/80",
+          'bg-primary text-white hover:bg-primary/90 [&>*]:hover:bg-primary/90 [&>*.selected]:bg-primary/80',
         destructive:
-          "bg-destructive text-destructive-foreground hover:bg-destructive/90 [&>*]:hover:bg-destructive/90 [&>*.selected]:bg-destructive/80",
+          'bg-destructive text-destructive-foreground hover:bg-destructive/90 [&>*]:hover:bg-destructive/90 [&>*.selected]:bg-destructive/80',
         outline:
-          "border border-input bg-background hover:bg-accent hover:text-accent-foreground [&>*]:hover:bg-accent [&>*]:hover:text-accent-foreground [&>*.selected]:bg-accent [&>*.selected]:text-accent-foreground",
+          'border border-input bg-background hover:bg-accent hover:text-accent-foreground [&>*]:hover:bg-accent [&>*]:hover:text-accent-foreground [&>*.selected]:bg-accent [&>*.selected]:text-accent-foreground',
         secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80 [&>*]:hover:bg-secondary/80 [&>*.selected]:bg-secondary/70",
+          'bg-secondary text-secondary-foreground hover:bg-secondary/80 [&>*]:hover:bg-secondary/80 [&>*.selected]:bg-secondary/70',
         ghost:
-          "hover:bg-accent hover:text-accent-foreground [&>*]:hover:bg-accent [&>*]:hover:text-accent-foreground [&>*.selected]:bg-accent [&>*.selected]:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline [&>*]:hover:underline [&>*.selected]:underline",
+          'hover:bg-accent hover:text-accent-foreground [&>*]:hover:bg-accent [&>*]:hover:text-accent-foreground [&>*.selected]:bg-accent [&>*.selected]:text-accent-foreground',
+        link: 'text-primary underline-offset-4 hover:underline [&>*]:hover:underline [&>*.selected]:underline',
       },
       size: {
-        default: "h-9 px-4 py-2",
-        sm: "h-8 rounded-md px-3 text-xs",
-        lg: "h-10 rounded-md px-8",
-        icon: "h-9 w-9",
+        default: 'h-9 px-4 py-2',
+        sm: 'h-8 rounded-md px-3 text-xs',
+        lg: 'h-10 rounded-md px-8',
+        icon: 'h-9 w-9',
       },
     },
     defaultVariants: {
-      variant: "default",
-      size: "default",
+      variant: 'default',
+      size: 'default',
     },
   }
 );
@@ -74,16 +75,10 @@ const PaginationButton = React.forwardRef<HTMLDivElement, PaginationButtonProps>
     };
 
     const startPages = range(1, Math.min(boundaryCount, totalPages));
-    const endPages = range(
-      Math.max(totalPages - boundaryCount + 1, boundaryCount + 1),
-      totalPages
-    );
+    const endPages = range(Math.max(totalPages - boundaryCount + 1, boundaryCount + 1), totalPages);
 
     const siblingsStart = Math.max(
-      Math.min(
-        currentPage - siblingCount,
-        totalPages - boundaryCount - siblingCount * 2 - 1
-      ),
+      Math.min(currentPage - siblingCount, totalPages - boundaryCount - siblingCount * 2 - 1),
       boundaryCount + 2
     );
 
@@ -104,11 +99,11 @@ const PaginationButton = React.forwardRef<HTMLDivElement, PaginationButtonProps>
         type="button"
         className={cn(
           paginationButtonVariants({ variant, size }),
-          "aspect-square p-0",
-          selected && "selected",
-          typeof page === "string" && "pointer-events-none"
+          'aspect-square p-0',
+          selected && 'selected',
+          typeof page === 'string' && 'pointer-events-none'
         )}
-        onClick={() => typeof page === "number" && handlePageChange(page)}
+        onClick={() => typeof page === 'number' && handlePageChange(page)}
         disabled={disabled}
       >
         {page}
@@ -122,7 +117,7 @@ const PaginationButton = React.forwardRef<HTMLDivElement, PaginationButtonProps>
               key="first"
               type="button"
               className={cn(paginationButtonVariants({ variant, size }))}
-              onClick={() => handlePageChange(1)}
+              onClick={() => { handlePageChange(1); }}
               disabled={disabled || currentPage === 1}
             >
               <svg
@@ -142,7 +137,7 @@ const PaginationButton = React.forwardRef<HTMLDivElement, PaginationButtonProps>
               key="prev"
               type="button"
               className={cn(paginationButtonVariants({ variant, size }))}
-              onClick={() => handlePageChange(currentPage - 1)}
+              onClick={() => { handlePageChange(currentPage - 1); }}
               disabled={disabled || currentPage === 1}
             >
               <svg
@@ -160,16 +155,16 @@ const PaginationButton = React.forwardRef<HTMLDivElement, PaginationButtonProps>
         ? [
             ...startPages,
             ...(showEllipsis && siblingsStart > boundaryCount + 2
-              ? ["..."]
+              ? ['...']
               : boundaryCount + 1 < siblingsStart - 1
-              ? [boundaryCount + 1]
-              : []),
+                ? [boundaryCount + 1]
+                : []),
             ...range(siblingsStart, siblingsEnd),
             ...(showEllipsis && siblingsEnd < totalPages - boundaryCount - 1
-              ? ["..."]
+              ? ['...']
               : siblingsEnd + 1 < totalPages - boundaryCount
-              ? [totalPages - boundaryCount]
-              : []),
+                ? [totalPages - boundaryCount]
+                : []),
             ...endPages,
           ].map((page) => renderPageButton(page, page === currentPage))
         : []),
@@ -179,7 +174,7 @@ const PaginationButton = React.forwardRef<HTMLDivElement, PaginationButtonProps>
               key="next"
               type="button"
               className={cn(paginationButtonVariants({ variant, size }))}
-              onClick={() => handlePageChange(currentPage + 1)}
+              onClick={() => { handlePageChange(currentPage + 1); }}
               disabled={disabled || currentPage === totalPages}
             >
               <svg
@@ -199,7 +194,7 @@ const PaginationButton = React.forwardRef<HTMLDivElement, PaginationButtonProps>
               key="last"
               type="button"
               className={cn(paginationButtonVariants({ variant, size }))}
-              onClick={() => handlePageChange(totalPages)}
+              onClick={() => { handlePageChange(totalPages); }}
               disabled={disabled || currentPage === totalPages}
             >
               <svg
@@ -216,17 +211,13 @@ const PaginationButton = React.forwardRef<HTMLDivElement, PaginationButtonProps>
     ];
 
     return (
-      <div
-        ref={ref}
-        className={cn("inline-flex items-center gap-1", className)}
-        {...props}
-      >
+      <div ref={ref} className={cn('inline-flex items-center gap-1', className)} {...props}>
         {itemList}
       </div>
     );
   }
 );
 
-PaginationButton.displayName = "PaginationButton";
+PaginationButton.displayName = 'PaginationButton';
 
 export { PaginationButton };

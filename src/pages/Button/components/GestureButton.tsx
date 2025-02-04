@@ -1,33 +1,30 @@
-import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "../../../utils/cn";
+import { cva, type VariantProps } from 'class-variance-authority';
+import * as React from 'react';
+
+import { cn } from '../../../utils/cn';
 
 const gestureButtonVariants = cva(
-  "group relative inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 overflow-hidden touch-none select-none",
+  'group relative inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 overflow-hidden touch-none select-none',
   {
     variants: {
       variant: {
-        default:
-          "bg-primary text-white hover:bg-primary/90",
-        destructive:
-          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline:
-          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
-        secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
+        default: 'bg-primary text-white hover:bg-primary/90',
+        destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
+        outline: 'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
+        secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
+        ghost: 'hover:bg-accent hover:text-accent-foreground',
+        link: 'text-primary underline-offset-4 hover:underline',
       },
       size: {
-        default: "h-12 px-8 py-3",
-        sm: "h-10 rounded-md px-6 text-xs",
-        lg: "h-14 rounded-md px-10",
-        icon: "h-12 w-12",
+        default: 'h-12 px-8 py-3',
+        sm: 'h-10 rounded-md px-6 text-xs',
+        lg: 'h-14 rounded-md px-10',
+        icon: 'h-12 w-12',
       },
     },
     defaultVariants: {
-      variant: "default",
-      size: "default",
+      variant: 'default',
+      size: 'default',
     },
   }
 );
@@ -64,16 +61,20 @@ const GestureButton = React.forwardRef<HTMLDivElement, GestureButtonProps>(
       swipeThreshold = 50,
       longPressDelay = 500,
       doubleTapDelay = 300,
-      gestureColor = "rgba(255, 255, 255, 0.2)",
-      feedbackColor = "currentColor",
-      transitionDuration = "0.3s",
+      gestureColor = 'rgba(255, 255, 255, 0.2)',
+      feedbackColor = 'currentColor',
+      transitionDuration = '0.3s',
       children,
       style,
       ...props
     },
     ref
   ) => {
-    const [touchStart, setTouchStart] = React.useState<{ x: number; y: number; time: number } | null>(null);
+    const [touchStart, setTouchStart] = React.useState<{
+      x: number;
+      y: number;
+      time: number;
+    } | null>(null);
     const [lastTap, setLastTap] = React.useState(0);
     const longPressTimer = React.useRef<NodeJS.Timeout>();
     const [showFeedback, setShowFeedback] = React.useState(false);
@@ -95,7 +96,7 @@ const GestureButton = React.forwardRef<HTMLDivElement, GestureButtonProps>(
           onDoubleTap();
           setShowFeedback(true);
           setFeedbackPosition({ x: touch.clientX, y: touch.clientY });
-          setTimeout(() => setShowFeedback(false), 300);
+          setTimeout(() => { setShowFeedback(false); }, 300);
         }
         setLastTap(now);
       }
@@ -106,7 +107,7 @@ const GestureButton = React.forwardRef<HTMLDivElement, GestureButtonProps>(
           onLongPress();
           setShowFeedback(true);
           setFeedbackPosition({ x: touch.clientX, y: touch.clientY });
-          setTimeout(() => setShowFeedback(false), 300);
+          setTimeout(() => { setShowFeedback(false); }, 300);
         }, longPressDelay);
       }
     };
@@ -133,7 +134,7 @@ const GestureButton = React.forwardRef<HTMLDivElement, GestureButtonProps>(
           }
           setShowFeedback(true);
           setFeedbackPosition({ x: touch.clientX, y: touch.clientY });
-          setTimeout(() => setShowFeedback(false), 300);
+          setTimeout(() => { setShowFeedback(false); }, 300);
         }
 
         if (Math.abs(deltaY) > swipeThreshold) {
@@ -144,7 +145,7 @@ const GestureButton = React.forwardRef<HTMLDivElement, GestureButtonProps>(
           }
           setShowFeedback(true);
           setFeedbackPosition({ x: touch.clientX, y: touch.clientY });
-          setTimeout(() => setShowFeedback(false), 300);
+          setTimeout(() => { setShowFeedback(false); }, 300);
         }
       }
 
@@ -159,19 +160,15 @@ const GestureButton = React.forwardRef<HTMLDivElement, GestureButtonProps>(
 
     const customStyle = {
       ...style,
-      "--gesture-color": gestureColor,
-      "--feedback-color": feedbackColor,
-      "--transition-duration": transitionDuration,
+      '--gesture-color': gestureColor,
+      '--feedback-color': feedbackColor,
+      '--transition-duration': transitionDuration,
     } as React.CSSProperties;
 
     return (
       <div
         ref={ref}
-        className={cn(
-          gestureButtonVariants({ variant, size }),
-          "relative",
-          className
-        )}
+        className={cn(gestureButtonVariants({ variant, size }), 'relative', className)}
         style={customStyle}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
@@ -193,6 +190,6 @@ const GestureButton = React.forwardRef<HTMLDivElement, GestureButtonProps>(
   }
 );
 
-GestureButton.displayName = "GestureButton";
+GestureButton.displayName = 'GestureButton';
 
 export { GestureButton };

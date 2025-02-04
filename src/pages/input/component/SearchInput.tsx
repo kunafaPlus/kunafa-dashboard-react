@@ -1,36 +1,32 @@
-import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "../../../utils/cn";
-import { SearchInputProps, SearchResult } from "../utils/type";
+import { cva, type VariantProps } from 'class-variance-authority';
+import * as React from 'react';
 
-export const searchInputVariants = cva(
-  "w-full",
-  {
-    variants: {
-      variant: {
-        default: "border rounded-lg",
-        filled: "bg-muted border-transparent",
-        ghost: "border-transparent",
-      },
-      size: {
-        sm: "text-sm py-1 px-2",
-        md: "text-base py-2 px-3",
-        lg: "text-lg py-3 px-4",
-      },
+import { cn } from '../../../utils/cn';
+import { SearchInputProps, SearchResult } from '../utils/type';
+
+export const searchInputVariants = cva('w-full', {
+  variants: {
+    variant: {
+      default: 'border rounded-lg',
+      filled: 'bg-muted border-transparent',
+      ghost: 'border-transparent',
     },
-    defaultVariants: {
-      variant: "default",
-      size: "md",
+    size: {
+      sm: 'text-sm py-1 px-2',
+      md: 'text-base py-2 px-3',
+      lg: 'text-lg py-3 px-4',
     },
-  }
-);
-
-
+  },
+  defaultVariants: {
+    variant: 'default',
+    size: 'md',
+  },
+});
 
 const DEFAULT_DEBOUNCE_MS = 300;
 const DEFAULT_MIN_CHARS = 2;
 const DEFAULT_MAX_RESULTS = 10;
-const HISTORY_KEY = "searchInputHistory";
+const HISTORY_KEY = 'searchInputHistory';
 
 function SearchInput<T>({
   className,
@@ -58,7 +54,7 @@ function SearchInput<T>({
 
   ...props
 }: SearchInputProps<T>) {
-  const [query, setQuery] = React.useState("");
+  const [query, setQuery] = React.useState('');
   const [isOpen, setIsOpen] = React.useState(false);
   const [history, setHistory] = React.useState<string[]>([]);
   const containerRef = React.useRef<HTMLDivElement>(null);
@@ -74,7 +70,7 @@ function SearchInput<T>({
           setHistory(JSON.parse(savedHistory));
         }
       } catch (error) {
-        console.error("Failed to load search history:", error);
+        console.error('Failed to load search history:', error);
       }
     }
   }, [showHistory]);
@@ -82,15 +78,12 @@ function SearchInput<T>({
   // Save search history
   const saveHistory = (query: string) => {
     if (showHistory && query.trim()) {
-      const newHistory = [
-        query,
-        ...history.filter((h) => h !== query),
-      ].slice(0, 10);
+      const newHistory = [query, ...history.filter((h) => h !== query)].slice(0, 10);
       setHistory(newHistory);
       try {
         localStorage.setItem(HISTORY_KEY, JSON.stringify(newHistory));
       } catch (error) {
-        console.error("Failed to save search history:", error);
+        console.error('Failed to save search history:', error);
       }
     }
   };
@@ -98,17 +91,14 @@ function SearchInput<T>({
   // Handle click outside
   React.useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        containerRef.current &&
-        !containerRef.current.contains(event.target as Node)
-      ) {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
 
@@ -155,7 +145,7 @@ function SearchInput<T>({
     onResultSelect?.(result);
     saveHistory(result.title);
     if (clearOnSelect) {
-      setQuery("");
+      setQuery('');
     }
     setIsOpen(false);
   };
@@ -171,7 +161,7 @@ function SearchInput<T>({
     try {
       localStorage.removeItem(HISTORY_KEY);
     } catch (error) {
-      console.error("Failed to clear search history:", error);
+      console.error('Failed to clear search history:', error);
     }
   };
 
@@ -184,12 +174,12 @@ function SearchInput<T>({
           type="text"
           value={query}
           onChange={handleInputChange}
-          onFocus={() => setIsOpen(true)}
+          onFocus={() => { setIsOpen(true); }}
           placeholder={placeholder}
           className={cn(
-            searchInputVariants({ variant, size }as{}),
-            "pl-10 bg-transparent transition-colors outline-input-focus border-input-border disabled:opacity-50 disabled:cursor-not-allowed",
-            error && "border-destructive focus:ring-destructive",
+            searchInputVariants({ variant, size } as {}),
+            'pl-10 bg-transparent transition-colors outline-input-focus border-input-border disabled:opacity-50 disabled:cursor-not-allowed',
+            error && 'border-destructive focus:ring-destructive',
             className
           )}
           disabled={disabled}
@@ -213,7 +203,7 @@ function SearchInput<T>({
           <button
             type="button"
             onClick={() => {
-              setQuery("");
+              setQuery('');
               inputRef.current?.focus();
             }}
             className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
@@ -240,9 +230,7 @@ function SearchInput<T>({
               ) : (
                 <div className="flex items-center justify-center space-x-2">
                   <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-                  <span className="text-sm text-muted-foreground">
-                    Searching...
-                  </span>
+                  <span className="text-sm text-muted-foreground">Searching...</span>
                 </div>
               )}
             </div>
@@ -253,7 +241,7 @@ function SearchInput<T>({
                   key={result.id}
                   type="button"
                   className="w-full text-left px-3 py-2 hover:bg-accent transition-colors"
-                  onClick={() => handleResultClick(result)}
+                  onClick={() => { handleResultClick(result); }}
                 >
                   {renderResult ? (
                     renderResult(result)
@@ -261,9 +249,7 @@ function SearchInput<T>({
                     <div>
                       <div className="font-medium">{result.title}</div>
                       {result.description && (
-                        <div className="text-sm text-muted-foreground">
-                          {result.description}
-                        </div>
+                        <div className="text-sm text-muted-foreground">{result.description}</div>
                       )}
                     </div>
                   )}
@@ -272,18 +258,12 @@ function SearchInput<T>({
             </div>
           ) : query.length >= minChars ? (
             <div className="p-2 text-sm text-muted-foreground text-center">
-              {renderNoResults ? (
-                renderNoResults()
-              ) : (
-                "No results found"
-              )}
+              {renderNoResults ? renderNoResults() : 'No results found'}
             </div>
           ) : showHistory && history.length > 0 ? (
             <div>
               <div className="flex items-center justify-between px-3 py-1.5 border-b">
-                <span className="text-sm text-muted-foreground">
-                  Recent searches
-                </span>
+                <span className="text-sm text-muted-foreground">Recent searches</span>
                 <button
                   type="button"
                   onClick={clearHistory}
@@ -297,7 +277,7 @@ function SearchInput<T>({
                   key={index}
                   type="button"
                   className="w-full text-left px-3 py-2 hover:bg-accent transition-colors"
-                  onClick={() => handleHistoryClick(item)}
+                  onClick={() => { handleHistoryClick(item); }}
                 >
                   <div className="flex items-center">
                     <svg
@@ -322,12 +302,7 @@ function SearchInput<T>({
       )}
 
       {(error || hint) && (
-        <div
-          className={cn(
-            "mt-1.5 text-sm",
-            error ? "text-destructive" : "text-muted-foreground"
-          )}
-        >
+        <div className={cn('mt-1.5 text-sm', error ? 'text-destructive' : 'text-muted-foreground')}>
           {error || hint}
         </div>
       )}

@@ -1,4 +1,5 @@
-import React, { ChangeEvent, ReactNode, SelectHTMLAttributes } from "react";
+import { CountryCode } from 'libphonenumber-js';
+import React, { ChangeEvent, ReactNode, SelectHTMLAttributes } from 'react';
 // import { colorPickerVariants } from "../ColorPicker";
 // import { VariantProps } from "class-variance-authority";
 // import { floatLabelVariants } from "../FloatLabel";
@@ -16,7 +17,6 @@ import React, { ChangeEvent, ReactNode, SelectHTMLAttributes } from "react";
 // import { toggleVariants } from "../Toggle";
 // import { voiceInputVariants } from "../VoiceInput";
 // import { phoneInputVariants } from "../PhoneInput";
-import { CountryCode } from "libphonenumber-js";
 type Matrix = number[][];
 
 // Common Types
@@ -28,8 +28,8 @@ export interface CommonInputProps {
   name?: string;
   error?: string;
   touched?: boolean;
-  onBlur?: ()=>void;
-  id?:string
+  onBlur?: () => void;
+  id?: string;
 }
 
 // Input Component
@@ -43,145 +43,137 @@ export interface InputProps extends CommonInputProps {
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 export interface RadioInputProps {
-    id: string;
-    label: string;
-    name: string;
-    checked?: boolean;
-    onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  }
-export   interface DropdownOption {
-    value: string;
-    label: string;
-  }
+  id: string;
+  label: string;
+  name: string;
+  checked?: boolean;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+}
+export interface DropdownOption {
+  value: string;
+  label: string;
+}
 
-export   interface SwitchProps {
-    label: string;
-    name?: string;
-    checked?: boolean;
-    onChange?: (checked: boolean) => void;
-    disabled?: boolean;
-  }
+export interface SwitchProps {
+  label: string;
+  name?: string;
+  checked?: boolean;
+  onChange?: (checked: boolean) => void;
+  disabled?: boolean;
+}
 
-
-  
 export interface CheckboxProps extends CommonInputProps {
-    label: string;
-    checked?: boolean;
-    onChange?: (checked: boolean) => void;
-    disabled?: boolean;
-  }
+  label: string;
+  checked?: boolean;
+  onChange?: (checked: boolean) => void;
+  disabled?: boolean;
+}
 
+export interface CheckboxGroupProps extends CommonInputProps {
+  label: string;
+  options: { value: string; label: string }[];
+  selectedValues: string[];
+  onChange: (values: string[]) => void;
+}
 
-  export interface CheckboxGroupProps extends CommonInputProps {
-    label: string;
-    options: { value: string; label: string }[];
-    selectedValues: string[];
-    onChange: (values: string[]) => void;
-  }
+export interface DropdownProps extends CommonInputProps {
+  options: DropdownOption[];
+  value?: string;
+  placeholder?: string;
+  onChange: (value: string) => void;
+}
 
-  export interface DropdownProps extends CommonInputProps {
-    options: DropdownOption[];
-    value?: string;
-    placeholder?: string;
-    onChange: (value: string) => void;
-  }
-  
-  export interface ValueWithLabel {
-    value:string
-    label:string
-  }
+export interface ValueWithLabel {
+  value: string;
+  label: string;
+}
 
+export interface ColorPickerProps {
+  value?: string;
+  onChange?: (value: string) => void;
+  label?: string;
+  error?: string;
+  className?: string;
+  variant?: string;
+  size?: string;
+}
 
-  export interface ColorPickerProps  {
-    value?: string;
-    onChange?: (value: string) => void;
-    label?: string;
-    error?: string;
-    className?: string;
-    variant?: string; 
-    size?: string; 
-  }
+export interface CurrencyInputProps {
+  variant?: string;
+  size?: string;
+  value?: number | null;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  currencySymbol?: string;
+  currencyCode?: string;
+  locale?: string;
+  precision?: number;
+  min?: number;
+  max?: number;
+  step?: number;
+  allowNegative?: boolean;
+  showPrefix?: boolean;
+  showSuffix?: boolean;
+  error?: string;
+  hint?: string;
+  formatOptions?: Intl.NumberFormatOptions;
+  onValueChange?: (value: { float: number | null; formatted: string }) => void;
+  disabled?: boolean;
+  label?: string;
+  name?: string;
+  className?: string;
+  onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
+  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
+  onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+}
+export interface CustomSelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
+  label?: string;
+  error?: string;
+  options: Array<{ value: string; label: string }>;
+}
 
-export   interface CurrencyInputProps  {
-    variant?: string; 
-    size?: string; 
-    value?: number | null; 
-    onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    currencySymbol?: string;
-    currencyCode?: string;
-    locale?: string;
-    precision?: number;
-    min?: number;
-    max?: number;
-    step?: number;
-    allowNegative?: boolean;
-    showPrefix?: boolean;
-    showSuffix?: boolean;
-    error?: string;
-    hint?: string;
-    formatOptions?: Intl.NumberFormatOptions;
-    onValueChange?: (value: { float: number | null; formatted: string }) => void;
-    disabled?: boolean;
-    label?: string;
-    name?: string;
-    className?: string;
-    onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
-    onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
-    onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
-  }
-  export interface CustomSelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
-    label?: string;
-    error?: string;
-    options: Array<{ value: string; label: string }>;
-  }
-
-  export interface CustomInputWithRightTextProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> {
+export interface CustomInputWithRightTextProps
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
   label?: string;
   error?: string;
   rightText: string;
-  size?: "sm" | "md" | "lg";
+  size?: 'sm' | 'md' | 'lg';
 }
-export interface FloatLabelProps
-  {
+export interface FloatLabelProps {
   label: string;
   error?: string;
   hint?: string;
   startIcon?: React.ReactNode;
   endIcon?: React.ReactNode;
   containerClassName?: string;
-  variant?: string; 
-  size?: string; 
-  value?: any; 
+  variant?: string;
+  size?: string;
+  value?: any;
   className?: string;
-  required?:boolean,
-  disabled?:boolean,
-  defaultValue?:string,
-  onFocus?:any
-  onChange?:any
-  onBlur?:any
-  id?:number
-
+  required?: boolean;
+  disabled?: boolean;
+  defaultValue?: string;
+  onFocus?: any;
+  onChange?: any;
+  onBlur?: any;
+  id?: number;
 }
 export interface InputGroupContextValue {
-  variant?: string; 
-  size?: string; 
-  value?: number | null; 
+  variant?: string;
+  size?: string;
+  value?: number | null;
   disabled?: boolean;
 }
 
-export interface InputGroupProps
-  {
+export interface InputGroupProps {
   disabled?: boolean;
-  variant?: string; 
-  size?: string; 
-  value?: number | null; 
-  className?:string,
-  children?:React.ReactNode
+  variant?: string;
+  size?: string;
+  value?: number | null;
+  className?: string;
+  children?: React.ReactNode;
 }
 
-export interface InputNumberProps
-  {
+export interface InputNumberProps {
   value?: number;
   onChange?: (event: { target: { value: number } }) => void;
   label?: string;
@@ -196,17 +188,16 @@ export interface InputNumberProps
   prefix?: string;
   suffix?: string;
   showButtons?: boolean;
-  buttonPlacement?: "right" | "sides" | "stacked";
+  buttonPlacement?: 'right' | 'sides' | 'stacked';
   locale?: string;
   hint?: string;
-  variant?: string; 
-  size?: string; 
-  className?: string; 
-  disabled?: boolean; 
+  variant?: string;
+  size?: string;
+  className?: string;
+  disabled?: boolean;
 }
 
-export interface MatrixInputProps
- {
+export interface MatrixInputProps {
   value?: Matrix;
   onChange?: (matrix: Matrix) => void;
   rows?: number;
@@ -225,9 +216,9 @@ export interface MatrixInputProps
   formatValue?: (value: number) => string;
   parseValue?: (value: string) => number;
   label?: string;
-  variant?: string; 
-  className?: string; 
-  size?: string; 
+  variant?: string;
+  className?: string;
+  size?: string;
 }
 
 export interface Option {
@@ -251,12 +242,12 @@ export interface MultiSelectProps {
   loading?: boolean;
   error?: string;
   grouped?: boolean;
-  chipVariant?: "default" | "rounded" | "square";
+  chipVariant?: 'default' | 'rounded' | 'square';
   renderOption?: (option: Option) => React.ReactNode;
   label?: string;
-  variant?: string; 
-  size?: string; 
-  className?:string
+  variant?: string;
+  size?: string;
+  className?: string;
 }
 
 export interface CascadeOption {
@@ -277,11 +268,11 @@ export interface CascadeSelectProps {
   showPath?: boolean;
   clearable?: boolean;
   searchable?: boolean;
-  label?:string,
-  variant?: string; 
-  size?: string; 
-  error?:string
-  className?:string
+  label?: string;
+  variant?: string;
+  size?: string;
+  error?: string;
+  className?: string;
 }
 export interface OTPInputProps {
   value?: string;
@@ -292,7 +283,7 @@ export interface OTPInputProps {
   autoFocus?: boolean;
   disabled?: boolean;
   pattern?: RegExp;
-  className?:string
+  className?: string;
 }
 
 export interface RichTextEditorProps {
@@ -304,10 +295,10 @@ export interface RichTextEditorProps {
   placeholder?: string;
   readOnly?: boolean;
   error?: string;
-  variant?: string; 
-  size?: string; 
-  className?:string,
-  toolbar?: ("bold" | "italic" | "underline" | "link" | "image" | "list" | "heading")[];
+  variant?: string;
+  size?: string;
+  className?: string;
+  toolbar?: ('bold' | 'italic' | 'underline' | 'link' | 'image' | 'list' | 'heading')[];
 }
 
 export interface TimeSlot {
@@ -321,14 +312,13 @@ export interface Schedule {
   [key: number]: TimeSlot[];
 }
 
-export interface ScheduleInputProps
-   {
+export interface ScheduleInputProps {
   value?: Schedule;
   onChange?: (schedule: Schedule) => void;
   minTime?: string;
   maxTime?: string;
   step?: number;
-  format?: "12" | "24";
+  format?: '12' | '24';
   disabled?: boolean;
   error?: string;
   hint?: string;
@@ -337,23 +327,21 @@ export interface ScheduleInputProps
   allowOverlap?: boolean;
   validateTimeSlot?: (slot: TimeSlot) => boolean;
   onInvalidTimeSlot?: (slot: TimeSlot) => void;
-  variant?: string; 
-  size?: string; 
-  className?:string,
-
-  
+  variant?: string;
+  size?: string;
+  className?: string;
 }
 export interface SearchResult<T> {
   id: string | number;
-  className?:string,
+  className?: string;
 
   title: string;
   description?: string;
   data: T;
-  query?:any
+  query?: any;
 }
 
-export interface SearchInputProps<T>  {
+export interface SearchInputProps<T> {
   className?: string;
   results?: SearchResult<T>[];
   onSearch?: (query: string) => void;
@@ -373,28 +361,26 @@ export interface SearchInputProps<T>  {
   renderLoading?: () => React.ReactNode;
   filterResults?: (results: SearchResult<T>[], query: string) => SearchResult<T>[];
   disabled?: boolean;
-  placeholder?:string
-  variant?: string; 
-  size?: string; 
-  value?: number | null; 
+  placeholder?: string;
+  variant?: string;
+  size?: string;
+  value?: number | null;
 }
 
 export interface SelectProps {
   options: Array<{ value: string; label: string }>;
   placeholder?: string;
-  label?:string
-  error?:string
-  variant?: string; 
-  size?: string; 
-  className?: string; 
-  onChange?: (e:unknown)=>void; 
+  label?: string;
+  error?: string;
+  variant?: string;
+  size?: string;
+  className?: string;
+  onChange?: (e: unknown) => void;
 
-  value?: number | null; 
-  disabled?:boolean,
-  fullWidth?:boolean,
-
+  value?: number | null;
+  disabled?: boolean;
+  fullWidth?: boolean;
 }
-
 
 export interface Point {
   x: number;
@@ -402,8 +388,7 @@ export interface Point {
   pressure: number;
 }
 
-export interface SignaturePadProps
-{
+export interface SignaturePadProps {
   value?: string;
   className?: string;
   onChange?: (value: string) => void;
@@ -419,12 +404,12 @@ export interface SignaturePadProps
   error?: string;
   hint?: string;
   disabled?: boolean;
-  label?:string
-  variant?: string; 
-  size?: string; 
+  label?: string;
+  variant?: string;
+  size?: string;
 }
 
-export interface TagInputProps{
+export interface TagInputProps {
   value?: string[];
   onChange?: (event: { target: { value: string[] } }) => void;
   label?: string;
@@ -435,26 +420,24 @@ export interface TagInputProps{
   suggestions?: string[];
   allowDuplicates?: boolean;
   delimiter?: string | RegExp;
-  className:string,
-  variant:string,
-  size:string,
-
+  className: string;
+  variant: string;
+  size: string;
 }
 
-export interface ToggleProps{
+export interface ToggleProps {
   pressed?: boolean;
   onPressedChange?: (pressed: boolean) => void;
   iconOnly?: boolean;
-  errors?:string
-  variant?: string; 
-  size?: string; 
-  value?: number | null; 
-  className?:string
-  rounded?:string
-  children?:ReactNode
-  onClick:(event:unknown)=>void
+  errors?: string;
+  variant?: string;
+  size?: string;
+  value?: number | null;
+  className?: string;
+  rounded?: string;
+  children?: ReactNode;
+  onClick: (event: unknown) => void;
 }
-
 
 export interface TreeNode {
   value: string;
@@ -462,7 +445,8 @@ export interface TreeNode {
   children?: TreeNode[];
 }
 
-export interface TreeSelectProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "value" | "onChange"> {
+export interface TreeSelectProps
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange'> {
   options: TreeNode[];
   value?: string[];
   onChange?: (event: { target: { value: string[] } }) => void;
@@ -471,27 +455,27 @@ export interface TreeSelectProps extends Omit<React.InputHTMLAttributes<HTMLInpu
   placeholder?: string;
 }
 export interface VoiceInputProps {
-value?: Blob;
-onChange?: (event: { target: { value: Blob } }) => void;
-onAudioData?: (blob: Blob) => void;
-error?: string;
-hint?: string;
-language?: string;
-continuous?: boolean;
-interimResults?: boolean;
-maxDuration?: number;
-autoStart?: boolean;
-visualizer?: boolean;
-disabled?: boolean;
-label?: string;
-variant?: string; 
-className?: string; 
-size?: string; 
+  value?: Blob;
+  onChange?: (event: { target: { value: Blob } }) => void;
+  onAudioData?: (blob: Blob) => void;
+  error?: string;
+  hint?: string;
+  language?: string;
+  continuous?: boolean;
+  interimResults?: boolean;
+  maxDuration?: number;
+  autoStart?: boolean;
+  visualizer?: boolean;
+  disabled?: boolean;
+  label?: string;
+  variant?: string;
+  className?: string;
+  size?: string;
 }
 export interface FileWithPreview extends File {
   preview?: string;
 }
-export  interface FileDropzoneProps {
+export interface FileDropzoneProps {
   className?: string; // Optional className for styling
   variant?: 'default' | 'filled' | 'ghost'; // Variant types
   size?: 'sm' | 'md' | 'lg'; // Size types
@@ -514,24 +498,23 @@ export  interface FileDropzoneProps {
   onDragLeave?: (e: React.DragEvent) => void; // Drag leave event handler
   onDrop?: (e: React.DragEvent) => void; // Drop event handler
   label?: string; // Label for the dropzone
-  children?:React.ReactNode
+  children?: React.ReactNode;
 }
-export interface FileUploaderProps
-{
- className?: string; // Optional className for styling
- variant?: 'default' | 'filled' | 'ghost'; // Variant types
- size?: 'sm' | 'md' | 'lg'; // Size types
-accept?: string;
-maxSize?: number;
-maxFiles?: number;
-disabled?: boolean;
-onFilesSelected?: (files: File[]) => void;
-onError?: (error: string) => void;
-preview?: boolean;
-dragActiveContent?: React.ReactNode;
-children?: React.ReactNode;
-label?:string,
-error?:string
+export interface FileUploaderProps {
+  className?: string; // Optional className for styling
+  variant?: 'default' | 'filled' | 'ghost'; // Variant types
+  size?: 'sm' | 'md' | 'lg'; // Size types
+  accept?: string;
+  maxSize?: number;
+  maxFiles?: number;
+  disabled?: boolean;
+  onFilesSelected?: (files: File[]) => void;
+  onError?: (error: string) => void;
+  preview?: boolean;
+  dragActiveContent?: React.ReactNode;
+  children?: React.ReactNode;
+  label?: string;
+  error?: string;
 }
 export interface PhoneNumber {
   number: string;
@@ -543,19 +526,19 @@ export interface PhoneNumber {
   countryCallingCode: string;
 }
 export interface PhoneInputProps {
-value?: string;
-onChange?: (value: PhoneNumber) => void;
-defaultCountry?: CountryCode;
-onlyCountries?: CountryCode[];
-preferredCountries?: CountryCode[];
-error?: string;
-label?: string;
-hint?: string;
-showFlags?: boolean;
-showCountryCode?: boolean;
-showFormatted?: boolean;
-validateOnBlur?: boolean;
-disabled?: boolean;
-variant?: string; 
-size?: string; 
+  value?: string;
+  onChange?: (value: PhoneNumber) => void;
+  defaultCountry?: CountryCode;
+  onlyCountries?: CountryCode[];
+  preferredCountries?: CountryCode[];
+  error?: string;
+  label?: string;
+  hint?: string;
+  showFlags?: boolean;
+  showCountryCode?: boolean;
+  showFormatted?: boolean;
+  validateOnBlur?: boolean;
+  disabled?: boolean;
+  variant?: string;
+  size?: string;
 }

@@ -1,32 +1,31 @@
-import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "../../../utils/cn";
+import { cva, type VariantProps } from 'class-variance-authority';
+import * as React from 'react';
+
+import { cn } from '../../../utils/cn';
 
 const videoPlayButtonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
+  'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50',
   {
     variants: {
       variant: {
-        default: "bg-primary text-white hover:bg-primary/90",
-        destructive:
-          "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
+        default: 'bg-primary text-white hover:bg-primary/90',
+        destructive: 'bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90',
         outline:
-          "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
-        secondary:
-          "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
+          'border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground',
+        secondary: 'bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80',
+        ghost: 'hover:bg-accent hover:text-accent-foreground',
+        link: 'text-primary underline-offset-4 hover:underline',
       },
       size: {
-        default: "h-9 px-4 py-2",
-        sm: "h-8 rounded-md px-3 text-xs",
-        lg: "h-10 rounded-md px-8",
-        icon: "h-9 w-9",
+        default: 'h-9 px-4 py-2',
+        sm: 'h-8 rounded-md px-3 text-xs',
+        lg: 'h-10 rounded-md px-8',
+        icon: 'h-9 w-9',
       },
     },
     defaultVariants: {
-      variant: "default",
-      size: "default",
+      variant: 'default',
+      size: 'default',
     },
   }
 );
@@ -164,7 +163,7 @@ const VideoPlayButton = React.forwardRef<HTMLButtonElement, VideoPlayButtonProps
     const formatTime = (time: number) => {
       const minutes = Math.floor(time / 60);
       const seconds = Math.floor(time % 60);
-      return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+      return `${minutes}:${seconds.toString().padStart(2, '0')}`;
     };
 
     return (
@@ -176,8 +175,8 @@ const VideoPlayButton = React.forwardRef<HTMLButtonElement, VideoPlayButtonProps
           muted={muted}
           loop={loop}
           className="w-full rounded-lg"
-          onPlay={() => setIsPlaying(true)}
-          onPause={() => setIsPlaying(false)}
+          onPlay={() => { setIsPlaying(true); }}
+          onPause={() => { setIsPlaying(false); }}
           onEnded={() => {
             setIsPlaying(false);
             onEnded?.();
@@ -284,11 +283,7 @@ const VideoPlayButton = React.forwardRef<HTMLButtonElement, VideoPlayButtonProps
 
             {showProgress && (
               <div className="flex items-center gap-2">
-                {showTime && (
-                  <span className="text-xs text-white">
-                    {formatTime(currentTime)}
-                  </span>
-                )}
+                {showTime && <span className="text-xs text-white">{formatTime(currentTime)}</span>}
                 <input
                   type="range"
                   min={0}
@@ -303,11 +298,7 @@ const VideoPlayButton = React.forwardRef<HTMLButtonElement, VideoPlayButtonProps
                     setCurrentTime(time);
                   }}
                 />
-                {showTime && (
-                  <span className="text-xs text-white">
-                    {formatTime(duration)}
-                  </span>
-                )}
+                {showTime && <span className="text-xs text-white">{formatTime(duration)}</span>}
               </div>
             )}
           </div>
@@ -317,6 +308,6 @@ const VideoPlayButton = React.forwardRef<HTMLButtonElement, VideoPlayButtonProps
   }
 );
 
-VideoPlayButton.displayName = "VideoPlayButton";
+VideoPlayButton.displayName = 'VideoPlayButton';
 
 export { VideoPlayButton };

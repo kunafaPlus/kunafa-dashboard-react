@@ -1,13 +1,13 @@
-import * as React from "react";
-import { cn } from "../../../utils/cn";
-import { BiPause, BiPlay, BiRewind } from "react-icons/bi";
-import { FaFastForward } from "react-icons/fa";
-import { FiVolume2, FiVolumeX } from "react-icons/fi";
-import { FaX } from "react-icons/fa6";
-import { CiMaximize2, CiMinimize2 } from "react-icons/ci";
+import * as React from 'react';
+import { BiPause, BiPlay, BiRewind } from 'react-icons/bi';
+import { CiMaximize2, CiMinimize2 } from 'react-icons/ci';
+import { FaFastForward } from 'react-icons/fa';
+import { FaX } from 'react-icons/fa6';
+import { FiVolume2, FiVolumeX } from 'react-icons/fi';
 
+import { cn } from '../../../utils/cn';
 
-interface VideoDialogProps  {
+interface VideoDialogProps {
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
   src: string;
@@ -116,7 +116,7 @@ const VideoDialog = React.forwardRef<HTMLDivElement, VideoDialogProps>(
     const formatTime = (time: number) => {
       const minutes = Math.floor(time / 60);
       const seconds = Math.floor(time % 60);
-      return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+      return `${minutes}:${seconds.toString().padStart(2, '0')}`;
     };
 
     const handlePlaybackRateChange = (rate: number) => {
@@ -143,7 +143,7 @@ const VideoDialog = React.forwardRef<HTMLDivElement, VideoDialogProps>(
         <div
           ref={containerRef}
           className={cn(
-            "fixed left-[50%] top-[50%] z-50 grid w-full max-w-4xl translate-x-[-50%] translate-y-[-50%] gap-4 border border-gray-200 bg-background p-6 shadow-lg duration-200 sm:rounded-lg",
+            'fixed left-[50%] top-[50%] z-50 grid w-full max-w-4xl translate-x-[-50%] translate-y-[-50%] gap-4 border border-gray-200 bg-background p-6 shadow-lg duration-200 sm:rounded-lg',
             className
           )}
         >
@@ -249,7 +249,7 @@ const VideoDialog = React.forwardRef<HTMLDivElement, VideoDialogProps>(
                   {/* Playback Rate */}
                   <select
                     value={playbackRate}
-                    onChange={(e) => handlePlaybackRateChange(Number(e.target.value))}
+                    onChange={(e) => { handlePlaybackRateChange(Number(e.target.value)); }}
                     className="rounded bg-transparent text-sm text-white hover:bg-white/20"
                   >
                     {playbackRates.map((rate) => (
@@ -281,6 +281,6 @@ const VideoDialog = React.forwardRef<HTMLDivElement, VideoDialogProps>(
   }
 );
 
-VideoDialog.displayName = "VideoDialog";
+VideoDialog.displayName = 'VideoDialog';
 
 export { VideoDialog, type VideoDialogProps };

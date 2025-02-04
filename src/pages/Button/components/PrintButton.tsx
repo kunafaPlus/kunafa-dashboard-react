@@ -1,39 +1,38 @@
-import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "../../../utils/cn";
+import { cva, type VariantProps } from 'class-variance-authority';
+import * as React from 'react';
+
+import { cn } from '../../../utils/cn';
 
 const printButtonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
+  'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50',
   {
     variants: {
       variant: {
-        default: "bg-primary text-white hover:bg-primary/90",
-        destructive:
-          "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
+        default: 'bg-primary text-white hover:bg-primary/90',
+        destructive: 'bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90',
         outline:
-          "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
-        secondary:
-          "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
+          'border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground',
+        secondary: 'bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80',
+        ghost: 'hover:bg-accent hover:text-accent-foreground',
+        link: 'text-primary underline-offset-4 hover:underline',
       },
       size: {
-        default: "h-9 px-4 py-2",
-        sm: "h-8 rounded-md px-3 text-xs",
-        lg: "h-10 rounded-md px-8",
-        icon: "h-9 w-9",
+        default: 'h-9 px-4 py-2',
+        sm: 'h-8 rounded-md px-3 text-xs',
+        lg: 'h-10 rounded-md px-8',
+        icon: 'h-9 w-9',
       },
     },
     defaultVariants: {
-      variant: "default",
-      size: "default",
+      variant: 'default',
+      size: 'default',
     },
   }
 );
 
 interface PrintOptions {
   title?: string;
-  orientation?: "portrait" | "landscape";
+  orientation?: 'portrait' | 'landscape';
   scale?: number;
   margins?: {
     top?: string;
@@ -86,8 +85,8 @@ const PrintButton = React.forwardRef<HTMLButtonElement, PrintButtonProps>(
 
         if (elementToPrint?.current) {
           const content = elementToPrint.current.innerHTML;
-          const printWindow = window.open("", "_blank");
-          if (!printWindow) throw new Error("Failed to open print window");
+          const printWindow = window.open('', '_blank');
+          if (!printWindow) throw new Error('Failed to open print window');
 
           printWindow.document.write(`
             <!DOCTYPE html>
@@ -96,12 +95,12 @@ const PrintButton = React.forwardRef<HTMLButtonElement, PrintButtonProps>(
                 <title>${printOptions.title || document.title}</title>
                 <style>
                   @page {
-                    size: ${printOptions.orientation || "portrait"};
-                    margin: ${printOptions.margins?.top || "1cm"} ${
-            printOptions.margins?.right || "1cm"
-          } ${printOptions.margins?.bottom || "1cm"} ${
-            printOptions.margins?.left || "1cm"
-          };
+                    size: ${printOptions.orientation || 'portrait'};
+                    margin: ${printOptions.margins?.top || '1cm'} ${
+                      printOptions.margins?.right || '1cm'
+                    } ${printOptions.margins?.bottom || '1cm'} ${
+                      printOptions.margins?.left || '1cm'
+                    };
                   }
                   @media print {
                     body {
@@ -143,7 +142,7 @@ const PrintButton = React.forwardRef<HTMLButtonElement, PrintButtonProps>(
 
         onAfterPrint?.();
       } catch (error) {
-        console.error("Print error:", error);
+        console.error('Print error:', error);
       } finally {
         setPrinting(false);
       }
@@ -162,11 +161,7 @@ const PrintButton = React.forwardRef<HTMLButtonElement, PrintButtonProps>(
         <button
           ref={ref}
           type="button"
-          className={cn(
-            printButtonVariants({ variant, size }),
-            "gap-2",
-            className
-          )}
+          className={cn(printButtonVariants({ variant, size }), 'gap-2', className)}
           onClick={handlePrint}
           disabled={printing}
           {...props}
@@ -202,7 +197,7 @@ const PrintButton = React.forwardRef<HTMLButtonElement, PrintButtonProps>(
               <path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zM432 248a24 24 0 1 1 0 48 24 24 0 1 1 0-48z" />
             </svg>
           )}
-          {children || (printing ? "Printing..." : "Print")}
+          {children || (printing ? 'Printing...' : 'Print')}
         </button>
 
         {showOptions && (
@@ -216,12 +211,12 @@ const PrintButton = React.forwardRef<HTMLButtonElement, PrintButtonProps>(
                     Orientation
                     <select
                       className="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2"
-                      value={printOptions.orientation || "portrait"}
+                      value={printOptions.orientation || 'portrait'}
                       onChange={(e) =>
-                        setPrintOptions((prev) => ({
+                        { setPrintOptions((prev) => ({
                           ...prev,
-                          orientation: e.target.value as "portrait" | "landscape",
-                        }))
+                          orientation: e.target.value as 'portrait' | 'landscape',
+                        })); }
                       }
                     >
                       <option value="portrait">Portrait</option>
@@ -241,10 +236,10 @@ const PrintButton = React.forwardRef<HTMLButtonElement, PrintButtonProps>(
                       className="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2"
                       value={printOptions.scale || 1}
                       onChange={(e) =>
-                        setPrintOptions((prev) => ({
+                        { setPrintOptions((prev) => ({
                           ...prev,
                           scale: parseFloat(e.target.value),
-                        }))
+                        })); }
                       }
                     />
                   </label>
@@ -256,10 +251,10 @@ const PrintButton = React.forwardRef<HTMLButtonElement, PrintButtonProps>(
                       type="checkbox"
                       checked={printOptions.showBackground || false}
                       onChange={(e) =>
-                        setPrintOptions((prev) => ({
+                        { setPrintOptions((prev) => ({
                           ...prev,
                           showBackground: e.target.checked,
-                        }))
+                        })); }
                       }
                     />
                     Show Background
@@ -272,12 +267,12 @@ const PrintButton = React.forwardRef<HTMLButtonElement, PrintButtonProps>(
                     <input
                       type="text"
                       className="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2"
-                      value={printOptions.pageRanges || ""}
+                      value={printOptions.pageRanges || ''}
                       onChange={(e) =>
-                        setPrintOptions((prev) => ({
+                        { setPrintOptions((prev) => ({
                           ...prev,
                           pageRanges: e.target.value,
-                        }))
+                        })); }
                       }
                     />
                   </label>
@@ -292,10 +287,10 @@ const PrintButton = React.forwardRef<HTMLButtonElement, PrintButtonProps>(
                       className="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2"
                       value={printOptions.copies || 1}
                       onChange={(e) =>
-                        setPrintOptions((prev) => ({
+                        { setPrintOptions((prev) => ({
                           ...prev,
                           copies: parseInt(e.target.value),
-                        }))
+                        })); }
                       }
                     />
                   </label>
@@ -305,14 +300,14 @@ const PrintButton = React.forwardRef<HTMLButtonElement, PrintButtonProps>(
               <div className="mt-6 flex justify-end gap-2">
                 <button
                   type="button"
-                  className={cn(printButtonVariants({ variant: "outline" }))}
-                  onClick={() => setShowOptions(false)}
+                  className={cn(printButtonVariants({ variant: 'outline' }))}
+                  onClick={() => { setShowOptions(false); }}
                 >
                   Cancel
                 </button>
                 <button
                   type="button"
-                  className={cn(printButtonVariants({ variant: "default" }))}
+                  className={cn(printButtonVariants({ variant: 'default' }))}
                   onClick={() => {
                     setShowOptions(false);
                     print();
@@ -329,6 +324,6 @@ const PrintButton = React.forwardRef<HTMLButtonElement, PrintButtonProps>(
   }
 );
 
-PrintButton.displayName = "PrintButton";
+PrintButton.displayName = 'PrintButton';
 
 export { PrintButton };

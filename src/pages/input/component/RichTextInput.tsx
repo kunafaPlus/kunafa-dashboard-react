@@ -1,32 +1,31 @@
-import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "../../../utils/cn";
 import { Editor } from '@tinymce/tinymce-react';
+import { cva, type VariantProps } from 'class-variance-authority';
+import * as React from 'react';
 
-const richTextInputVariants = cva(
-  "w-full min-h-[16rem]",
-  {
-    variants: {
-      variant: {
-        default: "border rounded-lg",
-        filled: "bg-muted border-transparent",
-        ghost: "border-transparent",
-      },
-      size: {
-        sm: "text-sm",
-        md: "text-base",
-        lg: "text-lg",
-      },
+import { cn } from '../../../utils/cn';
+
+
+const richTextInputVariants = cva('w-full min-h-[16rem]', {
+  variants: {
+    variant: {
+      default: 'border rounded-lg',
+      filled: 'bg-muted border-transparent',
+      ghost: 'border-transparent',
     },
-    defaultVariants: {
-      variant: "default",
-      size: "md",
+    size: {
+      sm: 'text-sm',
+      md: 'text-base',
+      lg: 'text-lg',
     },
-  }
-);
+  },
+  defaultVariants: {
+    variant: 'default',
+    size: 'md',
+  },
+});
 
 interface RichTextInputProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, "value" | "onChange">,
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'value' | 'onChange'>,
     VariantProps<typeof richTextInputVariants> {
   value?: string;
   onChange?: (value: string) => void;
@@ -46,15 +45,29 @@ interface RichTextInputProps
 }
 
 const DEFAULT_TOOLBAR = [
-  "undo redo | formatselect | bold italic underline strikethrough | ",
-  "alignleft aligncenter alignright alignjustify | ",
-  "bullist numlist outdent indent | removeformat | help"
+  'undo redo | formatselect | bold italic underline strikethrough | ',
+  'alignleft aligncenter alignright alignjustify | ',
+  'bullist numlist outdent indent | removeformat | help',
 ];
 
 const DEFAULT_PLUGINS = [
-  "advlist", "autolink", "lists", "link", "image", "charmap", "preview",
-  "searchreplace", "visualblocks", "code", "fullscreen",
-  "insertdatetime", "media", "table", "code", "help", "wordcount"
+  'advlist',
+  'autolink',
+  'lists',
+  'link',
+  'image',
+  'charmap',
+  'preview',
+  'searchreplace',
+  'visualblocks',
+  'code',
+  'fullscreen',
+  'insertdatetime',
+  'media',
+  'table',
+  'code',
+  'help',
+  'wordcount',
 ];
 
 const RichTextInput = React.forwardRef<HTMLDivElement, RichTextInputProps>(
@@ -63,9 +76,9 @@ const RichTextInput = React.forwardRef<HTMLDivElement, RichTextInputProps>(
       className,
       variant,
       size,
-      value = "",
+      value = '',
       onChange,
-      placeholder = "Start typing...",
+      placeholder = 'Start typing...',
       disabled = false,
       error,
       hint,
@@ -103,7 +116,7 @@ const RichTextInput = React.forwardRef<HTMLDivElement, RichTextInputProps>(
         // Default handler converts image to base64
         return new Promise((resolve) => {
           const reader = new FileReader();
-          reader.onload = (e) => resolve(e.target?.result as string);
+          reader.onload = (e) => { resolve(e.target?.result as string); };
           reader.readAsDataURL(blobInfo.blob());
         });
       } catch (error) {
@@ -119,7 +132,7 @@ const RichTextInput = React.forwardRef<HTMLDivElement, RichTextInputProps>(
         {...props}
       >
         <Editor
-          apiKey={"your-default-api-key"} // Provide a default API key
+          apiKey={'your-default-api-key'} // Provide a default API key
           onInit={handleInit}
           value={value}
           onEditorChange={handleEditorChange}
@@ -129,18 +142,18 @@ const RichTextInput = React.forwardRef<HTMLDivElement, RichTextInputProps>(
             max_height: maxHeight,
             menubar,
             plugins,
-            toolbar: toolbar.join(" "),
+            toolbar: toolbar.join(' '),
             statusbar,
-            
+
             placeholder,
-            skin: "oxide",
-            content_css: "default",
+            skin: 'oxide',
+            content_css: 'default',
             browser_spellcheck: true,
             contextmenu: false,
             images_upload_handler: imageUploadHandler,
             paste_data_images: true,
             automatic_uploads: true,
-            file_picker_types: "image",
+            file_picker_types: 'image',
             promotion: false,
             branding: false,
             resize: true,
@@ -148,7 +161,7 @@ const RichTextInput = React.forwardRef<HTMLDivElement, RichTextInputProps>(
             content_style: `
               body {
                 font-family: system-ui, -apple-system, sans-serif;
-                font-size: ${size === "sm" ? "0.875rem" : size === "lg" ? "1.125rem" : "1rem"};
+                font-size: ${size === 'sm' ? '0.875rem' : size === 'lg' ? '1.125rem' : '1rem'};
                 line-height: 1.5;
                 margin: 1rem;
               }
@@ -162,12 +175,7 @@ const RichTextInput = React.forwardRef<HTMLDivElement, RichTextInputProps>(
         />
 
         {(error || hint) && (
-          <div
-            className={cn(
-              "mt-1 text-sm",
-              error ? "text-destructive" : "text-muted-foreground"
-            )}
-          >
+          <div className={cn('mt-1 text-sm', error ? 'text-destructive' : 'text-muted-foreground')}>
             {error || hint}
           </div>
         )}
@@ -176,6 +184,6 @@ const RichTextInput = React.forwardRef<HTMLDivElement, RichTextInputProps>(
   }
 );
 
-RichTextInput.displayName = "RichTextInput";
+RichTextInput.displayName = 'RichTextInput';
 
 export { RichTextInput };

@@ -1,30 +1,25 @@
-import React, { useState } from "react";
-import Card from "../../layout/Card";
-import useForm from "../../../utils/useForm";
-import {
-  Checkbox,
-  CheckboxGroup,
-  Dropdown,
-  Input,
-  RadioInput,
-} from "../component/Input";
-import { Switch } from "../component/Switch";
-import { BsSearch } from "react-icons/bs";
-import { FloatLabel } from "../component/FloatLabel";
-import { CustomSelect } from "../component/CustomSelect";
-import { CustomInputWithRightText } from "../component/CustomInputWithRightText";
-import { ColorPicker } from "../component/ColorPicker";
-import { CurrencyInput } from "../component/CurrencyInput";
-import { PhoneInput } from "../component/PhoneInput";
-import { TreeSelect } from "../component/TreeSelect";
-import { Toggle } from "../component/Toggle";
-import { Select } from "../component/Select";
+import React, { useState } from 'react';
+import { BsSearch } from 'react-icons/bs';
+
+import useForm from '../../../utils/useForm';
+import Card from '../../layout/Card';
+import { ColorPicker } from '../component/ColorPicker';
+import { CurrencyInput } from '../component/CurrencyInput';
+import { CustomInputWithRightText } from '../component/CustomInputWithRightText';
+import { CustomSelect } from '../component/CustomSelect';
+import { FloatLabel } from '../component/FloatLabel';
+import { Checkbox, CheckboxGroup, Dropdown, Input, RadioInput } from '../component/Input';
+import { PhoneInput } from '../component/PhoneInput';
+import { Select } from '../component/Select';
+import { Switch } from '../component/Switch';
+import { Toggle } from '../component/Toggle';
+import { TreeSelect } from '../component/TreeSelect';
 
 const BasicForm = () => {
   const { register, setValue, errors, formData } = useForm();
 
-  const [radioValue, setRadioValue] = useState("");
-  const [dropdownValue, setDropdownValue] = useState("");
+  const [radioValue, setRadioValue] = useState('');
+  const [dropdownValue, setDropdownValue] = useState('');
   const [switchChecked, setSwitchChecked] = useState<boolean>(false);
   const [checkboxChecked, setCheckboxChecked] = useState<boolean>(false);
   const [checkboxGroupValues, setCheckboxGroupValues] = useState([]);
@@ -33,22 +28,22 @@ const BasicForm = () => {
     setIsToggled(!isToggled);
   };
   const dropdownOptions = [
-    { value: "option1", label: "Option 1" },
-    { value: "option2", label: "Option 2" },
-    { value: "option3", label: "Option 3" },
+    { value: 'option1', label: 'Option 1' },
+    { value: 'option2', label: 'Option 2' },
+    { value: 'option3', label: 'Option 3' },
   ];
 
   const checkboxGroupOptions = [
-    { value: "checkbox1", label: "Checkbox 1" },
-    { value: "checkbox2", label: "Checkbox 2" },
-    { value: "checkbox3", label: "Checkbox 3" },
+    { value: 'checkbox1', label: 'Checkbox 1' },
+    { value: 'checkbox2', label: 'Checkbox 2' },
+    { value: 'checkbox3', label: 'Checkbox 3' },
   ];
 
   return (
     <Card title="البيانات الأساسية">
       <Input
-        {...register("email", {
-          required: "البريد الإلكتروني مطلوب",
+        {...register('email', {
+          required: 'البريد الإلكتروني مطلوب',
           pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
         })}
         label="البريد الإلكتروني"
@@ -57,94 +52,91 @@ const BasicForm = () => {
         type="email"
       />
       <RadioInput
-        {...register("radio1")}
+        {...register('radio1')}
         id="radio1"
         label="Option 1"
         name="radioGroup"
-        checked={radioValue === "option1"}
+        checked={radioValue === 'option1'}
         onChange={() => {
-          setRadioValue("option1");
-          setValue("radio1", "option1");
+          setRadioValue('option1');
+          setValue('radio1', 'option1');
         }}
       />
       <Select
-        {...register("country", {
-          required: "الرجاء اختيار الدولة",
+        {...register('country', {
+          required: 'الرجاء اختيار الدولة',
         })}
         options={[
-          { value: "sa", label: "السعودية" },
-          { value: "ae", label: "الإمارات" },
-          { value: "kw", label: "الكويت" },
+          { value: 'sa', label: 'السعودية' },
+          { value: 'ae', label: 'الإمارات' },
+          { value: 'kw', label: 'الكويت' },
         ]}
         label="الدولة"
         placeholder="اختر الدولة"
         error={errors.country}
       />
       <Dropdown
-        {...register("dropdown")}
+        {...register('dropdown')}
         label="اختر خيارًا"
         name="dropdown"
         options={dropdownOptions}
         value={dropdownValue}
         onChange={(value) => {
           setDropdownValue(value);
-          setValue("dropdown", value);
+          setValue('dropdown', value);
         }}
       />
       <Switch
-        {...register("toggle")}
+        {...register('toggle')}
         label="تبديل"
         checked={switchChecked}
         onChange={(checked: any) => {
           setSwitchChecked(checked);
-          setValue("toggle", checked);
+          setValue('toggle', checked);
         }}
       />
       <Checkbox
-        {...register("check")}
+        {...register('check')}
         label="تحديد"
         checked={checkboxChecked}
         onChange={(checked) => {
           setCheckboxChecked(checked);
-          setValue("check", checked);
+          setValue('check', checked);
         }}
       />
       <CheckboxGroup
-        {...register("select")}
+        {...register('select')}
         label="اختر الخيارات"
         options={checkboxGroupOptions}
         selectedValues={checkboxGroupValues}
         onChange={(values: any) => {
           setCheckboxGroupValues(values);
-          setValue("select", values);
+          setValue('select', values);
         }}
       />
-      
-
-      
 
       <Input
-        {...register("email", {
+        {...register('email', {
           required: true,
           pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
         })}
         label="البريد الإلكتروني"
         placeholder="أدخل بريدك الإلكتروني"
         type="email"
-        size={"lg"}
+        size={'lg'}
       />
       <Input
-        {...register("email", {
+        {...register('email', {
           required: true,
           pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
         })}
         label="البريد الإلكتروني"
         placeholder="أدخل بريدك الإلكتروني"
         type="email"
-        size={"sm"}
+        size={'sm'}
       />
       <Input
-        {...register("email", {
+        {...register('email', {
           required: true,
           pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
         })}
@@ -154,7 +146,7 @@ const BasicForm = () => {
         endText="text"
       />
       <Input
-        {...register("email", {
+        {...register('email', {
           required: true,
           pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
         })}
@@ -165,52 +157,52 @@ const BasicForm = () => {
       />
 
       <FloatLabel
-        {...register("floatField", {
-          required: "هذا الحقل مطلوب",
+        {...register('floatField', {
+          required: 'هذا الحقل مطلوب',
         })}
         label="حقل عائم"
-        size={"lg"}
+        size={'lg'}
       />
       <FloatLabel
-        {...register("floatField", {
-          required: "هذا الحقل مطلوب",
+        {...register('floatField', {
+          required: 'هذا الحقل مطلوب',
         })}
         label="حقل عائم"
-        size={"sm"}
+        size={'sm'}
       />
       <FloatLabel
-        {...register("floatField", {
-          required: "هذا الحقل مطلوب",
+        {...register('floatField', {
+          required: 'هذا الحقل مطلوب',
         })}
         label="حقل عائم"
-        size={"xl"}
+        size={'xl'}
       />
       <FloatLabel
-        {...register("floatField", {
-          required: "هذا الحقل مطلوب",
+        {...register('floatField', {
+          required: 'هذا الحقل مطلوب',
         })}
         label="حقل عائم"
-        variant={"filled"}
+        variant={'filled'}
       />
       <FloatLabel
-        {...register("floatField", {
-          required: "هذا الحقل مطلوب",
+        {...register('floatField', {
+          required: 'هذا الحقل مطلوب',
         })}
         label="حقل عائم"
-        variant={"ghost"}
+        variant={'ghost'}
       />
       <FloatLabel
-        {...register("floatField", {
-          required: "هذا الحقل مطلوب",
+        {...register('floatField', {
+          required: 'هذا الحقل مطلوب',
         })}
         label="حقل عائم"
-        error={"error"}
-        variant={"ghost"}
+        error={'error'}
+        variant={'ghost'}
       />
 
       <ColorPicker
-        {...register("pickedColor", {
-          required: "الرجاء اختيار لون",
+        {...register('pickedColor', {
+          required: 'الرجاء اختيار لون',
         })}
         label="اختر لونًا"
         error={errors.pickedColor}
@@ -220,31 +212,31 @@ const BasicForm = () => {
         onPressedChange={handleToggleChange}
         variant="primary"
         size="lg"
-        {...register("toggle")}
+        {...register('toggle')}
         errors={errors.toggle}
       >
-        {isToggled ? "مفعل" : "معطل"}
+        {isToggled ? 'مفعل' : 'معطل'}
       </Toggle>
 
       <TreeSelect
-        {...register("department", {
-          required: "الرجاء اختيار القسم",
+        {...register('department', {
+          required: 'الرجاء اختيار القسم',
         })}
         options={[
           {
-            value: "tech",
-            label: "التقنية",
+            value: 'tech',
+            label: 'التقنية',
             children: [
-              { value: "frontend", label: "واجهة المستخدم" },
-              { value: "backend", label: "خلفية التطبيق" },
+              { value: 'frontend', label: 'واجهة المستخدم' },
+              { value: 'backend', label: 'خلفية التطبيق' },
             ],
           },
           {
-            value: "hr",
-            label: "الموارد البشرية",
+            value: 'hr',
+            label: 'الموارد البشرية',
             children: [
-              { value: "recruitment", label: "التوظيف" },
-              { value: "training", label: "التدريب" },
+              { value: 'recruitment', label: 'التوظيف' },
+              { value: 'training', label: 'التدريب' },
             ],
           },
         ]}
@@ -253,20 +245,19 @@ const BasicForm = () => {
       />
 
       <PhoneInput
-        {...register("phoneNumber", {
-          required: "رقم الهاتف مطلوب",
+        {...register('phoneNumber', {
+          required: 'رقم الهاتف مطلوب',
         })}
         label="رقم الهاتف"
         defaultCountry="SA"
         error={errors.phoneNumber}
       />
       <CurrencyInput
-        {...register("price", {
+        {...register('price', {
           required: true,
           validate: {
-            maxValue: (value) =>
-              value <= 1000000 || "السعر لا يمكن أن يتجاوز 1,000,000",
-            minValue: (value) => value >= 1 || "السعر يجب أن يكون على الأقل 1",
+            maxValue: (value) => value <= 1000000 || 'السعر لا يمكن أن يتجاوز 1,000,000',
+            minValue: (value) => value >= 1 || 'السعر يجب أن يكون على الأقل 1',
           },
         })}
         label="السعر"
@@ -276,10 +267,10 @@ const BasicForm = () => {
         locale="ar-SA"
       />
       <CustomInputWithRightText
-        {...register("username", {
-          required: "اسم المستخدم مطلوب",
+        {...register('username', {
+          required: 'اسم المستخدم مطلوب',
           validate: {
-            minValue: (value) => value >= 1 || "السعر يجب أن يكون على الأقل 1",
+            minValue: (value) => value >= 1 || 'السعر يجب أن يكون على الأقل 1',
           },
         })}
         label="اسم المستخدم"
@@ -288,20 +279,20 @@ const BasicForm = () => {
         rightText="@"
       />
       <CustomSelect
-        {...register("category", {
-          required: "الرجاء اختيار فئة",
+        {...register('category', {
+          required: 'الرجاء اختيار فئة',
         })}
         options={[
-          { value: "technology", label: "تقنية" },
-          { value: "design", label: "تصميم" },
-          { value: "marketing", label: "تسويق" },
+          { value: 'technology', label: 'تقنية' },
+          { value: 'design', label: 'تصميم' },
+          { value: 'marketing', label: 'تسويق' },
         ]}
         label="الفئة"
         error={errors.category}
       />
       <FloatLabel
-        {...register("floatField", {
-          required: "هذا الحقل مطلوب",
+        {...register('floatField', {
+          required: 'هذا الحقل مطلوب',
         })}
         label="حقل عائم"
         error={errors.floatField}

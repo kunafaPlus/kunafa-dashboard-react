@@ -1,9 +1,10 @@
-import { Route, Routes } from "react-router-dom";
-import BasicForm from "./pages/input/view/BasicForm";
-import AdditionalForms from "./pages/input/view/AdditionalForms";
-import AdvancedForm from "./pages/input/view/AdvancedForm";
-import Button from "./pages/Button/view/Button";
-import Dialog from "./pages/dialog/view/Dialog";
+import { Route, Routes } from 'react-router-dom';
+
+import Button from './pages/Button/view/Button';
+import Dialog from './pages/dialog/view/Dialog';
+import AdditionalForms from './pages/input/view/AdditionalForms';
+import AdvancedForm from './pages/input/view/AdvancedForm';
+import BasicForm from './pages/input/view/BasicForm';
 
 // تعريف المسارات
 export const AppRouter = () => {
@@ -17,7 +18,7 @@ export const AppRouter = () => {
       <Route path="/button">
         <Route index element={<Button />} />
       </Route>
-        <Route path="/dialog" element={<Dialog />} />
+      <Route path="/dialog" element={<Dialog />} />
     </Routes>
   );
 };

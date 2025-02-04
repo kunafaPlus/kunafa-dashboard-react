@@ -1,7 +1,16 @@
-import * as React from "react";
-import { cn } from "../../../utils/cn";
-import { BiChevronLeft, BiChevronRight, BiDownload, BiMinus, BiX, BiZoomIn, BiZoomOut } from "react-icons/bi";
-import { FiRotateCw } from "react-icons/fi";
+import * as React from 'react';
+import {
+  BiChevronLeft,
+  BiChevronRight,
+  BiDownload,
+  BiMinus,
+  BiX,
+  BiZoomIn,
+  BiZoomOut,
+} from 'react-icons/bi';
+import { FiRotateCw } from 'react-icons/fi';
+
+import { cn } from '../../../utils/cn';
 
 interface ImagePreviewDialogProps extends React.HTMLAttributes<HTMLDivElement> {
   open?: boolean;
@@ -93,9 +102,9 @@ const ImagePreviewDialog = React.forwardRef<HTMLDivElement, ImagePreviewDialogPr
     };
 
     const handleDownload = () => {
-      const link = document.createElement("a");
+      const link = document.createElement('a');
       link.href = currentImage.src;
-      link.download = currentImage.title || "image";
+      link.download = currentImage.title || 'image';
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -123,11 +132,7 @@ const ImagePreviewDialog = React.forwardRef<HTMLDivElement, ImagePreviewDialogPr
     };
 
     return (
-      <div
-        className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm"
-        ref={ref}
-        {...props}
-      >
+      <div className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm" ref={ref} {...props}>
         <div className="fixed inset-6 z-50 flex flex-col rounded-lg border border-gray-200 bg-background shadow-lg">
           {/* Header */}
           <div className="flex items-center justify-between border-b p-4">
@@ -219,10 +224,10 @@ const ImagePreviewDialog = React.forwardRef<HTMLDivElement, ImagePreviewDialogPr
               <img
                 ref={imageRef}
                 src={currentImage.src}
-                alt={currentImage.alt || ""}
+                alt={currentImage.alt || ''}
                 className={cn(
-                  "h-full w-full object-contain transition-transform",
-                  isDragging && "cursor-grabbing"
+                  'h-full w-full object-contain transition-transform',
+                  isDragging && 'cursor-grabbing'
                 )}
                 style={{
                   transform: `translate(${position.x}px, ${position.y}px) scale(${scale}) rotate(${rotation}deg)`,
@@ -248,15 +253,15 @@ const ImagePreviewDialog = React.forwardRef<HTMLDivElement, ImagePreviewDialogPr
                       setPosition({ x: 0, y: 0 });
                     }}
                     className={cn(
-                      "relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-md border-2",
+                      'relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-md border-2',
                       index === currentIndex
-                        ? "border-primary"
-                        : "border-transparent hover:border-muted"
+                        ? 'border-primary'
+                        : 'border-transparent hover:border-muted'
                     )}
                   >
                     <img
                       src={image.src}
-                      alt={image.alt || ""}
+                      alt={image.alt || ''}
                       className="h-full w-full object-cover"
                     />
                   </button>
@@ -270,6 +275,6 @@ const ImagePreviewDialog = React.forwardRef<HTMLDivElement, ImagePreviewDialogPr
   }
 );
 
-ImagePreviewDialog.displayName = "ImagePreviewDialog";
+ImagePreviewDialog.displayName = 'ImagePreviewDialog';
 
 export { ImagePreviewDialog, type ImagePreviewDialogProps };

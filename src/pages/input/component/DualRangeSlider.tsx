@@ -1,31 +1,29 @@
-import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "../../../utils/cn";
+import { cva, type VariantProps } from 'class-variance-authority';
+import * as React from 'react';
 
-const dualRangeSliderVariants = cva(
-  "relative w-full touch-none select-none",
-  {
-    variants: {
-      variant: {
-        default: "",
-        filled: "[&_.slider-track]:bg-muted",
-        ghost: "[&_.slider-track]:bg-transparent",
-      },
-      size: {
-        sm: "h-4",
-        md: "h-5",
-        lg: "h-6",
-      },
+import { cn } from '../../../utils/cn';
+
+const dualRangeSliderVariants = cva('relative w-full touch-none select-none', {
+  variants: {
+    variant: {
+      default: '',
+      filled: '[&_.slider-track]:bg-muted',
+      ghost: '[&_.slider-track]:bg-transparent',
     },
-    defaultVariants: {
-      variant: "default",
-      size: "md",
+    size: {
+      sm: 'h-4',
+      md: 'h-5',
+      lg: 'h-6',
     },
-  }
-);
+  },
+  defaultVariants: {
+    variant: 'default',
+    size: 'md',
+  },
+});
 
 interface DualRangeSliderProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, "value" | "onChange">,
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'value' | 'onChange'>,
     VariantProps<typeof dualRangeSliderVariants> {
   value?: [number, number];
   onChange?: (e: { target: { value: [number, number] } }) => void;
@@ -39,24 +37,27 @@ interface DualRangeSliderProps
 }
 
 const DualRangeSlider = React.forwardRef<HTMLDivElement, DualRangeSliderProps>(
-  ({ 
-    className,
-    variant,
-    size,
-    value = [0, 100],
-    onChange,
-    min = 0,
-    max = 100,
-    step = 1,
-    label,
-    error,
-    disabled = false,
-    formatValue = (value: number) => value.toString(),
-    ...props
-  }, ref) => {
+  (
+    {
+      className,
+      variant,
+      size,
+      value = [0, 100],
+      onChange,
+      min = 0,
+      max = 100,
+      step = 1,
+      label,
+      error,
+      disabled = false,
+      formatValue = (value: number) => value.toString(),
+      ...props
+    },
+    ref
+  ) => {
     const [internalValue, setInternalValue] = React.useState<[number, number]>([
       Math.max(min, Math.min(max, value[0])),
-      Math.max(min, Math.min(max, value[1]))
+      Math.max(min, Math.min(max, value[1])),
     ]);
     const sliderRef = React.useRef<HTMLDivElement>(null);
     const isDragging = React.useRef<number | null>(null);
@@ -64,7 +65,7 @@ const DualRangeSlider = React.forwardRef<HTMLDivElement, DualRangeSliderProps>(
     React.useEffect(() => {
       const newValue: [number, number] = [
         Math.max(min, Math.min(max, value[0])),
-        Math.max(min, Math.min(max, value[1]))
+        Math.max(min, Math.min(max, value[1])),
       ];
       setInternalValue(newValue);
     }, [value, min, max]);
@@ -81,8 +82,7 @@ const DualRangeSlider = React.forwardRef<HTMLDivElement, DualRangeSliderProps>(
       newValues[index] = newValue;
 
       // Ensure the values are within bounds
-      if ((index === 0 && newValue <= newValues[1]) || 
-          (index === 1 && newValue >= newValues[0])) {
+      if ((index === 0 && newValue <= newValues[1]) || (index === 1 && newValue >= newValues[0])) {
         setInternalValue(newValues);
         onChange?.({ target: { value: newValues } });
       }
@@ -91,7 +91,7 @@ const DualRangeSlider = React.forwardRef<HTMLDivElement, DualRangeSliderProps>(
     const handleMouseDown = (index: number) => (e: React.MouseEvent) => {
       if (disabled) return;
       e.preventDefault();
-      
+
       isDragging.current = index;
       updateValue(index, e.clientX);
 
@@ -113,17 +113,13 @@ const DualRangeSlider = React.forwardRef<HTMLDivElement, DualRangeSliderProps>(
 
     return (
       <div ref={ref} className="space-y-2">
-        {label && (
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            {label}
-          </label>
-        )}
+        {label && <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>}
         <div className="relative pt-2 pb-8">
           <div
             ref={sliderRef}
             className={cn(
-              "relative h-2 w-full",
-              disabled && "opacity-50 cursor-not-allowed",
+              'relative h-2 w-full',
+              disabled && 'opacity-50 cursor-not-allowed',
               className
             )}
           >
@@ -132,20 +128,20 @@ const DualRangeSlider = React.forwardRef<HTMLDivElement, DualRangeSliderProps>(
               className="absolute inset-y-0 bg-[#2563eb] rounded"
               style={{
                 left: `${((internalValue[0] - min) / (max - min)) * 100}%`,
-                right: `${100 - ((internalValue[1] - min) / (max - min)) * 100}%`
+                right: `${100 - ((internalValue[1] - min) / (max - min)) * 100}%`,
               }}
             />
             {[0, 1].map((index) => (
               <div
                 key={index}
                 className={cn(
-                  "absolute top-1/2 -mt-2 -ml-2 w-4 h-4 rounded-full bg-white border-2 border-[#2563eb]",
-                  isDragging.current === index ? "cursor-grabbing" : "cursor-grab",
-                  "hover:scale-110 transition-transform",
-                  disabled && "cursor-not-allowed"
+                  'absolute top-1/2 -mt-2 -ml-2 w-4 h-4 rounded-full bg-white border-2 border-[#2563eb]',
+                  isDragging.current === index ? 'cursor-grabbing' : 'cursor-grab',
+                  'hover:scale-110 transition-transform',
+                  disabled && 'cursor-not-allowed'
                 )}
                 style={{
-                  left: `${((internalValue[index] - min) / (max - min)) * 100}%`
+                  left: `${((internalValue[index] - min) / (max - min)) * 100}%`,
                 }}
                 onMouseDown={handleMouseDown(index)}
               />
@@ -156,16 +152,12 @@ const DualRangeSlider = React.forwardRef<HTMLDivElement, DualRangeSliderProps>(
             <span>{formatValue(internalValue[1])}</span>
           </div>
         </div>
-        {error && (
-          <div className="mt-1 text-sm text-red-500 text-center">
-            {error}
-          </div>
-        )}
+        {error && <div className="mt-1 text-sm text-red-500 text-center">{error}</div>}
       </div>
     );
   }
 );
 
-DualRangeSlider.displayName = "DualRangeSlider";
+DualRangeSlider.displayName = 'DualRangeSlider';
 
 export { DualRangeSlider };

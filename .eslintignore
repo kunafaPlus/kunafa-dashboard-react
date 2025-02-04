@@ -1,0 +1,4 @@
+# Temporarily ignore complex files
+src/legacy/**/*
+src/vendor/**/*
+# Add more as needed 

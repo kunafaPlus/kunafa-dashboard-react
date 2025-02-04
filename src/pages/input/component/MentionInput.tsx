@@ -1,28 +1,26 @@
-import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "../../../utils/cn";
+import { cva, type VariantProps } from 'class-variance-authority';
+import * as React from 'react';
 
-const mentionInputVariants = cva(
-  "w-full",
-  {
-    variants: {
-      variant: {
-        default: "[&_textarea]:border [&_textarea]:rounded-md",
-        filled: "[&_textarea]:bg-muted [&_textarea]:border-b",
-        ghost: "[&_textarea]:bg-transparent [&_textarea]:border-b",
-      },
-      size: {
-        sm: "[&_textarea]:text-sm [&_textarea]:p-2",
-        md: "[&_textarea]:text-base [&_textarea]:p-3",
-        lg: "[&_textarea]:text-lg [&_textarea]:p-4",
-      },
+import { cn } from '../../../utils/cn';
+
+const mentionInputVariants = cva('w-full', {
+  variants: {
+    variant: {
+      default: '[&_textarea]:border [&_textarea]:rounded-md',
+      filled: '[&_textarea]:bg-muted [&_textarea]:border-b',
+      ghost: '[&_textarea]:bg-transparent [&_textarea]:border-b',
     },
-    defaultVariants: {
-      variant: "default",
-      size: "md",
+    size: {
+      sm: '[&_textarea]:text-sm [&_textarea]:p-2',
+      md: '[&_textarea]:text-base [&_textarea]:p-3',
+      lg: '[&_textarea]:text-lg [&_textarea]:p-4',
     },
-  }
-);
+  },
+  defaultVariants: {
+    variant: 'default',
+    size: 'md',
+  },
+});
 
 interface Mention {
   id: string;
@@ -32,7 +30,7 @@ interface Mention {
 }
 
 interface MentionInputProps
-  extends Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, "value" | "onChange" | "size">,
+  extends Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, 'value' | 'onChange' | 'size'>,
     VariantProps<typeof mentionInputVariants> {
   value?: string;
   mentions?: Mention[];
@@ -55,14 +53,14 @@ const MentionInput = React.forwardRef<HTMLTextAreaElement, MentionInputProps>(
       className,
       variant,
       size,
-      value = "",
+      value = '',
       mentions = [],
       onChange,
       suggestions = [],
-      trigger = "@",
+      trigger = '@',
       maxSuggestions = 5,
       minSearchLength = 1,
-      highlightColor = "var(--primary)",
+      highlightColor = 'var(--primary)',
       error,
       hint,
       renderSuggestion,
@@ -74,7 +72,7 @@ const MentionInput = React.forwardRef<HTMLTextAreaElement, MentionInputProps>(
     ref
   ) => {
     const [showSuggestions, setShowSuggestions] = React.useState(false);
-    const [searchText, setSearchText] = React.useState("");
+    const [searchText, setSearchText] = React.useState('');
     const [cursorPosition, setCursorPosition] = React.useState(0);
     const [selectedSuggestionIndex, setSelectedSuggestionIndex] = React.useState(0);
     const textareaRef = React.useRef<HTMLTextAreaElement>(null);
@@ -97,11 +95,7 @@ const MentionInput = React.forwardRef<HTMLTextAreaElement, MentionInputProps>(
     const getFilteredSuggestions = () => {
       if (!searchText) return [];
       return suggestions
-        .filter((suggestion) =>
-          suggestion.display
-            .toLowerCase()
-            .includes(searchText.toLowerCase())
-        )
+        .filter((suggestion) => suggestion.display.toLowerCase().includes(searchText.toLowerCase()))
         .slice(0, maxSuggestions);
     };
 
@@ -118,7 +112,7 @@ const MentionInput = React.forwardRef<HTMLTextAreaElement, MentionInputProps>(
       onMentionAdd?.(mention);
 
       setShowSuggestions(false);
-      setSearchText("");
+      setSearchText('');
       setSelectedSuggestionIndex(0);
 
       // Set cursor position after mention
@@ -139,14 +133,12 @@ const MentionInput = React.forwardRef<HTMLTextAreaElement, MentionInputProps>(
       setCursorPosition(newPosition);
 
       if (searchPosition !== -1) {
-        const search = newValue
-          .slice(searchPosition + 1, newPosition)
-          .trim();
+        const search = newValue.slice(searchPosition + 1, newPosition).trim();
         setSearchText(search);
         setShowSuggestions(search.length >= minSearchLength);
       } else {
         setShowSuggestions(false);
-        setSearchText("");
+        setSearchText('');
       }
 
       onChange?.(newValue, mentions);
@@ -157,52 +149,36 @@ const MentionInput = React.forwardRef<HTMLTextAreaElement, MentionInputProps>(
 
       const filteredSuggestions = getFilteredSuggestions();
 
-      if (e.key === "ArrowDown") {
+      if (e.key === 'ArrowDown') {
         e.preventDefault();
-        setSelectedSuggestionIndex((prev) =>
-          Math.min(prev + 1, filteredSuggestions.length - 1)
-        );
+        setSelectedSuggestionIndex((prev) => Math.min(prev + 1, filteredSuggestions.length - 1));
       }
 
-      if (e.key === "ArrowUp") {
+      if (e.key === 'ArrowUp') {
         e.preventDefault();
         setSelectedSuggestionIndex((prev) => Math.max(prev - 1, 0));
       }
 
-      if (e.key === "Enter" && filteredSuggestions.length > 0) {
+      if (e.key === 'Enter' && filteredSuggestions.length > 0) {
         e.preventDefault();
         insertMention(filteredSuggestions[selectedSuggestionIndex]);
       }
 
-      if (e.key === "Escape") {
+      if (e.key === 'Escape') {
         setShowSuggestions(false);
         setSelectedSuggestionIndex(0);
       }
     };
 
-    const defaultRenderSuggestion = (
-      suggestion: Mention,
-      isSelected: boolean
-    ) => (
-      <div
-        className={cn(
-          "flex items-center gap-2 px-3 py-2",
-          isSelected && "bg-accent"
-        )}
-      >
+    const defaultRenderSuggestion = (suggestion: Mention, isSelected: boolean) => (
+      <div className={cn('flex items-center gap-2 px-3 py-2', isSelected && 'bg-accent')}>
         {suggestion.avatar && (
-          <img
-            src={suggestion.avatar}
-            alt={suggestion.display}
-            className="w-6 h-6 rounded-full"
-          />
+          <img src={suggestion.avatar} alt={suggestion.display} className="w-6 h-6 rounded-full" />
         )}
         <div>
           <div className="font-medium">{suggestion.display}</div>
           {suggestion.description && (
-            <div className="text-sm text-muted-foreground">
-              {suggestion.description}
-            </div>
+            <div className="text-sm text-muted-foreground">{suggestion.description}</div>
           )}
         </div>
       </div>
@@ -213,7 +189,7 @@ const MentionInput = React.forwardRef<HTMLTextAreaElement, MentionInputProps>(
       let lastIndex = 0;
 
       // Simple mention pattern - can be enhanced for more complex patterns
-      const pattern = new RegExp(`${trigger}([\\w]+)`, "g");
+      const pattern = new RegExp(`${trigger}([\\w]+)`, 'g');
       let match;
 
       while ((match = pattern.exec(text)) !== null) {
@@ -229,8 +205,8 @@ const MentionInput = React.forwardRef<HTMLTextAreaElement, MentionInputProps>(
             style={{
               backgroundColor: `${highlightColor}20`,
               color: highlightColor,
-              borderRadius: "0.25rem",
-              padding: "0 0.25rem",
+              borderRadius: '0.25rem',
+              padding: '0 0.25rem',
             }}
           >
             {match[0]}
@@ -249,30 +225,24 @@ const MentionInput = React.forwardRef<HTMLTextAreaElement, MentionInputProps>(
     };
 
     return (
-      <div
-        ref={containerRef}
-        className={cn(mentionInputVariants({ variant, size }), className)}
-      >
+      <div ref={containerRef} className={cn(mentionInputVariants({ variant, size }), className)}>
         <div className="relative">
-          <div
-            className="absolute inset-0 pointer-events-none p-[inherit]"
-            aria-hidden="true"
-          >
+          <div className="absolute inset-0 pointer-events-none p-[inherit]" aria-hidden="true">
             {highlightMentions(value)}
           </div>
           <textarea
             ref={textareaRef}
             className={cn(
-              "w-full bg-transparent transition-colors outline-input-focus border-input-border disabled:opacity-50 disabled:cursor-not-allowed resize-none",
-              error && "border-destructive focus:ring-destructive"
+              'w-full bg-transparent transition-colors outline-input-focus border-input-border disabled:opacity-50 disabled:cursor-not-allowed resize-none',
+              error && 'border-destructive focus:ring-destructive'
             )}
             value={value}
             onChange={handleChange}
             onKeyDown={handleKeyDown}
             disabled={disabled}
             style={{
-              color: "transparent",
-              caretColor: "var(--foreground)",
+              color: 'transparent',
+              caretColor: 'var(--foreground)',
             }}
             {...props}
           />
@@ -283,18 +253,12 @@ const MentionInput = React.forwardRef<HTMLTextAreaElement, MentionInputProps>(
                 <div
                   key={suggestion.id}
                   className="cursor-pointer hover:bg-accent"
-                  onMouseDown={() => insertMention(suggestion)}
-                  onMouseEnter={() => setSelectedSuggestionIndex(index)}
+                  onMouseDown={() => { insertMention(suggestion); }}
+                  onMouseEnter={() => { setSelectedSuggestionIndex(index); }}
                 >
                   {renderSuggestion
-                    ? renderSuggestion(
-                        suggestion,
-                        index === selectedSuggestionIndex
-                      )
-                    : defaultRenderSuggestion(
-                        suggestion,
-                        index === selectedSuggestionIndex
-                      )}
+                    ? renderSuggestion(suggestion, index === selectedSuggestionIndex)
+                    : defaultRenderSuggestion(suggestion, index === selectedSuggestionIndex)}
                 </div>
               ))}
             </div>
@@ -302,12 +266,7 @@ const MentionInput = React.forwardRef<HTMLTextAreaElement, MentionInputProps>(
         </div>
 
         {(error || hint) && (
-          <div
-            className={cn(
-              "mt-1 text-sm",
-              error ? "text-destructive" : "text-muted-foreground"
-            )}
-          >
+          <div className={cn('mt-1 text-sm', error ? 'text-destructive' : 'text-muted-foreground')}>
             {error || hint}
           </div>
         )}
@@ -316,6 +275,6 @@ const MentionInput = React.forwardRef<HTMLTextAreaElement, MentionInputProps>(
   }
 );
 
-MentionInput.displayName = "MentionInput";
+MentionInput.displayName = 'MentionInput';
 
 export { MentionInput, type Mention };

@@ -1,7 +1,9 @@
-import React, { useState, useEffect, useRef, useCallback, useMemo, forwardRef } from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "../../../utils/cn";
-import { parsePhoneNumber, CountryCode, AsYouType } from "libphonenumber-js";
+import { cva, type VariantProps } from 'class-variance-authority';
+import { parsePhoneNumber, CountryCode, AsYouType } from 'libphonenumber-js';
+import React, { useState, useEffect, useRef, useCallback, useMemo, forwardRef } from 'react';
+
+import { cn } from '../../../utils/cn';
+
 
 // Define PhoneNumber type for better type safety
 interface PhoneNumber {
@@ -13,30 +15,27 @@ interface PhoneNumber {
   national: string;
 }
 
-const phoneInputVariants = cva(
-  "w-full px-4",
-  {
-    variants: {
-      variant: {
-        default: "border rounded-lg",
-        filled: "bg-muted border-transparent",
-        ghost: "border-transparent",
-      },
-      size: {
-        sm: "text-sm",
-        md: "text-base",
-        lg: "text-lg",
-      },
+const phoneInputVariants = cva('w-full px-4', {
+  variants: {
+    variant: {
+      default: 'border rounded-lg',
+      filled: 'bg-muted border-transparent',
+      ghost: 'border-transparent',
     },
-    defaultVariants: {
-      variant: "default",
-      size: "md",
+    size: {
+      sm: 'text-sm',
+      md: 'text-base',
+      lg: 'text-lg',
     },
-  }
-);
+  },
+  defaultVariants: {
+    variant: 'default',
+    size: 'md',
+  },
+});
 
 interface PhoneInputProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "value" | "onChange" | "size">,
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange' | 'size'>,
     VariantProps<typeof phoneInputVariants> {
   value?: string;
   onChange?: (value: PhoneNumber) => void;
@@ -52,18 +51,18 @@ interface PhoneInputProps
   validateOnBlur?: boolean;
 }
 interface CountryData {
-  [key: string]: { name: string; flag: string,code?:string };
+  [key: string]: { name: string; flag: string; code?: string };
 }
 // Country data can be moved to a separate file or fetched dynamically
 const COUNTRY_DATA: CountryData = {
-  US: { name: "United States", flag: "🇺🇸",code:"12" },
-  GB: { name: "United Kingdom", flag: "🇬🇧",code:"12" },
-  SA: { name: "Saudi Arabia", flag: "🇸🇦" ,code:"12"},
+  US: { name: 'United States', flag: '🇺🇸', code: '12' },
+  GB: { name: 'United Kingdom', flag: '🇬🇧', code: '12' },
+  SA: { name: 'Saudi Arabia', flag: '🇸🇦', code: '12' },
 };
 
 // Function to get country code based on country code
 const getCountryCode = (country: CountryCode): string => {
-  return COUNTRY_DATA[country]?.code || "";
+  return COUNTRY_DATA[country].code || '';
 };
 
 // Component for rendering the country dropdown
@@ -74,7 +73,7 @@ const CountryDropdown = ({
   onCountryChange,
   closeDropdown,
   showFlags,
-  label
+  label,
 }: {
   isOpen: boolean;
   selectedCountry: CountryCode;
@@ -82,17 +81,13 @@ const CountryDropdown = ({
   onCountryChange: (country: CountryCode) => void;
   closeDropdown: () => void;
   showFlags: boolean;
-  label?:string
+  label?: string;
 }) => {
   if (!isOpen) return null;
 
   return (
     <div className="absolute z-10 mt-1 w-full bg-white border rounded-md shadow-md max-h-60 overflow-y-auto">
-           {label && (
-          <label className="text-sm font-medium text-gray-700">
-            {label}
-          </label>
-        )}
+      {label && <label className="text-sm font-medium text-gray-700">{label}</label>}
       {availableCountries.map((country) => (
         <button
           key={country.code}
@@ -119,7 +114,7 @@ const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
       size,
       value,
       onChange,
-      defaultCountry = "US" as CountryCode,
+      defaultCountry = 'US' as CountryCode,
       onlyCountries,
       preferredCountries,
       error,
@@ -135,7 +130,7 @@ const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
     ref
   ) => {
     const [selectedCountry, setSelectedCountry] = useState<any>(defaultCountry);
-    const [inputValue, setInputValue] = useState<string>(value || "");
+    const [inputValue, setInputValue] = useState<string>(value || '');
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -160,51 +155,45 @@ const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
     }, [onlyCountries, preferredCountries]);
 
     // Event handler for clicking outside the dropdown
-    const handleClickOutside = useCallback(
-      (event: MouseEvent) => {
-        if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-          setIsOpen(false);
-        }
-      },
-      []
-    );
+    const handleClickOutside = useCallback((event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    }, []);
 
     useEffect(() => {
-      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener('mousedown', handleClickOutside);
       return () => {
-        document.removeEventListener("mousedown", handleClickOutside);
+        document.removeEventListener('mousedown', handleClickOutside);
       };
     }, [handleClickOutside]);
 
     // Function to format the phone number
-    const formatPhoneNumber = useCallback(
-      (number: string, country: CountryCode): PhoneNumber => {
-        try {
-          const asYouType = new AsYouType(country);
-          const formatted = asYouType.input(number);
-          const phoneNumber = parsePhoneNumber(number, country);
+    const formatPhoneNumber = useCallback((number: string, country: CountryCode): PhoneNumber => {
+      try {
+        const asYouType = new AsYouType(country);
+        const formatted = asYouType.input(number);
+        const phoneNumber = parsePhoneNumber(number, country);
 
-          return {
-            number: phoneNumber.number || "",
-            countryCode: country,
-            isValid: phoneNumber.isValid(),
-            formatted: formatted,
-            international: phoneNumber.formatInternational(),
-            national: phoneNumber.formatNational(),
-          };
-        } catch (error) {
-          return {
-            number,
-            countryCode: country,
-            isValid: false,
-            formatted: number,
-            international: number,
-            national: number,
-          };
-        }
-      },
-      []
-    );
+        return {
+          number: phoneNumber.number || '',
+          countryCode: country,
+          isValid: phoneNumber.isValid(),
+          formatted: formatted,
+          international: phoneNumber.formatInternational(),
+          national: phoneNumber.formatNational(),
+        };
+      } catch (error) {
+        return {
+          number,
+          countryCode: country,
+          isValid: false,
+          formatted: number,
+          international: number,
+          national: number,
+        };
+      }
+    }, []);
 
     // Handler for country change
     const handleCountryChange = useCallback(
@@ -221,7 +210,7 @@ const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
     // Handler for input change
     const handleInputChange = useCallback(
       (e: React.ChangeEvent<HTMLInputElement>) => {
-        const newValue = e.target.value.replace(/[^\d]/g, "");
+        const newValue = e.target.value.replace(/[^\d]/g, '');
         setInputValue(newValue);
 
         if (!validateOnBlur) {
@@ -253,21 +242,21 @@ const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
     }, [showFormatted, inputValue, selectedCountry]);
 
     return (
-      <div className={cn("space-y-1.5", className)}>
+      <div className={cn('space-y-1.5', className)}>
         <div className="relative flex gap-2">
           <div className="relative" ref={dropdownRef}>
             <button
               type="button"
               onClick={() => !disabled && setIsOpen(!isOpen)}
               className={cn(
-                "flex items-center gap-1 px-2 py-1.5 border rounded-md hover:bg-accent transition-colors",
-                disabled ? "opacity-50 cursor-not-allowed" : ""
+                'flex items-center gap-1 px-2 py-1.5 border rounded-md hover:bg-accent transition-colors',
+                disabled ? 'opacity-50 cursor-not-allowed' : ''
               )}
               disabled={disabled}
             >
               {showFlags && (
                 <span className="text-lg">
-                  {COUNTRY_DATA[selectedCountry]?.flag || "🌍"} {/* Fallback flag */}
+                  {COUNTRY_DATA[selectedCountry].flag || '🌍'} {/* Fallback flag */}
                 </span>
               )}
               {showCountryCode && (
@@ -294,7 +283,7 @@ const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
               selectedCountry={selectedCountry}
               availableCountries={availableCountries}
               onCountryChange={handleCountryChange}
-              closeDropdown={() => setIsOpen(false)}
+              closeDropdown={() => { setIsOpen(false); }}
               showFlags={showFlags}
             />
           </div>
@@ -304,24 +293,24 @@ const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
             type="tel"
             className={cn(
               phoneInputVariants({ variant, size }),
-              "flex-1 bg-transparent transition-colors outline-input-focus border-input-border disabled:opacity-50 disabled:cursor-not-allowed",
-              error ? "border-destructive focus:ring-destructive" : ""
+              'flex-1 bg-transparent transition-colors outline-input-focus border-input-border disabled:opacity-50 disabled:cursor-not-allowed',
+              error ? 'border-destructive focus:ring-destructive' : ''
             )}
             value={formattedValue}
             onChange={handleInputChange}
             onBlur={handleBlur}
             disabled={disabled}
-            aria-describedby={error || hint ? "phone-input-error" : undefined}
+            aria-describedby={error || hint ? 'phone-input-error' : undefined}
             aria-invalid={!!error}
             {...props}
           />
         </div>
 
         {(error || hint) && (
-          <div id="phone-input-error" className={cn(
-            "text-sm",
-            error ? "text-destructive" : "text-muted-foreground"
-          )}>
+          <div
+            id="phone-input-error"
+            className={cn('text-sm', error ? 'text-destructive' : 'text-muted-foreground')}
+          >
             {error || hint}
           </div>
         )}
@@ -330,6 +319,6 @@ const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
   }
 );
 
-PhoneInput.displayName = "PhoneInput";
+PhoneInput.displayName = 'PhoneInput';
 
 export { PhoneInput };

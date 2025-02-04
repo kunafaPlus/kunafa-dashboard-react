@@ -1,30 +1,27 @@
-import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "../../../utils/cn";
-import { Point, SignaturePadProps } from "../utils/type";
+import { cva, type VariantProps } from 'class-variance-authority';
+import * as React from 'react';
 
-export const signaturePadVariants = cva(
-  "relative border rounded-md overflow-hidden touch-none",
-  {
-    variants: {
-      variant: {
-        default: "border-input",
-        filled: "bg-muted border-transparent",
-        ghost: "border-transparent",
-      },
-      size: {
-        sm: "min-h-[100px]",
-        md: "min-h-[150px]",
-        lg: "min-h-[200px]",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-      size: "md",
-    },
-  }
-);
+import { cn } from '../../../utils/cn';
+import { Point, SignaturePadProps } from '../utils/type';
 
+export const signaturePadVariants = cva('relative border rounded-md overflow-hidden touch-none', {
+  variants: {
+    variant: {
+      default: 'border-input',
+      filled: 'bg-muted border-transparent',
+      ghost: 'border-transparent',
+    },
+    size: {
+      sm: 'min-h-[100px]',
+      md: 'min-h-[150px]',
+      lg: 'min-h-[200px]',
+    },
+  },
+  defaultVariants: {
+    variant: 'default',
+    size: 'md',
+  },
+});
 
 const SignaturePad = React.forwardRef<HTMLDivElement, SignaturePadProps>(
   (
@@ -38,8 +35,8 @@ const SignaturePad = React.forwardRef<HTMLDivElement, SignaturePadProps>(
       onEnd,
       width = 600,
       height = 200,
-      penColor = "#000000",
-      backgroundColor = "#ffffff",
+      penColor = '#000000',
+      backgroundColor = '#ffffff',
       minWidth = 0.5,
       maxWidth = 2.5,
       velocityFilterWeight = 0.7,
@@ -64,23 +61,23 @@ const SignaturePad = React.forwardRef<HTMLDivElement, SignaturePadProps>(
       const canvas = canvasRef.current;
       if (!canvas) return;
 
-      const ctx = canvas.getContext("2d");
+      const ctx = canvas.getContext('2d');
       if (!ctx) return;
 
       ctx.fillStyle = backgroundColor;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-      onChange?.({ target: { value: "" } } as any); // Call onChange with an empty string
+      onChange?.({ target: { value: '' } } as any); // Call onChange with an empty string
     };
 
     const toDataURL = () => {
-      return canvasRef.current?.toDataURL() || "";
+      return canvasRef.current?.toDataURL() || '';
     };
 
     const fromDataURL = (dataUrl: string) => {
       const canvas = canvasRef.current;
       if (!canvas) return;
 
-      const ctx = canvas.getContext("2d");
+      const ctx = canvas.getContext('2d');
       if (!ctx) return;
 
       const image = new Image();
@@ -102,7 +99,7 @@ const SignaturePad = React.forwardRef<HTMLDivElement, SignaturePadProps>(
       const canvas = canvasRef.current;
       if (!canvas) return;
 
-      const ctx = canvas.getContext("2d");
+      const ctx = canvas.getContext('2d');
       if (!ctx) return;
 
       canvas.width = width;
@@ -112,13 +109,11 @@ const SignaturePad = React.forwardRef<HTMLDivElement, SignaturePadProps>(
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       ctx.strokeStyle = penColor;
       ctx.lineWidth = minWidth;
-      ctx.lineCap = "round";
-      ctx.lineJoin = "round";
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
     }, [width, height, backgroundColor, penColor, minWidth]);
 
-    const getPointFromEvent = (
-      e: MouseEvent | TouchEvent
-    ): Point | null => {
+    const getPointFromEvent = (e: MouseEvent | TouchEvent): Point | null => {
       const canvas = canvasRef.current;
       if (!canvas) return null;
 
@@ -147,7 +142,7 @@ const SignaturePad = React.forwardRef<HTMLDivElement, SignaturePadProps>(
       const canvas = canvasRef.current;
       if (!canvas) return;
 
-      const ctx = canvas.getContext("2d");
+      const ctx = canvas.getContext('2d');
       if (!ctx) return;
 
       ctx.beginPath();
@@ -158,15 +153,11 @@ const SignaturePad = React.forwardRef<HTMLDivElement, SignaturePadProps>(
       ctx.closePath();
     };
 
-    const drawCurve = (
-      startPoint: Point,
-      endPoint: Point,
-      width: number
-    ) => {
+    const drawCurve = (startPoint: Point, endPoint: Point, width: number) => {
       const canvas = canvasRef.current;
       if (!canvas) return;
 
-      const ctx = canvas.getContext("2d");
+      const ctx = canvas.getContext('2d');
       if (!ctx) return;
 
       ctx.beginPath();
@@ -185,13 +176,9 @@ const SignaturePad = React.forwardRef<HTMLDivElement, SignaturePadProps>(
 
     const getWidth = (velocity: number, pressure: number): number => {
       const newVelocity =
-        velocityFilterWeight * velocity +
-        (1 - velocityFilterWeight) * lastVelocity;
+        velocityFilterWeight * velocity + (1 - velocityFilterWeight) * lastVelocity;
 
-      const width = Math.max(
-        maxWidth / (1 + newVelocity),
-        minWidth
-      );
+      const width = Math.max(maxWidth / (1 + newVelocity), minWidth);
 
       return width * pressure;
     };
@@ -236,12 +223,12 @@ const SignaturePad = React.forwardRef<HTMLDivElement, SignaturePadProps>(
     };
 
     return (
-      <div ref={containerRef} className={cn("w-full", className)}>
-        {label&&<p>{label}</p>}
+      <div ref={containerRef} className={cn('w-full', className)}>
+        {label && <p>{label}</p>}
         <div
           className={cn(
-            signaturePadVariants({ variant, size }as{}),
-            disabled && "opacity-50 cursor-not-allowed"
+            signaturePadVariants({ variant, size } as {}),
+            disabled && 'opacity-50 cursor-not-allowed'
           )}
           {...props}
         >
@@ -253,7 +240,7 @@ const SignaturePad = React.forwardRef<HTMLDivElement, SignaturePadProps>(
             onPointerUp={handlePointerEnd}
             onPointerOut={handlePointerEnd}
             style={{
-              touchAction: "none",
+              touchAction: 'none',
             }}
           />
 
@@ -269,12 +256,7 @@ const SignaturePad = React.forwardRef<HTMLDivElement, SignaturePadProps>(
         </div>
 
         {(error || hint) && (
-          <div
-            className={cn(
-              "mt-1 text-sm",
-              error ? "text-destructive" : "text-muted-foreground"
-            )}
-          >
+          <div className={cn('mt-1 text-sm', error ? 'text-destructive' : 'text-muted-foreground')}>
             {error || hint}
           </div>
         )}
@@ -283,6 +265,6 @@ const SignaturePad = React.forwardRef<HTMLDivElement, SignaturePadProps>(
   }
 );
 
-SignaturePad.displayName = "SignaturePad";
+SignaturePad.displayName = 'SignaturePad';
 
 export { SignaturePad };

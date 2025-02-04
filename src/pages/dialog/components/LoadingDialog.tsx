@@ -1,9 +1,11 @@
-import * as React from "react";
-import { cn } from "../../../utils/cn";
-import { TbLoader2 } from "react-icons/tb";
-import { BiX } from "react-icons/bi";
+import * as React from 'react';
+import { BiX } from 'react-icons/bi';
+import { TbLoader2 } from 'react-icons/tb';
 
-interface LoadingDialogProps  {
+import { cn } from '../../../utils/cn';
+
+
+interface LoadingDialogProps {
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
   title?: React.ReactNode;
@@ -13,8 +15,8 @@ interface LoadingDialogProps  {
   showProgress?: boolean;
   cancelable?: boolean;
   onCancel?: () => void;
-  variant?: "default" | "blur" | "minimal";
-  size?: "sm" | "md" | "lg";
+  variant?: 'default' | 'blur' | 'minimal';
+  size?: 'sm' | 'md' | 'lg';
   spinnerSize?: number;
   spinnerColor?: string;
   spinnerClassName?: string;
@@ -26,15 +28,15 @@ const LoadingDialog = React.forwardRef<HTMLDivElement, LoadingDialogProps>(
     {
       open = false,
       onOpenChange,
-      title = "Loading",
+      title = 'Loading',
       description,
       status,
       progress,
       showProgress = false,
       cancelable = false,
       onCancel,
-      variant = "default",
-      size = "md",
+      variant = 'default',
+      size = 'md',
       spinnerSize = 24,
       spinnerColor,
       spinnerClassName,
@@ -47,32 +49,29 @@ const LoadingDialog = React.forwardRef<HTMLDivElement, LoadingDialogProps>(
 
     const getSize = () => {
       switch (size) {
-        case "sm":
-          return "max-w-sm";
-        case "lg":
-          return "max-w-lg";
+        case 'sm':
+          return 'max-w-sm';
+        case 'lg':
+          return 'max-w-lg';
         default:
-          return "max-w-md";
+          return 'max-w-md';
       }
     };
 
     const getVariant = () => {
       switch (variant) {
-        case "blur":
-          return "bg-background/80 backdrop-blur-sm";
-        case "minimal":
-          return "bg-transparent";
+        case 'blur':
+          return 'bg-background/80 backdrop-blur-sm';
+        case 'minimal':
+          return 'bg-transparent';
         default:
-          return "bg-background/80";
+          return 'bg-background/80';
       }
     };
 
     const renderSpinner = () => (
       <div
-        className={cn(
-          "animate-spin",
-          spinnerClassName
-        )}
+        className={cn('animate-spin', spinnerClassName)}
         style={{
           width: spinnerSize,
           height: spinnerSize,
@@ -94,29 +93,19 @@ const LoadingDialog = React.forwardRef<HTMLDivElement, LoadingDialogProps>(
               style={{ width: `${progress ?? 0}%` }}
             />
           </div>
-          {typeof progress === "number" && (
-            <div className="text-center text-sm text-muted-foreground">
-              {Math.round(progress)}%
-            </div>
+          {typeof progress === 'number' && (
+            <div className="text-center text-sm text-muted-foreground">{Math.round(progress)}%</div>
           )}
         </div>
       );
     };
 
     return (
-      <div
-        className={cn(
-          "fixed inset-0 z-50",
-          getVariant(),
-          className
-        )}
-        ref={ref}
-        {...props}
-      >
+      <div className={cn('fixed inset-0 z-50', getVariant(), className)} ref={ref} {...props}>
         <div
           className={cn(
-            "fixed left-[50%] top-[50%] z-50 grid w-full translate-x-[-50%] translate-y-[-50%] gap-4 p-6",
-            variant === "default" && "border border-gray-200 bg-background shadow-lg sm:rounded-lg",
+            'fixed left-[50%] top-[50%] z-50 grid w-full translate-x-[-50%] translate-y-[-50%] gap-4 p-6',
+            variant === 'default' && 'border border-gray-200 bg-background shadow-lg sm:rounded-lg',
             getSize()
           )}
         >
@@ -126,15 +115,9 @@ const LoadingDialog = React.forwardRef<HTMLDivElement, LoadingDialogProps>(
 
             {/* Content */}
             <div className="mt-4 space-y-2">
-              {title && (
-                <h2 className="text-lg font-semibold">{title}</h2>
-              )}
-              {description && (
-                <p className="text-sm text-muted-foreground">{description}</p>
-              )}
-              {status && (
-                <p className="text-sm font-medium">{status}</p>
-              )}
+              {title && <h2 className="text-lg font-semibold">{title}</h2>}
+              {description && <p className="text-sm text-muted-foreground">{description}</p>}
+              {status && <p className="text-sm font-medium">{status}</p>}
             </div>
 
             {/* Progress */}
@@ -161,6 +144,6 @@ const LoadingDialog = React.forwardRef<HTMLDivElement, LoadingDialogProps>(
   }
 );
 
-LoadingDialog.displayName = "LoadingDialog";
+LoadingDialog.displayName = 'LoadingDialog';
 
 export { LoadingDialog, type LoadingDialogProps };

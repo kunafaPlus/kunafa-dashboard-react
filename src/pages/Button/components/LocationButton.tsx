@@ -1,41 +1,39 @@
-import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "../../../utils/cn";
+import { cva, type VariantProps } from 'class-variance-authority';
+import * as React from 'react';
+
+import { cn } from '../../../utils/cn';
 
 const locationButtonVariants = cva(
-  "group relative inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
+  'group relative inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50',
   {
     variants: {
       variant: {
-        default: "bg-primary text-white hover:bg-primary/90",
-        destructive:
-          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline:
-          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
-        secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
+        default: 'bg-primary text-white hover:bg-primary/90',
+        destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
+        outline: 'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
+        secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
+        ghost: 'hover:bg-accent hover:text-accent-foreground',
+        link: 'text-primary underline-offset-4 hover:underline',
       },
       size: {
-        default: "h-9 px-4 py-2",
-        sm: "h-8 rounded-md px-3 text-xs",
-        lg: "h-10 rounded-md px-8",
-        icon: "h-9 w-9",
+        default: 'h-9 px-4 py-2',
+        sm: 'h-8 rounded-md px-3 text-xs',
+        lg: 'h-10 rounded-md px-8',
+        icon: 'h-9 w-9',
       },
       state: {
-        idle: "",
+        idle: '',
         locating:
-          "before:absolute before:inset-0 before:rounded-[inherit] before:border-4 before:border-current before:opacity-20 before:animate-pulse",
-        success: "bg-green-500 text-white hover:bg-green-600",
-        error: "bg-red-500 text-white hover:bg-red-600",
-        disabled: "opacity-50 cursor-not-allowed",
+          'before:absolute before:inset-0 before:rounded-[inherit] before:border-4 before:border-current before:opacity-20 before:animate-pulse',
+        success: 'bg-green-500 text-white hover:bg-green-600',
+        error: 'bg-red-500 text-white hover:bg-red-600',
+        disabled: 'opacity-50 cursor-not-allowed',
       },
     },
     defaultVariants: {
-      variant: "default",
-      size: "default",
-      state: "idle",
+      variant: 'default',
+      size: 'default',
+      state: 'idle',
     },
   }
 );
@@ -54,7 +52,7 @@ interface LocationButtonProps
   successIcon?: React.ReactNode;
   errorIcon?: React.ReactNode;
   showCoordinates?: boolean;
-  coordinatesFormat?: "decimal" | "dms";
+  coordinatesFormat?: 'decimal' | 'dms';
 }
 
 const LocationButton = React.forwardRef<HTMLButtonElement, LocationButtonProps>(
@@ -75,7 +73,7 @@ const LocationButton = React.forwardRef<HTMLButtonElement, LocationButtonProps>(
       successIcon,
       errorIcon,
       showCoordinates = false,
-      coordinatesFormat = "decimal",
+      coordinatesFormat = 'decimal',
       children,
       onClick,
       ...props
@@ -83,8 +81,8 @@ const LocationButton = React.forwardRef<HTMLButtonElement, LocationButtonProps>(
     ref
   ) => {
     const [currentState, setCurrentState] = React.useState<
-      "idle" | "locating" | "success" | "error" | "disabled"
-    >("idle");
+      'idle' | 'locating' | 'success' | 'error' | 'disabled'
+    >('idle');
     const [coordinates, setCoordinates] = React.useState<{
       latitude: number;
       longitude: number;
@@ -92,22 +90,20 @@ const LocationButton = React.forwardRef<HTMLButtonElement, LocationButtonProps>(
     const watchId = React.useRef<number>();
 
     const formatCoordinates = (lat: number, lng: number) => {
-      if (coordinatesFormat === "dms") {
+      if (coordinatesFormat === 'dms') {
         const formatDMS = (deg: number) => {
           const d = Math.abs(Math.floor(deg));
           const m = Math.abs(Math.floor((deg - d) * 60));
           const s = Math.abs(((deg - d) * 60 - m) * 60).toFixed(2);
           return `${d}°${m}'${s}"`;
         };
-        return `${formatDMS(lat)}${lat >= 0 ? "N" : "S"} ${formatDMS(lng)}${
-          lng >= 0 ? "E" : "W"
-        }`;
+        return `${formatDMS(lat)}${lat >= 0 ? 'N' : 'S'} ${formatDMS(lng)}${lng >= 0 ? 'E' : 'W'}`;
       }
       return `${lat.toFixed(6)}, ${lng.toFixed(6)}`;
     };
 
     const handleSuccess = (position: GeolocationPosition) => {
-      setCurrentState("success");
+      setCurrentState('success');
       setCoordinates({
         latitude: position.coords.latitude,
         longitude: position.coords.longitude,
@@ -116,18 +112,18 @@ const LocationButton = React.forwardRef<HTMLButtonElement, LocationButtonProps>(
     };
 
     const handleError = (error: GeolocationPositionError) => {
-      setCurrentState("error");
+      setCurrentState('error');
       onError?.(error);
     };
 
     const getLocation = () => {
       if (!navigator.geolocation) {
-        setCurrentState("disabled");
+        setCurrentState('disabled');
         onError?.(new GeolocationPositionError());
         return;
       }
 
-      setCurrentState("locating");
+      setCurrentState('locating');
 
       const options: PositionOptions = {
         enableHighAccuracy,
@@ -136,17 +132,9 @@ const LocationButton = React.forwardRef<HTMLButtonElement, LocationButtonProps>(
       };
 
       if (watchPosition) {
-        watchId.current = navigator.geolocation.watchPosition(
-          handleSuccess,
-          handleError,
-          options
-        );
+        watchId.current = navigator.geolocation.watchPosition(handleSuccess, handleError, options);
       } else {
-        navigator.geolocation.getCurrentPosition(
-          handleSuccess,
-          handleError,
-          options
-        );
+        navigator.geolocation.getCurrentPosition(handleSuccess, handleError, options);
       }
     };
 
@@ -159,7 +147,7 @@ const LocationButton = React.forwardRef<HTMLButtonElement, LocationButtonProps>(
     }, []);
 
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-      if (currentState === "idle") {
+      if (currentState === 'idle') {
         getLocation();
       }
       onClick?.(e);
@@ -167,7 +155,7 @@ const LocationButton = React.forwardRef<HTMLButtonElement, LocationButtonProps>(
 
     const getIcon = () => {
       switch (currentState) {
-        case "locating":
+        case 'locating':
           return (
             locatingIcon || (
               <svg
@@ -186,7 +174,7 @@ const LocationButton = React.forwardRef<HTMLButtonElement, LocationButtonProps>(
               </svg>
             )
           );
-        case "success":
+        case 'success':
           return (
             successIcon || (
               <svg
@@ -211,7 +199,7 @@ const LocationButton = React.forwardRef<HTMLButtonElement, LocationButtonProps>(
               </svg>
             )
           );
-        case "error":
+        case 'error':
           return (
             errorIcon || (
               <svg
@@ -262,12 +250,9 @@ const LocationButton = React.forwardRef<HTMLButtonElement, LocationButtonProps>(
       <button
         ref={ref}
         type="button"
-        className={cn(
-          locationButtonVariants({ variant, size, state: currentState }),
-          className
-        )}
+        className={cn(locationButtonVariants({ variant, size, state: currentState }), className)}
         onClick={handleClick}
-        disabled={currentState === "disabled"}
+        disabled={currentState === 'disabled'}
         {...props}
       >
         {getIcon()}
@@ -282,6 +267,6 @@ const LocationButton = React.forwardRef<HTMLButtonElement, LocationButtonProps>(
   }
 );
 
-LocationButton.displayName = "LocationButton";
+LocationButton.displayName = 'LocationButton';
 
 export { LocationButton };

@@ -1,18 +1,18 @@
-import * as React from "react";
-import { cn } from "../../../utils/cn";
-import { BiCheckCircle, BiInfoCircle, BiX } from "react-icons/bi";
-import { FiAlertCircle, FiAlertTriangle } from "react-icons/fi";
+import * as React from 'react';
+import { BiCheckCircle, BiInfoCircle, BiX } from 'react-icons/bi';
+import { FiAlertCircle, FiAlertTriangle } from 'react-icons/fi';
 
+import { cn } from '../../../utils/cn';
 
-type NotificationType = "info" | "success" | "warning" | "error";
+type NotificationType = 'info' | 'success' | 'warning' | 'error';
 
 interface NotificationAction {
   label: string;
   onClick: () => void;
-  variant?: "default" | "destructive";
+  variant?: 'default' | 'destructive';
 }
 
-interface NotificationDialogProps  {
+interface NotificationDialogProps {
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
   type?: NotificationType;
@@ -22,9 +22,9 @@ interface NotificationDialogProps  {
   actions?: NotificationAction[];
   autoClose?: number;
   showCloseButton?: boolean;
-  position?: "top" | "bottom";
-  animation?: "slide" | "fade";
-  width?: "sm" | "md" | "lg" | "xl" | "full";
+  position?: 'top' | 'bottom';
+  animation?: 'slide' | 'fade';
+  width?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
   onClose?: () => void;
   className?: string;
 }
@@ -34,16 +34,16 @@ const NotificationDialog = React.forwardRef<HTMLDivElement, NotificationDialogPr
     {
       open = false,
       onOpenChange,
-      type = "info",
+      type = 'info',
       title,
       description,
       icon,
       actions = [],
       autoClose,
       showCloseButton = true,
-      position = "top",
-      animation = "slide",
-      width = "md",
+      position = 'top',
+      animation = 'slide',
+      width = 'md',
       onClose,
       className,
       ...props
@@ -58,7 +58,7 @@ const NotificationDialog = React.forwardRef<HTMLDivElement, NotificationDialogPr
           handleClose();
         }, autoClose);
 
-        return () => clearTimeout(timer);
+        return () => { clearTimeout(timer); };
       }
     }, [autoClose, open]);
 
@@ -68,13 +68,13 @@ const NotificationDialog = React.forwardRef<HTMLDivElement, NotificationDialogPr
       if (icon) return icon;
 
       switch (type) {
-        case "success":
+        case 'success':
           return <BiCheckCircle className="h-5 w-5 text-success" />;
-        case "warning":
+        case 'warning':
           return <FiAlertTriangle className="h-5 w-5 text-warning" />;
-        case "error":
+        case 'error':
           return <FiAlertCircle className="h-5 w-5 text-destructive" />;
-        case "info":
+        case 'info':
         default:
           return <BiInfoCircle className="h-5 w-5 text-primary" />;
       }
@@ -82,18 +82,18 @@ const NotificationDialog = React.forwardRef<HTMLDivElement, NotificationDialogPr
 
     const getWidth = () => {
       switch (width) {
-        case "sm":
-          return "max-w-sm";
-        case "md":
-          return "max-w-md";
-        case "lg":
-          return "max-w-lg";
-        case "xl":
-          return "max-w-xl";
-        case "full":
-          return "max-w-[calc(100%-2rem)]";
+        case 'sm':
+          return 'max-w-sm';
+        case 'md':
+          return 'max-w-md';
+        case 'lg':
+          return 'max-w-lg';
+        case 'xl':
+          return 'max-w-xl';
+        case 'full':
+          return 'max-w-[calc(100%-2rem)]';
         default:
-          return "max-w-md";
+          return 'max-w-md';
       }
     };
 
@@ -109,8 +109,8 @@ const NotificationDialog = React.forwardRef<HTMLDivElement, NotificationDialogPr
     return (
       <div
         className={cn(
-          "fixed inset-0 z-50 flex items-center justify-center",
-          position === "top" ? "items-start pt-4" : "items-end pb-4",
+          'fixed inset-0 z-50 flex items-center justify-center',
+          position === 'top' ? 'items-start pt-4' : 'items-end pb-4',
           className
         )}
         ref={ref}
@@ -118,18 +118,17 @@ const NotificationDialog = React.forwardRef<HTMLDivElement, NotificationDialogPr
       >
         <div
           className={cn(
-            "w-full rounded-lg border border-gray-200 bg-background p-4 shadow-lg",
+            'w-full rounded-lg border border-gray-200 bg-background p-4 shadow-lg',
             getWidth(),
-            animation === "slide" &&
-              (position === "top"
+            animation === 'slide' &&
+              (position === 'top'
                 ? isClosing
-                  ? "animate-slide-out-to-top-sm"
-                  : "animate-slide-in-from-top-sm"
+                  ? 'animate-slide-out-to-top-sm'
+                  : 'animate-slide-in-from-top-sm'
                 : isClosing
-                ? "animate-slide-out-to-bottom-sm"
-                : "animate-slide-in-from-bottom-sm"),
-            animation === "fade" &&
-              (isClosing ? "animate-fade-out" : "animate-fade-in")
+                  ? 'animate-slide-out-to-bottom-sm'
+                  : 'animate-slide-in-from-bottom-sm'),
+            animation === 'fade' && (isClosing ? 'animate-fade-out' : 'animate-fade-in')
           )}
         >
           <div className="flex items-start gap-3">
@@ -139,13 +138,9 @@ const NotificationDialog = React.forwardRef<HTMLDivElement, NotificationDialogPr
             {/* Content */}
             <div className="flex-1 space-y-2">
               {title && (
-                <h3 className="text-base font-semibold leading-none tracking-tight">
-                  {title}
-                </h3>
+                <h3 className="text-base font-semibold leading-none tracking-tight">{title}</h3>
               )}
-              {description && (
-                <div className="text-sm text-muted-foreground">{description}</div>
-              )}
+              {description && <div className="text-sm text-muted-foreground">{description}</div>}
               {actions.length > 0 && (
                 <div className="flex items-center gap-2">
                   {actions.map((action, index) => (
@@ -154,10 +149,10 @@ const NotificationDialog = React.forwardRef<HTMLDivElement, NotificationDialogPr
                       type="button"
                       onClick={action.onClick}
                       className={cn(
-                        "inline-flex items-center justify-center rounded-md px-3 py-1.5 text-sm font-medium ring-offset-background transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
-                        action.variant === "destructive"
-                          ? "bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                          : "bg-primary text-white hover:bg-primary/90"
+                        'inline-flex items-center justify-center rounded-md px-3 py-1.5 text-sm font-medium ring-offset-background transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2',
+                        action.variant === 'destructive'
+                          ? 'bg-destructive text-destructive-foreground hover:bg-destructive/90'
+                          : 'bg-primary text-white hover:bg-primary/90'
                       )}
                     >
                       {action.label}
@@ -184,7 +179,7 @@ const NotificationDialog = React.forwardRef<HTMLDivElement, NotificationDialogPr
   }
 );
 
-NotificationDialog.displayName = "NotificationDialog";
+NotificationDialog.displayName = 'NotificationDialog';
 
 export {
   NotificationDialog,

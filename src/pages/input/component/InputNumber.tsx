@@ -1,31 +1,27 @@
-import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "../../../utils/cn";
-import { InputNumberProps } from "../utils/type";
+import { cva, type VariantProps } from 'class-variance-authority';
+import * as React from 'react';
 
-export const inputNumberVariants = cva(
-  "relative inline-flex w-full",
-  {
-    variants: {
-      variant: {
-        default: "[&_input]:border [&_input]:rounded-md",
-        filled: "[&_input]:bg-muted [&_input]:border-b",
-        ghost: "[&_input]:bg-transparent [&_input]:border-b",
-      },
-      size: {
-        sm: "[&_input]:text-sm [&_input]:p-2 [&_button]:text-sm",
-        md: "[&_input]:text-base [&_input]:p-3 [&_button]:text-base",
-        lg: "[&_input]:text-lg [&_input]:p-4 [&_button]:text-lg",
-      },
+import { cn } from '../../../utils/cn';
+import { InputNumberProps } from '../utils/type';
+
+export const inputNumberVariants = cva('relative inline-flex w-full', {
+  variants: {
+    variant: {
+      default: '[&_input]:border [&_input]:rounded-md',
+      filled: '[&_input]:bg-muted [&_input]:border-b',
+      ghost: '[&_input]:bg-transparent [&_input]:border-b',
     },
-    defaultVariants: {
-      variant: "default",
-      size: "md",
+    size: {
+      sm: '[&_input]:text-sm [&_input]:p-2 [&_button]:text-sm',
+      md: '[&_input]:text-base [&_input]:p-3 [&_button]:text-base',
+      lg: '[&_input]:text-lg [&_input]:p-4 [&_button]:text-lg',
     },
-  }
-);
-
-
+  },
+  defaultVariants: {
+    variant: 'default',
+    size: 'md',
+  },
+});
 
 const InputNumber = React.forwardRef<HTMLInputElement, InputNumberProps>(
   (
@@ -47,8 +43,8 @@ const InputNumber = React.forwardRef<HTMLInputElement, InputNumberProps>(
       prefix,
       suffix,
       showButtons = true,
-      buttonPlacement = "right",
-      locale = "en-US",
+      buttonPlacement = 'right',
+      locale = 'en-US',
       hint,
       disabled,
       ...props
@@ -57,7 +53,7 @@ const InputNumber = React.forwardRef<HTMLInputElement, InputNumberProps>(
   ) => {
     const [focused, setFocused] = React.useState(false);
     const [internalValue, setInternalValue] = React.useState<string>(
-      value !== undefined ? format(value) : ""
+      value !== undefined ? format(value) : ''
     );
     const inputRef = React.useRef<HTMLInputElement>(null);
 
@@ -80,8 +76,8 @@ const InputNumber = React.forwardRef<HTMLInputElement, InputNumberProps>(
       if (onChange) {
         onChange({
           target: {
-            value: newValue
-          }
+            value: newValue,
+          },
         });
       }
     };
@@ -90,12 +86,12 @@ const InputNumber = React.forwardRef<HTMLInputElement, InputNumberProps>(
       const inputValue = e.target.value;
       setInternalValue(inputValue);
 
-      if (inputValue === "") {
+      if (inputValue === '') {
         if (onChange) {
           onChange({
             target: {
-              value: 0
-            }
+              value: 0,
+            },
           });
         }
         return;
@@ -134,64 +130,58 @@ const InputNumber = React.forwardRef<HTMLInputElement, InputNumberProps>(
     };
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (e.key === "ArrowUp") {
+      if (e.key === 'ArrowUp') {
         e.preventDefault();
         handleIncrement();
-      } else if (e.key === "ArrowDown") {
+      } else if (e.key === 'ArrowDown') {
         e.preventDefault();
         handleDecrement();
       }
     };
 
     const renderButton = (
-      type: "increment" | "decrement",
-      placement: "right" | "left" | "top" | "bottom"
+      type: 'increment' | 'decrement',
+      placement: 'right' | 'left' | 'top' | 'bottom'
     ) => {
-      const isIncrement = type === "increment";
+      const isIncrement = type === 'increment';
       const baseClasses =
-        "flex items-center justify-center transition-colors hover:bg-primary/90 active:bg-primary/80 disabled:opacity-50 disabled:cursor-not-allowed";
+        'flex items-center justify-center transition-colors hover:bg-primary/90 active:bg-primary/80 disabled:opacity-50 disabled:cursor-not-allowed';
       const placementClasses = {
-        right: "px-2 border-l",
-        left: "px-2 border-r",
-        top: "py-1 border-b",
-        bottom: "py-1 border-t",
+        right: 'px-2 border-l',
+        left: 'px-2 border-r',
+        top: 'py-1 border-b',
+        bottom: 'py-1 border-t',
       };
 
       return (
         <button
           type="button"
-          className={cn(
-            baseClasses,
-            placementClasses[placement],
-            "bg-primary text-white"
-          )}
+          className={cn(baseClasses, placementClasses[placement], 'bg-primary text-white')}
           onClick={isIncrement ? handleIncrement : handleDecrement}
           disabled={
             disabled ||
-            (isIncrement ? (max !== undefined && parse(internalValue) >= max) : (min !== undefined && parse(internalValue) <= min))
+            (isIncrement
+              ? max !== undefined && parse(internalValue) >= max
+              : min !== undefined && parse(internalValue) <= min)
           }
           tabIndex={-1}
         >
-          {isIncrement ? "+" : "-"}
+          {isIncrement ? '+' : '-'}
         </button>
       );
     };
 
     return (
       <div className="space-y-2">
-        {label && (
-          <label className="block text-sm font-medium text-gray-700">
-            {label}
-          </label>
-        )}
+        {label && <label className="block text-sm font-medium text-gray-700">{label}</label>}
         <div className="relative">
           <input
             ref={inputRef}
             type="text"
             className={cn(
-              "w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50",
-              error && "border-red-500",
-              disabled && "opacity-50 cursor-not-allowed",
+              'w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50',
+              error && 'border-red-500',
+              disabled && 'opacity-50 cursor-not-allowed',
               className
             )}
             value={prefix ? `${prefix}${internalValue}` : internalValue}
@@ -204,42 +194,32 @@ const InputNumber = React.forwardRef<HTMLInputElement, InputNumberProps>(
           />
           {controls && (
             <div className="absolute inset-y-0 right-0 flex">
-              {buttonPlacement === "sides" && showButtons && (
-                <div className="absolute left-0 inset-y-0">
-                  {renderButton("decrement", "left")}
-                </div>
+              {buttonPlacement === 'sides' && showButtons && (
+                <div className="absolute left-0 inset-y-0">{renderButton('decrement', 'left')}</div>
               )}
 
-              {buttonPlacement === "stacked" && showButtons && (
+              {buttonPlacement === 'stacked' && showButtons && (
                 <div className="absolute right-0 top-0 bottom-0 w-8 flex flex-col">
-                  {renderButton("increment", "top")}
-                  {renderButton("decrement", "bottom")}
+                  {renderButton('increment', 'top')}
+                  {renderButton('decrement', 'bottom')}
                 </div>
               )}
 
-              {buttonPlacement === "right" && showButtons && (
+              {buttonPlacement === 'right' && showButtons && (
                 <div className="absolute right-0 inset-y-0">
-                  {renderButton("increment", "right")}
+                  {renderButton('increment', 'right')}
                 </div>
               )}
             </div>
           )}
         </div>
-        {error && (
-          <p className="mt-1 text-sm text-red-500">
-            {error}
-          </p>
-        )}
-        {hint && (
-          <p className="mt-1 text-sm text-muted-foreground">
-            {hint}
-          </p>
-        )}
+        {error && <p className="mt-1 text-sm text-red-500">{error}</p>}
+        {hint && <p className="mt-1 text-sm text-muted-foreground">{hint}</p>}
       </div>
     );
   }
 );
 
-InputNumber.displayName = "InputNumber";
+InputNumber.displayName = 'InputNumber';
 
 export { InputNumber };

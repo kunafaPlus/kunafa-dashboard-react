@@ -1,10 +1,11 @@
-import * as React from "react";
-import { cn } from "../../../utils/cn";
-import { FaFacebook } from "react-icons/fa";
-import { BsLinkedin, BsTwitter, BsWhatsapp } from "react-icons/bs";
-import { BiCheck, BiMailSend, BiX } from "react-icons/bi";
-import { CiShare2 } from "react-icons/ci";
-import { FiLink2 } from "react-icons/fi";
+import * as React from 'react';
+import { BiCheck, BiMailSend, BiX } from 'react-icons/bi';
+import { BsLinkedin, BsTwitter, BsWhatsapp } from 'react-icons/bs';
+import { CiShare2 } from 'react-icons/ci';
+import { FaFacebook } from 'react-icons/fa';
+import { FiLink2 } from 'react-icons/fi';
+
+import { cn } from '../../../utils/cn';
 
 interface ShareOption {
   id: string;
@@ -32,7 +33,7 @@ const ShareDialog = React.forwardRef<HTMLDivElement, ShareDialogProps>(
     {
       open = false,
       onOpenChange,
-      title = "Share",
+      title = 'Share',
       description,
       url,
       text,
@@ -52,49 +53,43 @@ const ShareDialog = React.forwardRef<HTMLDivElement, ShareDialogProps>(
 
     const defaultOptions: ShareOption[] = [
       {
-        id: "facebook",
-        label: "Facebook",
+        id: 'facebook',
+        label: 'Facebook',
         icon: <FaFacebook className="h-4 w-4" />,
-        url: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-          url
-        )}`,
-        color: "#1877f2",
+        url: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
+        color: '#1877f2',
       },
       {
-        id: "twitter",
-        label: "Twitter",
+        id: 'twitter',
+        label: 'Twitter',
         icon: <BsTwitter className="h-4 w-4" />,
         url: `https://twitter.com/intent/tweet?url=${encodeURIComponent(
           url
-        )}&text=${encodeURIComponent(text || "")}`,
-        color: "#1da1f2",
+        )}&text=${encodeURIComponent(text || '')}`,
+        color: '#1da1f2',
       },
       {
-        id: "linkedin",
-        label: "LinkedIn",
+        id: 'linkedin',
+        label: 'LinkedIn',
         icon: <BsLinkedin className="h-4 w-4" />,
-        url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
-          url
-        )}`,
-        color: "#0a66c2",
+        url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
+        color: '#0a66c2',
       },
       {
-        id: "whatsapp",
-        label: "WhatsApp",
+        id: 'whatsapp',
+        label: 'WhatsApp',
         icon: <BsWhatsapp className="h-4 w-4" />,
-        url: `https://wa.me/?text=${encodeURIComponent(
-          text ? `${text} ${url}` : url
-        )}`,
-        color: "#25d366",
+        url: `https://wa.me/?text=${encodeURIComponent(text ? `${text} ${url}` : url)}`,
+        color: '#25d366',
       },
       {
-        id: "email",
-        label: "Email",
+        id: 'email',
+        label: 'Email',
         icon: <BiMailSend className="h-4 w-4" />,
         url: `mailto:?subject=${encodeURIComponent(
-          text || "Check this out"
+          text || 'Check this out'
         )}&body=${encodeURIComponent(url)}`,
-        color: "#ea4335",
+        color: '#ea4335',
       },
     ];
 
@@ -109,11 +104,11 @@ const ShareDialog = React.forwardRef<HTMLDivElement, ShareDialogProps>(
             url: url,
           });
         } else {
-          window.open(option.url, "_blank");
+          window.open(option.url, '_blank');
         }
         onShare?.(option);
       } catch (error) {
-        console.error("Error sharing:", error);
+        console.error('Error sharing:', error);
       }
     };
 
@@ -128,7 +123,7 @@ const ShareDialog = React.forwardRef<HTMLDivElement, ShareDialogProps>(
           setCopied(false);
         }, 2000);
       } catch (error) {
-        console.error("Error copying to clipboard:", error);
+        console.error('Error copying to clipboard:', error);
       }
     };
 
@@ -136,7 +131,7 @@ const ShareDialog = React.forwardRef<HTMLDivElement, ShareDialogProps>(
       <div className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm" {...props}>
         <div
           className={cn(
-            "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border border-gray-200 bg-background p-6 shadow-lg duration-200 sm:rounded-lg",
+            'fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border border-gray-200 bg-background p-6 shadow-lg duration-200 sm:rounded-lg',
             className
           )}
           ref={ref}
@@ -145,9 +140,7 @@ const ShareDialog = React.forwardRef<HTMLDivElement, ShareDialogProps>(
           <div className="flex items-center justify-between">
             <div className="space-y-1">
               <h2 className="text-lg font-semibold">{title}</h2>
-              {description && (
-                <p className="text-sm text-muted-foreground">{description}</p>
-              )}
+              {description && <p className="text-sm text-muted-foreground">{description}</p>}
             </div>
             <button
               type="button"
@@ -172,9 +165,7 @@ const ShareDialog = React.forwardRef<HTMLDivElement, ShareDialogProps>(
                 </div>
                 <div className="flex-1 text-left">
                   <div className="text-sm font-medium">Share</div>
-                  <div className="text-sm text-muted-foreground">
-                    Share using your device
-                  </div>
+                  <div className="text-sm text-muted-foreground">Share using your device</div>
                 </div>
               </button>
             )}
@@ -186,7 +177,7 @@ const ShareDialog = React.forwardRef<HTMLDivElement, ShareDialogProps>(
                   type="button"
                   onClick={() => handleShare(option)}
                   className="flex flex-col items-center gap-2 rounded-lg border border-gray-200 p-4 hover:bg-muted"
-                  style={{ "--option-color": option.color } as React.CSSProperties}
+                  style={{ '--option-color': option.color } as React.CSSProperties}
                 >
                   <div
                     className="rounded-full p-2"
@@ -207,9 +198,7 @@ const ShareDialog = React.forwardRef<HTMLDivElement, ShareDialogProps>(
               <div className="flex items-center gap-2 rounded-lg border border-gray-200 p-4">
                 <div className="flex-1 truncate">
                   <div className="text-sm font-medium">Share Link</div>
-                  <div className="text-sm text-muted-foreground truncate">
-                    {url}
-                  </div>
+                  <div className="text-sm text-muted-foreground truncate">{url}</div>
                 </div>
                 <button
                   type="button"
@@ -237,6 +226,6 @@ const ShareDialog = React.forwardRef<HTMLDivElement, ShareDialogProps>(
   }
 );
 
-ShareDialog.displayName = "ShareDialog";
+ShareDialog.displayName = 'ShareDialog';
 
 export { ShareDialog, type ShareDialogProps, type ShareOption };

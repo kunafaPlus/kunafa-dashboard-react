@@ -1,45 +1,43 @@
-import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "../../../utils/cn";
+import { cva, type VariantProps } from 'class-variance-authority';
+import * as React from 'react';
+
+import { cn } from '../../../utils/cn';
 
 const swipeButtonVariants = cva(
-  "group relative inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 overflow-hidden cursor-grab active:cursor-grabbing touch-none select-none",
+  'group relative inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 overflow-hidden cursor-grab active:cursor-grabbing touch-none select-none',
   {
     variants: {
       variant: {
-        default:
-          "bg-primary text-white before:bg-primary-dark after:bg-primary-dark",
+        default: 'bg-primary text-white before:bg-primary-dark after:bg-primary-dark',
         destructive:
-          "bg-destructive text-destructive-foreground before:bg-destructive-dark after:bg-destructive-dark",
-        outline:
-          "border border-input bg-background before:bg-accent after:bg-accent",
+          'bg-destructive text-destructive-foreground before:bg-destructive-dark after:bg-destructive-dark',
+        outline: 'border border-input bg-background before:bg-accent after:bg-accent',
         secondary:
-          "bg-secondary text-secondary-foreground before:bg-secondary-dark after:bg-secondary-dark",
-        ghost: "before:bg-accent after:bg-accent",
-        success:
-          "bg-green-500 text-white before:bg-green-600 after:bg-green-600",
+          'bg-secondary text-secondary-foreground before:bg-secondary-dark after:bg-secondary-dark',
+        ghost: 'before:bg-accent after:bg-accent',
+        success: 'bg-green-500 text-white before:bg-green-600 after:bg-green-600',
       },
       size: {
-        default: "h-12 px-8 py-3",
-        sm: "h-10 rounded-md px-6 text-xs",
-        lg: "h-14 rounded-md px-10",
-        icon: "h-12 w-12",
+        default: 'h-12 px-8 py-3',
+        sm: 'h-10 rounded-md px-6 text-xs',
+        lg: 'h-14 rounded-md px-10',
+        icon: 'h-12 w-12',
       },
       direction: {
-        right: "before:left-0 after:right-0",
-        left: "before:right-0 after:left-0",
+        right: 'before:left-0 after:right-0',
+        left: 'before:right-0 after:left-0',
       },
     },
     defaultVariants: {
-      variant: "default",
-      size: "default",
-      direction: "right",
+      variant: 'default',
+      size: 'default',
+      direction: 'right',
     },
   }
 );
 
 interface SwipeButtonProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange">,
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'>,
     VariantProps<typeof swipeButtonVariants> {
   threshold?: number;
   resetDelay?: number;
@@ -58,16 +56,16 @@ const SwipeButton = React.forwardRef<HTMLDivElement, SwipeButtonProps>(
       className,
       variant,
       size,
-      direction = "right",
+      direction = 'right',
       threshold = 0.7,
       resetDelay = 1000,
-      swipeText = "Swipe to confirm",
-      confirmText = "Confirmed!",
+      swipeText = 'Swipe to confirm',
+      confirmText = 'Confirmed!',
       onChange,
       trackColor,
       thumbColor,
-      successColor = "#22c55e",
-      transitionDuration = "0.3s",
+      successColor = '#22c55e',
+      transitionDuration = '0.3s',
       children,
       style,
       ...props
@@ -93,7 +91,7 @@ const SwipeButton = React.forwardRef<HTMLDivElement, SwipeButtonProps>(
         const maxOffset = buttonRef.current.offsetWidth - buttonRef.current.offsetHeight;
         setOffsetX(Math.max(0, Math.min(newOffset, maxOffset)));
 
-        if (direction === "right" && offsetX >= maxOffset * threshold) {
+        if (direction === 'right' && offsetX >= maxOffset * threshold) {
           setIsConfirmed(true);
           setIsDragging(false);
           onChange?.(true);
@@ -102,7 +100,7 @@ const SwipeButton = React.forwardRef<HTMLDivElement, SwipeButtonProps>(
             setOffsetX(0);
             onChange?.(false);
           }, resetDelay);
-        } else if (direction === "left" && offsetX <= maxOffset * (1 - threshold)) {
+        } else if (direction === 'left' && offsetX <= maxOffset * (1 - threshold)) {
           setIsConfirmed(true);
           setIsDragging(false);
           onChange?.(true);
@@ -124,11 +122,11 @@ const SwipeButton = React.forwardRef<HTMLDivElement, SwipeButtonProps>(
 
     const customStyle = {
       ...style,
-      "--track-color": trackColor,
-      "--thumb-color": thumbColor,
-      "--success-color": successColor,
-      "--transition-duration": transitionDuration,
-      "--offset-x": `${offsetX}px`,
+      '--track-color': trackColor,
+      '--thumb-color': thumbColor,
+      '--success-color': successColor,
+      '--transition-duration': transitionDuration,
+      '--offset-x': `${offsetX}px`,
     } as React.CSSProperties;
 
     return (
@@ -136,33 +134,28 @@ const SwipeButton = React.forwardRef<HTMLDivElement, SwipeButtonProps>(
         ref={ref}
         className={cn(swipeButtonVariants({ variant, size, direction }), className)}
         style={customStyle}
-        onMouseDown={(e) => handleStart(e.clientX)}
-        onMouseMove={(e) => handleMove(e.clientX)}
+        onMouseDown={(e) => { handleStart(e.clientX); }}
+        onMouseMove={(e) => { handleMove(e.clientX); }}
         onMouseUp={handleEnd}
         onMouseLeave={handleEnd}
-        onTouchStart={(e) => handleStart(e.touches[0].clientX)}
-        onTouchMove={(e) => handleMove(e.touches[0].clientX)}
+        onTouchStart={(e) => { handleStart(e.touches[0].clientX); }}
+        onTouchMove={(e) => { handleMove(e.touches[0].clientX); }}
         onTouchEnd={handleEnd}
         {...props}
       >
-        <div
-          ref={buttonRef}
-          className="relative h-full w-full overflow-hidden rounded-[inherit]"
-        >
+        <div ref={buttonRef} className="relative h-full w-full overflow-hidden rounded-[inherit]">
           <div
             className={cn(
-              "absolute inset-0 grid place-items-center transition-colors",
-              isConfirmed && "bg-[var(--success-color,#22c55e)]"
+              'absolute inset-0 grid place-items-center transition-colors',
+              isConfirmed && 'bg-[var(--success-color,#22c55e)]'
             )}
           >
-            <span className="text-current">
-              {isConfirmed ? confirmText : swipeText}
-            </span>
+            <span className="text-current">{isConfirmed ? confirmText : swipeText}</span>
           </div>
           <div
             className={cn(
-              "absolute grid h-full aspect-square place-items-center rounded-[inherit] bg-current transition-transform",
-              isDragging ? "scale-95" : "scale-100"
+              'absolute grid h-full aspect-square place-items-center rounded-[inherit] bg-current transition-transform',
+              isDragging ? 'scale-95' : 'scale-100'
             )}
             style={{
               transform: `translateX(var(--offset-x))`,
@@ -176,7 +169,7 @@ const SwipeButton = React.forwardRef<HTMLDivElement, SwipeButtonProps>(
                 stroke="currentColor"
                 className="h-5 w-5"
               >
-                {direction === "right" ? (
+                {direction === 'right' ? (
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -200,6 +193,6 @@ const SwipeButton = React.forwardRef<HTMLDivElement, SwipeButtonProps>(
   }
 );
 
-SwipeButton.displayName = "SwipeButton";
+SwipeButton.displayName = 'SwipeButton';
 
 export { SwipeButton };

@@ -1,34 +1,32 @@
-import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import {  extend } from "colord";
-import harmoniesPlugin from "colord/plugins/harmonies";
-import namesPlugin from "colord/plugins/names";
-import { cn } from "../../../utils/cn";
+import { cva, type VariantProps } from 'class-variance-authority';
+import { extend } from 'colord';
+import harmoniesPlugin from 'colord/plugins/harmonies';
+import namesPlugin from 'colord/plugins/names';
+import * as React from 'react';
+
+import { cn } from '../../../utils/cn';
 
 // Extend colord with plugins
 extend([harmoniesPlugin, namesPlugin]);
 
-const colorPaletteInputVariants = cva(
-  "w-full",
-  {
-    variants: {
-      variant: {
-        default: "border rounded-lg",
-        filled: "bg-muted border-transparent",
-        ghost: "border-transparent",
-      },
-      size: {
-        sm: "p-2 gap-2",
-        md: "p-3 gap-3",
-        lg: "p-4 gap-4",
-      },
+const colorPaletteInputVariants = cva('w-full', {
+  variants: {
+    variant: {
+      default: 'border rounded-lg',
+      filled: 'bg-muted border-transparent',
+      ghost: 'border-transparent',
     },
-    defaultVariants: {
-      variant: "default",
-      size: "md",
+    size: {
+      sm: 'p-2 gap-2',
+      md: 'p-3 gap-3',
+      lg: 'p-4 gap-4',
     },
-  }
-);
+  },
+  defaultVariants: {
+    variant: 'default',
+    size: 'md',
+  },
+});
 
 interface Color {
   hex: string;
@@ -38,11 +36,11 @@ interface Color {
 
 interface Palette {
   colors: Color[];
-  type: "custom" | "monochromatic" | "complementary" | "analogous" | "triadic" | "tetradic";
+  type: 'custom' | 'monochromatic' | 'complementary' | 'analogous' | 'triadic' | 'tetradic';
 }
 
 interface ColorPaletteInputProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, "value" | "onChange">,
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'value' | 'onChange'>,
     VariantProps<typeof colorPaletteInputVariants> {
   value?: string;
   onChange?: (event: { target: { value: string } }) => void;
@@ -56,14 +54,13 @@ interface ColorPaletteInputProps
   label?: string;
 }
 
-
 const ColorPaletteInput = React.forwardRef<HTMLDivElement, ColorPaletteInputProps>(
   (
     {
       className,
       variant,
       size,
-      value = "#000000",
+      value = '#000000',
       onChange,
       maxColors = 5,
       error,
@@ -84,34 +81,25 @@ const ColorPaletteInput = React.forwardRef<HTMLDivElement, ColorPaletteInputProp
       if (onChange) {
         onChange({
           target: {
-            value: newColor
-          }
+            value: newColor,
+          },
         });
       }
     };
 
     return (
-      <div
-        ref={ref}
-        className={cn("space-y-4", className)}
-        {...props}
-      >
+      <div ref={ref} className={cn('space-y-4', className)} {...props}>
         {label && <label className="block mb-2">{label}</label>}
         <div className="space-y-1.5">
           <input
             type="color"
             value={value}
-            onChange={(e) => handleColorChange(e.target.value)}
+            onChange={(e) => { handleColorChange(e.target.value); }}
             className="w-full h-10 rounded-md cursor-pointer"
           />
         </div>
         {(error || hint) && (
-          <div
-            className={cn(
-              "text-sm",
-              error ? "text-destructive" : "text-muted-foreground"
-            )}
-          >
+          <div className={cn('text-sm', error ? 'text-destructive' : 'text-muted-foreground')}>
             {error || hint}
           </div>
         )}
@@ -120,6 +108,6 @@ const ColorPaletteInput = React.forwardRef<HTMLDivElement, ColorPaletteInputProp
   }
 );
 
-ColorPaletteInput.displayName = "ColorPaletteInput";
+ColorPaletteInput.displayName = 'ColorPaletteInput';
 
 export { ColorPaletteInput };

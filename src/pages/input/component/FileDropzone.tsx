@@ -1,32 +1,30 @@
-import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { FileDropzoneProps, FileWithPreview } from "../utils/type";
-import { cn } from "../../../utils/cn";
+import { cva, type VariantProps } from 'class-variance-authority';
+import * as React from 'react';
+
+import { cn } from '../../../utils/cn';
+import { FileDropzoneProps, FileWithPreview } from '../utils/type';
 
 const fileDropzoneVariants = cva(
-  "relative flex flex-col items-center justify-center border-2 border-dashed rounded-lg transition-colors",
+  'relative flex flex-col items-center justify-center border-2 border-dashed rounded-lg transition-colors',
   {
     variants: {
       variant: {
-        default: "border-muted-foreground/25 hover:border-muted-foreground/50",
-        filled: "bg-muted border-transparent hover:border-primary",
-        ghost: "border-transparent hover:border-primary",
+        default: 'border-muted-foreground/25 hover:border-muted-foreground/50',
+        filled: 'bg-muted border-transparent hover:border-primary',
+        ghost: 'border-transparent hover:border-primary',
       },
       size: {
-        sm: "p-4 min-h-[100px]",
-        md: "p-6 min-h-[150px]",
-        lg: "p-8 min-h-[200px]",
+        sm: 'p-4 min-h-[100px]',
+        md: 'p-6 min-h-[150px]',
+        lg: 'p-8 min-h-[200px]',
       },
     },
     defaultVariants: {
-      variant: "default",
-      size: "md",
+      variant: 'default',
+      size: 'md',
     },
   }
 );
-
-
-
 
 const FileDropzone = React.forwardRef<HTMLDivElement, FileDropzoneProps>(
   (
@@ -62,10 +60,15 @@ const FileDropzone = React.forwardRef<HTMLDivElement, FileDropzoneProps>(
     const fileInputRef = React.useRef<HTMLInputElement>(null);
     const containerRef = React.useRef<HTMLDivElement>(null);
     const [internalFiles, setInternalFiles] = React.useState<FileWithPreview[]>(
-      Array.isArray(value) ? value.map(file => ({
-        ...file,
-        preview: preview && file.type && file.type.startsWith("image/") ? URL.createObjectURL(file) : undefined
-      })) : []
+      Array.isArray(value)
+        ? value.map((file) => ({
+            ...file,
+            preview:
+              preview && file.type && file.type.startsWith('image/')
+                ? URL.createObjectURL(file)
+                : undefined,
+          }))
+        : []
     );
 
     React.useImperativeHandle(ref, () => containerRef.current!);
@@ -73,17 +76,22 @@ const FileDropzone = React.forwardRef<HTMLDivElement, FileDropzoneProps>(
     // Update internal files when the value changes from outside
     React.useEffect(() => {
       if (Array.isArray(value)) {
-        setInternalFiles(value.map(file => ({
-          ...file,
-          preview: preview && file.type && file.type.startsWith("image/") ? URL.createObjectURL(file) : undefined
-        })));
+        setInternalFiles(
+          value.map((file) => ({
+            ...file,
+            preview:
+              preview && file.type && file.type.startsWith('image/')
+                ? URL.createObjectURL(file)
+                : undefined,
+          }))
+        );
       }
     }, [value, preview]);
 
     // Clean up object URLs on component unmount
     React.useEffect(() => {
       return () => {
-        internalFiles.forEach(file => {
+        internalFiles.forEach((file) => {
           if (file.preview) {
             URL.revokeObjectURL(file.preview);
           }
@@ -118,20 +126,20 @@ const FileDropzone = React.forwardRef<HTMLDivElement, FileDropzoneProps>(
         }
 
         // Check file type
-        const fileType = file.type || "";
-        const fileExtension = file.name.split(".").pop() || "";
+        const fileType = file.type || '';
+        const fileExtension = file.name.split('.').pop() || '';
         const isValidType =
-          accept === "*" ||
+          accept === '*' ||
           accept === `.${fileExtension}` ||
-          (typeof accept === 'string' && accept.endsWith("/*") &&
-            fileType.startsWith(accept.replace("/*", ""))) ||
+          (typeof accept === 'string' &&
+            accept.endsWith('/*') &&
+            fileType.startsWith(accept.replace('/*', ''))) ||
           (Array.isArray(accept) &&
             accept.some(
               (type) =>
                 type === fileType ||
                 type === `.${fileExtension}` ||
-                (type.endsWith("/*") &&
-                  fileType.startsWith(type.replace("/*", "")))
+                (type.endsWith('/*') && fileType.startsWith(type.replace('/*', '')))
             ));
 
         if (!isValidType) {
@@ -155,9 +163,7 @@ const FileDropzone = React.forwardRef<HTMLDivElement, FileDropzoneProps>(
           const validationResult = validateFile(file);
           if (validationResult !== true) {
             errors.push(
-              typeof validationResult === "string"
-                ? validationResult
-                : `Invalid file: ${file.name}`
+              typeof validationResult === 'string' ? validationResult : `Invalid file: ${file.name}`
             );
             continue;
           }
@@ -167,7 +173,7 @@ const FileDropzone = React.forwardRef<HTMLDivElement, FileDropzoneProps>(
       }
 
       if (errors.length > 0) {
-        onError?.(errors.join("\n"));
+        onError?.(errors.join('\n'));
       }
 
       return validFiles;
@@ -185,7 +191,10 @@ const FileDropzone = React.forwardRef<HTMLDivElement, FileDropzoneProps>(
 
       const newFiles = validFiles.map((file) => ({
         ...file,
-        preview: preview && file.type && file.type.startsWith("image/") ? URL.createObjectURL(file) : undefined
+        preview:
+          preview && file.type && file.type.startsWith('image/')
+            ? URL.createObjectURL(file)
+            : undefined,
       }));
 
       const updatedFiles = [...internalFiles, ...newFiles];
@@ -194,8 +203,8 @@ const FileDropzone = React.forwardRef<HTMLDivElement, FileDropzoneProps>(
       if (onChange) {
         onChange({
           target: {
-            value: updatedFiles
-          }
+            value: updatedFiles,
+          },
         });
       }
     };
@@ -217,7 +226,7 @@ const FileDropzone = React.forwardRef<HTMLDivElement, FileDropzoneProps>(
         addFiles(files);
       }
       // Reset input value to allow selecting the same file again
-      e.target.value = "";
+      e.target.value = '';
     };
 
     const removeFile = (fileToRemove: FileWithPreview) => {
@@ -227,14 +236,14 @@ const FileDropzone = React.forwardRef<HTMLDivElement, FileDropzoneProps>(
         URL.revokeObjectURL(fileToRemove.preview);
       }
 
-      const newFiles = internalFiles.filter(file => file !== fileToRemove);
+      const newFiles = internalFiles.filter((file) => file !== fileToRemove);
       setInternalFiles(newFiles);
 
       if (onChange) {
         onChange({
           target: {
-            value: newFiles
-          }
+            value: newFiles,
+          },
         });
       }
     };
@@ -243,9 +252,9 @@ const FileDropzone = React.forwardRef<HTMLDivElement, FileDropzoneProps>(
       if (!file) {
         return <div>ملف غير صالح</div>; // رسالة خطأ إذا كان الملف غير موجود
       }
-    
+
       // إذا كان الملف من نوع صورة
-      if (file.type && file.type.startsWith("image/") && file.preview) {
+      if (file.type && file.type.startsWith('image/') && file.preview) {
         return (
           <div className="relative">
             <img
@@ -257,7 +266,7 @@ const FileDropzone = React.forwardRef<HTMLDivElement, FileDropzoneProps>(
             <button
               type="button"
               className="absolute top-2 right-2 p-1 bg-destructive/10 hover:bg-destructive/20 text-destructive rounded-full"
-              onClick={() => removeFile(file)}
+              onClick={() => { removeFile(file); }}
               disabled={disabled}
             >
               <svg
@@ -277,7 +286,7 @@ const FileDropzone = React.forwardRef<HTMLDivElement, FileDropzoneProps>(
           </div>
         );
       }
-    
+
       // إذا كان الملف ليس صورة، عرض اسم الملف
       return (
         <div className="flex items-center gap-2 p-2 bg-muted rounded">
@@ -298,7 +307,7 @@ const FileDropzone = React.forwardRef<HTMLDivElement, FileDropzoneProps>(
           <button
             type="button"
             className="ml-2 text-destructive"
-            onClick={() => removeFile(file)}
+            onClick={() => { removeFile(file); }}
             disabled={disabled}
           >
             حذف
@@ -309,19 +318,15 @@ const FileDropzone = React.forwardRef<HTMLDivElement, FileDropzoneProps>(
 
     return (
       <div className="space-y-2">
-        {label && (
-          <label className="block text-sm font-medium text-gray-700">
-            {label}
-          </label>
-        )}
+        {label && <label className="block text-sm font-medium text-gray-700">{label}</label>}
         <div
           ref={containerRef}
           className={cn(
             fileDropzoneVariants({ variant, size }),
-            isDragging && "border-primary bg-primary/10",
-            disabled && "opacity-50 cursor-not-allowed",
-            error ? "border-red-500" : "border-gray-300",
-            "hover:border-gray-400",
+            isDragging && 'border-primary bg-primary/10',
+            disabled && 'opacity-50 cursor-not-allowed',
+            error ? 'border-red-500' : 'border-gray-300',
+            'hover:border-gray-400',
             className
           )}
           onDragEnter={handleDragEnter}
@@ -339,16 +344,21 @@ const FileDropzone = React.forwardRef<HTMLDivElement, FileDropzoneProps>(
             multiple={maxFiles !== 1}
             disabled={disabled || internalFiles.length >= maxFiles}
           />
-    
+
           {internalFiles.length > 0 ? (
             <div className="w-full h-full flex flex-col">
               {internalFiles.map((file, index) => (
-                <div key={index} className="flex items-center justify-between p-2 bg-muted rounded mb-2">
-                  <span className="text-sm truncate">{file.name} ({(file.size / 1024).toFixed(2)} KB)</span>
+                <div
+                  key={index}
+                  className="flex items-center justify-between p-2 bg-muted rounded mb-2"
+                >
+                  <span className="text-sm truncate">
+                    {file.name} ({(file.size / 1024).toFixed(2)} KB)
+                  </span>
                   <button
                     type="button"
                     className="text-destructive"
-                    onClick={() => removeFile(file)}
+                    onClick={() => { removeFile(file); }}
                     disabled={disabled}
                   >
                     حذف
@@ -373,7 +383,7 @@ const FileDropzone = React.forwardRef<HTMLDivElement, FileDropzoneProps>(
                   <polyline points="17 8 12 3 7 8" />
                   <line x1="12" y1="3" x2="12" y2="15" />
                 </svg>
-    
+
                 <div className="text-muted-foreground">
                   <button
                     type="button"
@@ -382,32 +392,27 @@ const FileDropzone = React.forwardRef<HTMLDivElement, FileDropzoneProps>(
                     disabled={disabled || internalFiles.length >= maxFiles}
                   >
                     Click to upload
-                  </button>{" "}
+                  </button>{' '}
                   or drag and drop
                 </div>
-    
+
                 <div className="mt-2 text-sm text-muted-foreground">
                   {typeof accept === 'string'
-                    ? "Any file format"
-                    : accept?.join(", ").toUpperCase()}
-                  {maxSize !== Infinity &&
-                    ` up to ${(maxSize / 1024 / 1024).toFixed(0)} MB`}
+                    ? 'Any file format'
+                    : accept?.join(', ').toUpperCase()}
+                  {maxSize !== Infinity && ` up to ${(maxSize / 1024 / 1024).toFixed(0)} MB`}
                 </div>
               </div>
             )
           )}
         </div>
-    
-        {error && (
-          <p className="mt-1 text-sm text-red-500">
-            {error}
-          </p>
-        )}
+
+        {error && <p className="mt-1 text-sm text-red-500">{error}</p>}
       </div>
     );
   }
 );
 
-FileDropzone.displayName = "FileDropzone";
+FileDropzone.displayName = 'FileDropzone';
 
 export { FileDropzone, type FileWithPreview };

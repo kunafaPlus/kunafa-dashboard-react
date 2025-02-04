@@ -1,31 +1,32 @@
-import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "../../../utils/cn";
+import { cva, type VariantProps } from 'class-variance-authority';
+import * as React from 'react';
 
-const splitButtonVariants = cva("inline-flex rounded-md shadow-sm", {
+import { cn } from '../../../utils/cn';
+
+const splitButtonVariants = cva('inline-flex rounded-md shadow-sm', {
   variants: {
     variant: {
       default:
-        "[&>*:first-child]:bg-primary [&>*:first-child]:text-white [&>*:first-child]:hover:bg-primary/90 [&>*:last-child]:bg-primary [&>*:last-child]:text-white [&>*:last-child]:hover:bg-primary/90",
+        '[&>*:first-child]:bg-primary [&>*:first-child]:text-white [&>*:first-child]:hover:bg-primary/90 [&>*:last-child]:bg-primary [&>*:last-child]:text-white [&>*:last-child]:hover:bg-primary/90',
       destructive:
-        "[&>*:first-child]:bg-destructive [&>*:first-child]:text-destructive-foreground [&>*:first-child]:hover:bg-destructive/90 [&>*:last-child]:bg-destructive [&>*:last-child]:text-destructive-foreground [&>*:last-child]:hover:bg-destructive/90",
+        '[&>*:first-child]:bg-destructive [&>*:first-child]:text-destructive-foreground [&>*:first-child]:hover:bg-destructive/90 [&>*:last-child]:bg-destructive [&>*:last-child]:text-destructive-foreground [&>*:last-child]:hover:bg-destructive/90',
       outline:
-        "[&>*:first-child]:border [&>*:first-child]:border-input [&>*:first-child]:bg-background [&>*:first-child]:hover:bg-accent [&>*:first-child]:hover:text-accent-foreground [&>*:last-child]:border [&>*:last-child]:border-input [&>*:last-child]:bg-background [&>*:last-child]:hover:bg-accent [&>*:last-child]:hover:text-accent-foreground",
+        '[&>*:first-child]:border [&>*:first-child]:border-input [&>*:first-child]:bg-background [&>*:first-child]:hover:bg-accent [&>*:first-child]:hover:text-accent-foreground [&>*:last-child]:border [&>*:last-child]:border-input [&>*:last-child]:bg-background [&>*:last-child]:hover:bg-accent [&>*:last-child]:hover:text-accent-foreground',
       secondary:
-        "[&>*:first-child]:bg-secondary [&>*:first-child]:text-secondary-foreground [&>*:first-child]:hover:bg-secondary/80 [&>*:last-child]:bg-secondary [&>*:last-child]:text-secondary-foreground [&>*:last-child]:hover:bg-secondary/80",
+        '[&>*:first-child]:bg-secondary [&>*:first-child]:text-secondary-foreground [&>*:first-child]:hover:bg-secondary/80 [&>*:last-child]:bg-secondary [&>*:last-child]:text-secondary-foreground [&>*:last-child]:hover:bg-secondary/80',
       ghost:
-        "[&>*:first-child]:hover:bg-accent [&>*:first-child]:hover:text-accent-foreground [&>*:last-child]:hover:bg-accent [&>*:last-child]:hover:text-accent-foreground",
+        '[&>*:first-child]:hover:bg-accent [&>*:first-child]:hover:text-accent-foreground [&>*:last-child]:hover:bg-accent [&>*:last-child]:hover:text-accent-foreground',
     },
     size: {
       default:
-        "[&>*:first-child]:h-9 [&>*:first-child]:px-4 [&>*:first-child]:py-2 [&>*:last-child]:h-9 [&>*:last-child]:w-9",
-      sm: "[&>*:first-child]:h-8 [&>*:first-child]:px-3 [&>*:first-child]:text-xs [&>*:last-child]:h-8 [&>*:last-child]:w-8 [&>*:last-child]:text-xs",
-      lg: "[&>*:first-child]:h-10 [&>*:first-child]:px-8 [&>*:last-child]:h-10 [&>*:last-child]:w-10",
+        '[&>*:first-child]:h-9 [&>*:first-child]:px-4 [&>*:first-child]:py-2 [&>*:last-child]:h-9 [&>*:last-child]:w-9',
+      sm: '[&>*:first-child]:h-8 [&>*:first-child]:px-3 [&>*:first-child]:text-xs [&>*:last-child]:h-8 [&>*:last-child]:w-8 [&>*:last-child]:text-xs',
+      lg: '[&>*:first-child]:h-10 [&>*:first-child]:px-8 [&>*:last-child]:h-10 [&>*:last-child]:w-10',
     },
   },
   defaultVariants: {
-    variant: "default",
-    size: "default",
+    variant: 'default',
+    size: 'default',
   },
 });
 
@@ -43,7 +44,7 @@ interface SplitButtonProps
   extends React.ButtonHTMLAttributes<HTMLDivElement>,
     VariantProps<typeof splitButtonVariants> {
   items: DropdownItem[];
-  placement?: "bottom-start" | "bottom-end" | "top-start" | "top-end";
+  placement?: 'bottom-start' | 'bottom-end' | 'top-start' | 'top-end';
   menuClassName?: string;
   itemClassName?: string;
   maxHeight?: number;
@@ -63,7 +64,7 @@ const SplitButton = React.forwardRef<HTMLDivElement, SplitButtonProps>(
       variant,
       size,
       items,
-      placement = "bottom-end",
+      placement = 'bottom-end',
       menuClassName,
       itemClassName,
       maxHeight = 250,
@@ -96,22 +97,18 @@ const SplitButton = React.forwardRef<HTMLDivElement, SplitButtonProps>(
         }
       };
 
-      document.addEventListener("mousedown", handleClickOutside);
-      return () => document.removeEventListener("mousedown", handleClickOutside);
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => { document.removeEventListener('mousedown', handleClickOutside); };
     }, []);
 
     return (
-      <div
-        ref={ref}
-        className={cn(splitButtonVariants({ variant, size }), className)}
-        {...props}
-      >
+      <div ref={ref} className={cn(splitButtonVariants({ variant, size }), className)} {...props}>
         {/* Main Button */}
         <button
           type="button"
           className={cn(
-            "inline-flex items-center justify-center whitespace-nowrap rounded-l-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
-            loading && "cursor-wait"
+            'inline-flex items-center justify-center whitespace-nowrap rounded-l-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
+            loading && 'cursor-wait'
           )}
           onClick={onMainClick}
           disabled={mainDisabled || loading}
@@ -147,8 +144,8 @@ const SplitButton = React.forwardRef<HTMLDivElement, SplitButtonProps>(
           ref={triggerRef}
           type="button"
           className={cn(
-            "inline-flex items-center justify-center whitespace-nowrap rounded-r-md border-l text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
-            variant === "outline" && "border-l-input"
+            'inline-flex items-center justify-center whitespace-nowrap rounded-r-md border-l text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
+            variant === 'outline' && 'border-l-input'
           )}
           onClick={() => !dropdownDisabled && setIsOpen(!isOpen)}
           disabled={dropdownDisabled || loading}
@@ -174,8 +171,8 @@ const SplitButton = React.forwardRef<HTMLDivElement, SplitButtonProps>(
           <div
             ref={menuRef}
             className={cn(
-              "absolute z-50 -bottom-5 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md",
-          
+              'absolute z-50 -bottom-5 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md',
+
               menuClassName
             )}
             style={{ maxHeight }}
@@ -183,12 +180,7 @@ const SplitButton = React.forwardRef<HTMLDivElement, SplitButtonProps>(
             <div className="overflow-y-auto">
               {items.map((item, index) => {
                 if (item.divider) {
-                  return (
-                    <div
-                      key={`divider-${index}`}
-                      className="my-1 h-px bg-muted"
-                    />
-                  );
+                  return <div key={`divider-${index}`} className="my-1 h-px bg-muted" />;
                 }
 
                 return (
@@ -196,11 +188,11 @@ const SplitButton = React.forwardRef<HTMLDivElement, SplitButtonProps>(
                     key={item.id}
                     type="button"
                     className={cn(
-                      "relative flex w-full cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors",
+                      'relative flex w-full cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors',
                       {
-                        "text-destructive": item.danger,
-                        "opacity-50": item.disabled,
-                        "hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground":
+                        'text-destructive': item.danger,
+                        'opacity-50': item.disabled,
+                        'hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground':
                           !item.disabled,
                       },
                       itemClassName
@@ -215,9 +207,7 @@ const SplitButton = React.forwardRef<HTMLDivElement, SplitButtonProps>(
                       }
                     }}
                   >
-                    {showIcons && item.icon && (
-                      <span className="mr-2">{item.icon}</span>
-                    )}
+                    {showIcons && item.icon && <span className="mr-2">{item.icon}</span>}
                     {item.label}
                   </button>
                 );
@@ -230,6 +220,6 @@ const SplitButton = React.forwardRef<HTMLDivElement, SplitButtonProps>(
   }
 );
 
-SplitButton.displayName = "SplitButton";
+SplitButton.displayName = 'SplitButton';
 
 export { SplitButton };

@@ -1,37 +1,35 @@
-import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "../../../utils/cn";
+import { cva, type VariantProps } from 'class-variance-authority';
+import * as React from 'react';
+
+import { cn } from '../../../utils/cn';
 
 const scrollToTopButtonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 shadow-lg hover:shadow-xl",
+  'inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 shadow-lg hover:shadow-xl',
   {
     variants: {
       variant: {
-        default: "bg-primary text-white hover:bg-primary/90",
-        destructive:
-          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline:
-          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
-        secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
+        default: 'bg-primary text-white hover:bg-primary/90',
+        destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
+        outline: 'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
+        secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
+        ghost: 'hover:bg-accent hover:text-accent-foreground',
+        link: 'text-primary underline-offset-4 hover:underline',
       },
       size: {
-        default: "h-14 w-14",
-        sm: "h-10 w-10",
-        lg: "h-16 w-16",
+        default: 'h-14 w-14',
+        sm: 'h-10 w-10',
+        lg: 'h-16 w-16',
       },
       position: {
-        "bottom-right": "fixed bottom-4 right-4",
-        "bottom-left": "fixed bottom-4 left-4",
-        "bottom-center": "fixed bottom-4 left-1/2 -translate-x-1/2",
+        'bottom-right': 'fixed bottom-4 right-4',
+        'bottom-left': 'fixed bottom-4 left-4',
+        'bottom-center': 'fixed bottom-4 left-1/2 -translate-x-1/2',
       },
     },
     defaultVariants: {
-      variant: "default",
-      size: "default",
-      position: "bottom-right",
+      variant: 'default',
+      size: 'default',
+      position: 'bottom-right',
     },
   }
 );
@@ -72,14 +70,14 @@ const ScrollToTopButton = React.forwardRef<HTMLButtonElement, ScrollToTopButtonP
         }
       };
 
-      window.addEventListener("scroll", checkScroll);
-      return () => window.removeEventListener("scroll", checkScroll);
+      window.addEventListener('scroll', checkScroll);
+      return () => { window.removeEventListener('scroll', checkScroll); };
     }, [showAfter, hideOnTop]);
 
     const scrollToTop = () => {
       window.scrollTo({
         top: 0,
-        behavior: smooth ? "smooth" : "auto",
+        behavior: smooth ? 'smooth' : 'auto',
       });
     };
 
@@ -93,7 +91,7 @@ const ScrollToTopButton = React.forwardRef<HTMLButtonElement, ScrollToTopButtonP
         type="button"
         className={cn(
           scrollToTopButtonVariants({ variant, size, position }),
-          animate && "animate-bounce-slow",
+          animate && 'animate-bounce-slow',
           className
         )}
         onClick={scrollToTop}
@@ -116,6 +114,6 @@ const ScrollToTopButton = React.forwardRef<HTMLButtonElement, ScrollToTopButtonP
   }
 );
 
-ScrollToTopButton.displayName = "ScrollToTopButton";
+ScrollToTopButton.displayName = 'ScrollToTopButton';
 
 export { ScrollToTopButton };

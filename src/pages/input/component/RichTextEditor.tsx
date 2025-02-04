@@ -1,31 +1,27 @@
-import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "../../../utils/cn";
-import { RichTextEditorProps } from "../utils/type";
+import { cva, type VariantProps } from 'class-variance-authority';
+import * as React from 'react';
 
-const richTextEditorVariants = cva(
-  "w-full rounded-lg border bg-background",
-  {
-    variants: {
-      variant: {
-        default: "",
-        bordered: "border-2",
-        ghost: "border-none bg-muted/50",
-      },
-      size: {
-        sm: "min-h-[100px]",
-        md: "min-h-[200px]",
-        lg: "min-h-[300px]",
-      },
+import { cn } from '../../../utils/cn';
+import { RichTextEditorProps } from '../utils/type';
+
+const richTextEditorVariants = cva('w-full rounded-lg border bg-background', {
+  variants: {
+    variant: {
+      default: '',
+      bordered: 'border-2',
+      ghost: 'border-none bg-muted/50',
     },
-    defaultVariants: {
-      variant: "default",
-      size: "md",
+    size: {
+      sm: 'min-h-[100px]',
+      md: 'min-h-[200px]',
+      lg: 'min-h-[300px]',
     },
-  }
-);
-
-
+  },
+  defaultVariants: {
+    variant: 'default',
+    size: 'md',
+  },
+});
 
 const RichTextEditor = React.forwardRef<HTMLDivElement, RichTextEditorProps>(
   (
@@ -34,14 +30,14 @@ const RichTextEditor = React.forwardRef<HTMLDivElement, RichTextEditorProps>(
       variant,
       size,
       value: controlledValue,
-      defaultValue = "",
+      defaultValue = '',
       onChange,
       onImageUpload,
-      placeholder = "Type your content here...",
+      placeholder = 'Type your content here...',
       readOnly = false,
       error = false,
       label,
-      toolbar = ["bold", "italic", "underline", "link", "image", "list", "heading"],
+      toolbar = ['bold', 'italic', 'underline', 'link', 'image', 'list', 'heading'],
       ...props
     },
     ref
@@ -50,29 +46,30 @@ const RichTextEditor = React.forwardRef<HTMLDivElement, RichTextEditorProps>(
     const editorRef = React.useRef<HTMLDivElement>(null);
     const currentValue = controlledValue ?? value;
 
-    const execCommand = (command: string, value:any = null) => {
+    const execCommand = (command: string, value: any = null) => {
       document.execCommand(command, false, value);
-      const newValue = editorRef.current?.innerHTML || "";
+      const newValue = editorRef.current?.innerHTML || '';
       setValue(newValue);
-      onChange?.({ target: { value: newValue } } as any); };
+      onChange?.({ target: { value: newValue } } as any);
+    };
 
     const handleKeyDown = (e: React.KeyboardEvent) => {
-      if (e.key === "b" && (e.ctrlKey || e.metaKey)) {
+      if (e.key === 'b' && (e.ctrlKey || e.metaKey)) {
         e.preventDefault();
-        execCommand("bold");
-      } else if (e.key === "i" && (e.ctrlKey || e.metaKey)) {
+        execCommand('bold');
+      } else if (e.key === 'i' && (e.ctrlKey || e.metaKey)) {
         e.preventDefault();
-        execCommand("italic");
-      } else if (e.key === "u" && (e.ctrlKey || e.metaKey)) {
+        execCommand('italic');
+      } else if (e.key === 'u' && (e.ctrlKey || e.metaKey)) {
         e.preventDefault();
-        execCommand("underline");
+        execCommand('underline');
       }
     };
 
     const handlePaste = (e: React.ClipboardEvent) => {
       e.preventDefault();
-      const text = e.clipboardData.getData("text/plain");
-      execCommand("insertText", text);
+      const text = e.clipboardData.getData('text/plain');
+      execCommand('insertText', text);
     };
 
     const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -81,68 +78,64 @@ const RichTextEditor = React.forwardRef<HTMLDivElement, RichTextEditorProps>(
 
       try {
         const url = await onImageUpload(file);
-        execCommand("insertImage", url);
+        execCommand('insertImage', url);
       } catch (error) {
-        console.error("Failed to upload image:", error);
+        console.error('Failed to upload image:', error);
       }
     };
 
     const handleLink = () => {
-      const url = window.prompt("Enter URL:");
+      const url = window.prompt('Enter URL:');
       if (url) {
-        execCommand("createLink", url);
+        execCommand('createLink', url);
       }
     };
 
     return (
       <div
         className={cn(
-          richTextEditorVariants({ variant, size } as{}),
-          error && "border-red-500",
+          richTextEditorVariants({ variant, size } as {}),
+          error && 'border-red-500',
           className
         )}
         {...props}
       >
-        {label&&<p>{label}</p>}
+        {label && <p>{label}</p>}
         {!readOnly && (
           <div className="flex flex-wrap items-center gap-2 border-b p-2">
-            {toolbar.includes("bold") && (
+            {toolbar.includes('bold') && (
               <button
                 type="button"
-                onClick={() => execCommand("bold")}
+                onClick={() => { execCommand('bold'); }}
                 className="p-1 hover:bg-accent rounded"
               >
                 B
               </button>
             )}
-            {toolbar.includes("italic") && (
+            {toolbar.includes('italic') && (
               <button
                 type="button"
-                onClick={() => execCommand("italic")}
+                onClick={() => { execCommand('italic'); }}
                 className="p-1 hover:bg-accent rounded italic"
               >
                 I
               </button>
             )}
-            {toolbar.includes("underline") && (
+            {toolbar.includes('underline') && (
               <button
                 type="button"
-                onClick={() => execCommand("underline")}
+                onClick={() => { execCommand('underline'); }}
                 className="p-1 hover:bg-accent rounded underline"
               >
                 U
               </button>
             )}
-            {toolbar.includes("link") && (
-              <button
-                type="button"
-                onClick={handleLink}
-                className="p-1 hover:bg-accent rounded"
-              >
+            {toolbar.includes('link') && (
+              <button type="button" onClick={handleLink} className="p-1 hover:bg-accent rounded">
                 🔗
               </button>
             )}
-            {toolbar.includes("image") && onImageUpload && (
+            {toolbar.includes('image') && onImageUpload && (
               <label className="cursor-pointer p-1 hover:bg-accent rounded">
                 📷
                 <input
@@ -153,18 +146,18 @@ const RichTextEditor = React.forwardRef<HTMLDivElement, RichTextEditorProps>(
                 />
               </label>
             )}
-            {toolbar.includes("list") && (
+            {toolbar.includes('list') && (
               <button
                 type="button"
-                onClick={() => execCommand("insertUnorderedList")}
+                onClick={() => { execCommand('insertUnorderedList'); }}
                 className="p-1 hover:bg-accent rounded"
               >
                 •
               </button>
             )}
-            {toolbar.includes("heading") && (
+            {toolbar.includes('heading') && (
               <select
-                onChange={(e) => execCommand("formatBlock", e.target.value)}
+                onChange={(e) => { execCommand('formatBlock', e.target.value); }}
                 className="p-1 bg-transparent hover:bg-accent rounded"
               >
                 <option value="p">Normal</option>
@@ -183,23 +176,22 @@ const RichTextEditor = React.forwardRef<HTMLDivElement, RichTextEditorProps>(
           onInput={(e) => {
             const newValue = e.currentTarget.innerHTML;
             setValue(newValue);
-            onChange?.({ target: { value: newValue } }as any); // Call onChange with the correct structure
+            onChange?.({ target: { value: newValue } } as any); // Call onChange with the correct structure
           }}
           onKeyDown={handleKeyDown}
           onPaste={handlePaste}
           className={cn(
-            "p-4 outline-none [&:empty]:before:content-[attr(data-placeholder)] [&:empty]:before:text-muted-foreground",
-            readOnly && "cursor-default"
+            'p-4 outline-none [&:empty]:before:content-[attr(data-placeholder)] [&:empty]:before:text-muted-foreground',
+            readOnly && 'cursor-default'
           )}
           data-placeholder={placeholder}
         />
-        {error&&<p className="text-red-500 -mt-2">{error}</p>}
-
+        {error && <p className="text-red-500 -mt-2">{error}</p>}
       </div>
     );
   }
 );
 
-RichTextEditor.displayName = "RichTextEditor";
+RichTextEditor.displayName = 'RichTextEditor';
 
 export { RichTextEditor, richTextEditorVariants };

@@ -1,43 +1,44 @@
-import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "../../../utils/cn";
+import { cva, type VariantProps } from 'class-variance-authority';
+import * as React from 'react';
+
+import { cn } from '../../../utils/cn';
 
 const inputMaskVariants = cva(
-  "w-full transition-colors outline-input-focus border-input-border disabled:opacity-50 disabled:cursor-not-allowed",
+  'w-full transition-colors outline-input-focus border-input-border disabled:opacity-50 disabled:cursor-not-allowed',
   {
     variants: {
       variant: {
-        default: "border rounded-md",
-        filled: "bg-muted border-b",
-        ghost: "bg-transparent border-b",
+        default: 'border rounded-md',
+        filled: 'bg-muted border-b',
+        ghost: 'bg-transparent border-b',
       },
       size: {
-        sm: "text-sm p-2",
-        md: "text-base p-3",
-        lg: "text-lg p-4",
+        sm: 'text-sm p-2',
+        md: 'text-base p-3',
+        lg: 'text-lg p-4',
       },
     },
     defaultVariants: {
-      variant: "default",
-      size: "md",
+      variant: 'default',
+      size: 'md',
     },
   }
 );
 
 type MaskType =
-  | "numeric"
-  | "decimal"
-  | "currency"
-  | "percentage"
-  | "email"
-  | "phone"
-  | "date"
-  | "time"
-  | "creditCard"
-  | "custom";
+  | 'numeric'
+  | 'decimal'
+  | 'currency'
+  | 'percentage'
+  | 'email'
+  | 'phone'
+  | 'date'
+  | 'time'
+  | 'creditCard'
+  | 'custom';
 
 interface InputMaskProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size">,
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'>,
     VariantProps<typeof inputMaskVariants> {
   maskType?: MaskType;
   mask?: string;
@@ -56,12 +57,12 @@ const InputMask = React.forwardRef<HTMLInputElement, InputMaskProps>(
       className,
       variant,
       size,
-      maskType = "custom",
+      maskType = 'custom',
       mask,
       prefix,
       suffix,
-      decimalSeparator = ".",
-      thousandSeparator = ",",
+      decimalSeparator = '.',
+      thousandSeparator = ',',
       precision = 2,
       error,
       hint,
@@ -72,7 +73,7 @@ const InputMask = React.forwardRef<HTMLInputElement, InputMaskProps>(
     },
     ref
   ) => {
-    const [displayValue, setDisplayValue] = React.useState("");
+    const [displayValue, setDisplayValue] = React.useState('');
     const [caretPosition, setCaretPosition] = React.useState(0);
     const inputRef = React.useRef<HTMLInputElement>(null);
 
@@ -82,26 +83,26 @@ const InputMask = React.forwardRef<HTMLInputElement, InputMaskProps>(
       if (mask) return mask;
 
       switch (maskType) {
-        case "numeric":
-          return "9".repeat(20);
-        case "decimal":
+        case 'numeric':
+          return '9'.repeat(20);
+        case 'decimal':
           return `9{0,}${decimalSeparator}9{${precision}}`;
-        case "currency":
-          return `${prefix || "$"}9{0,}${decimalSeparator}9{${precision}}`;
-        case "percentage":
+        case 'currency':
+          return `${prefix || '$'}9{0,}${decimalSeparator}9{${precision}}`;
+        case 'percentage':
           return `9{0,}${decimalSeparator}9{${precision}}%`;
-        case "email":
-          return "*{1,}@*{1,}.*{2,}";
-        case "phone":
-          return "(999) 999-9999";
-        case "date":
-          return "99/99/9999";
-        case "time":
-          return "99:99";
-        case "creditCard":
-          return "9999 9999 9999 9999";
+        case 'email':
+          return '*{1,}@*{1,}.*{2,}';
+        case 'phone':
+          return '(999) 999-9999';
+        case 'date':
+          return '99/99/9999';
+        case 'time':
+          return '99:99';
+        case 'creditCard':
+          return '9999 9999 9999 9999';
         default:
-          return mask || "";
+          return mask || '';
       }
     };
 
@@ -109,15 +110,15 @@ const InputMask = React.forwardRef<HTMLInputElement, InputMaskProps>(
       let formatted = input;
 
       switch (maskType) {
-        case "numeric":
-          formatted = formatted.replace(/\D/g, "");
+        case 'numeric':
+          formatted = formatted.replace(/\D/g, '');
           break;
 
-        case "decimal":
-        case "currency":
-        case "percentage":
+        case 'decimal':
+        case 'currency':
+        case 'percentage':
           formatted = formatted
-            .replace(new RegExp(`[^0-9${decimalSeparator}]`, "g"), "")
+            .replace(new RegExp(`[^0-9${decimalSeparator}]`, 'g'), '')
             .replace(
               new RegExp(`${decimalSeparator}(\\d{${precision}}).*`),
               `${decimalSeparator}$1`
@@ -125,58 +126,47 @@ const InputMask = React.forwardRef<HTMLInputElement, InputMaskProps>(
 
           if (thousandSeparator) {
             const parts = formatted.split(decimalSeparator);
-            parts[0] = parts[0].replace(
-              /\B(?=(\d{3})+(?!\d))/g,
-              thousandSeparator
-            );
+            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, thousandSeparator);
             formatted = parts.join(decimalSeparator);
           }
 
           if (prefix) formatted = prefix + formatted;
           if (suffix) formatted = formatted + suffix;
-          if (maskType === "percentage") formatted = formatted + "%";
+          if (maskType === 'percentage') formatted = formatted + '%';
           break;
 
-        case "phone":
-          formatted = formatted
-            .replace(/\D/g, "")
-            .replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3");
+        case 'phone':
+          formatted = formatted.replace(/\D/g, '').replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
           break;
 
-        case "date":
-          formatted = formatted
-            .replace(/\D/g, "")
-            .replace(/(\d{2})(\d{2})(\d{4})/, "$1/$2/$3");
+        case 'date':
+          formatted = formatted.replace(/\D/g, '').replace(/(\d{2})(\d{2})(\d{4})/, '$1/$2/$3');
           break;
 
-        case "time":
-          formatted = formatted
-            .replace(/\D/g, "")
-            .replace(/(\d{2})(\d{2})/, "$1:$2");
+        case 'time':
+          formatted = formatted.replace(/\D/g, '').replace(/(\d{2})(\d{2})/, '$1:$2');
           break;
 
-        case "creditCard":
-          formatted = formatted
-            .replace(/\D/g, "")
-            .replace(/(\d{4})(?=\d)/g, "$1 ");
+        case 'creditCard':
+          formatted = formatted.replace(/\D/g, '').replace(/(\d{4})(?=\d)/g, '$1 ');
           break;
 
-        case "custom":
+        case 'custom':
           if (mask) {
             let maskIndex = 0;
-            formatted = "";
+            formatted = '';
             for (let i = 0; i < mask.length && maskIndex < input.length; i++) {
-              if (mask[i] === "9") {
+              if (mask[i] === '9') {
                 if (/\d/.test(input[maskIndex])) {
                   formatted += input[maskIndex];
                   maskIndex++;
                 }
-              } else if (mask[i] === "a") {
+              } else if (mask[i] === 'a') {
                 if (/[a-zA-Z]/.test(input[maskIndex])) {
                   formatted += input[maskIndex];
                   maskIndex++;
                 }
-              } else if (mask[i] === "*") {
+              } else if (mask[i] === '*') {
                 formatted += input[maskIndex];
                 maskIndex++;
               } else {
@@ -211,12 +201,12 @@ const InputMask = React.forwardRef<HTMLInputElement, InputMaskProps>(
       let finalValue = displayValue;
 
       // Additional formatting on blur if needed
-      if (maskType === "decimal" || maskType === "currency") {
+      if (maskType === 'decimal' || maskType === 'currency') {
         const parts = finalValue.split(decimalSeparator);
         if (parts.length === 1) {
-          finalValue += `${decimalSeparator}${"0".repeat(precision)}`;
+          finalValue += `${decimalSeparator}${'0'.repeat(precision)}`;
         } else if (parts[1].length < precision) {
-          finalValue += "0".repeat(precision - parts[1].length);
+          finalValue += '0'.repeat(precision - parts[1].length);
         }
       }
 
@@ -253,7 +243,7 @@ const InputMask = React.forwardRef<HTMLInputElement, InputMaskProps>(
           type="text"
           className={cn(
             inputMaskVariants({ variant, size }),
-            error && "border-destructive focus:ring-destructive",
+            error && 'border-destructive focus:ring-destructive',
             className
           )}
           value={displayValue}
@@ -262,12 +252,7 @@ const InputMask = React.forwardRef<HTMLInputElement, InputMaskProps>(
           {...props}
         />
         {(error || hint) && (
-          <div
-            className={cn(
-              "mt-1 text-sm",
-              error ? "text-destructive" : "text-muted-foreground"
-            )}
-          >
+          <div className={cn('mt-1 text-sm', error ? 'text-destructive' : 'text-muted-foreground')}>
             {error || hint}
           </div>
         )}
@@ -276,6 +261,6 @@ const InputMask = React.forwardRef<HTMLInputElement, InputMaskProps>(
   }
 );
 
-InputMask.displayName = "InputMask";
+InputMask.displayName = 'InputMask';
 
 export { InputMask, type MaskType };

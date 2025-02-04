@@ -1,38 +1,29 @@
-import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "../../../utils/cn";
-import {
-  DragEndEvent,
-  DragStartEvent,
+import { DragEndEvent, DragStartEvent } from '@dnd-kit/core';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import { cva, type VariantProps } from 'class-variance-authority';
+import * as React from 'react';
 
-} from "@dnd-kit/core";
-import {
+import { cn } from '../../../utils/cn';
 
-  useSortable,
-} from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-
-const sortableListInputVariants = cva(
-  "w-full",
-  {
-    variants: {
-      variant: {
-        default: "border rounded-lg",
-        filled: "bg-muted border-transparent",
-        ghost: "border-transparent",
-      },
-      size: {
-        sm: "p-2 gap-2",
-        md: "p-3 gap-3",
-        lg: "p-4 gap-4",
-      },
+const sortableListInputVariants = cva('w-full', {
+  variants: {
+    variant: {
+      default: 'border rounded-lg',
+      filled: 'bg-muted border-transparent',
+      ghost: 'border-transparent',
     },
-    defaultVariants: {
-      variant: "default",
-      size: "md",
+    size: {
+      sm: 'p-2 gap-2',
+      md: 'p-3 gap-3',
+      lg: 'p-4 gap-4',
     },
-  }
-);
+  },
+  defaultVariants: {
+    variant: 'default',
+    size: 'md',
+  },
+});
 
 interface SortableItem {
   id: string | number;
@@ -40,7 +31,7 @@ interface SortableItem {
   data?: any;
 }
 
-interface SortableListInputProps{
+interface SortableListInputProps {
   items: Array<{ id: string; content: string }>;
   value?: string[];
   onChange?: (event: { target: { value: string[] } }) => void;
@@ -73,14 +64,9 @@ const SortableItemComponent = ({
   renderItem,
   onRemove,
 }: SortableItemProps) => {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id });
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id,
+  });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -92,9 +78,9 @@ const SortableItemComponent = ({
       ref={setNodeRef}
       style={style}
       className={cn(
-        "relative flex items-center gap-2 p-2 bg-background rounded-md",
-        isDragging && "shadow-lg",
-        disabled && "opacity-50"
+        'relative flex items-center gap-2 p-2 bg-background rounded-md',
+        isDragging && 'shadow-lg',
+        disabled && 'opacity-50'
       )}
     >
       {dragHandle ? (
@@ -129,15 +115,13 @@ const SortableItemComponent = ({
       )}
 
       {dragHandle && (
-        <div className="flex-1">
-          {renderItem ? renderItem({ id, content, data }) : content}
-        </div>
+        <div className="flex-1">{renderItem ? renderItem({ id, content, data }) : content}</div>
       )}
 
       {onRemove && (
         <button
           type="button"
-          onClick={() => onRemove({ id, content, data })}
+          onClick={() => { onRemove({ id, content, data }); }}
           className="p-1 text-muted-foreground hover:text-destructive disabled:opacity-50 disabled:cursor-not-allowed"
           disabled={disabled}
         >
@@ -155,14 +139,14 @@ const SortableItemComponent = ({
   );
 };
 
- const SortableListInput = React.forwardRef<HTMLDivElement, SortableListInputProps>(
+const SortableListInput = React.forwardRef<HTMLDivElement, SortableListInputProps>(
   ({ className, items, value = [], onChange, label, error, ...props }, ref) => {
     const [sortedItems, setSortedItems] = React.useState(items);
 
     React.useEffect(() => {
       if (Array.isArray(value) && value.length > 0) {
         const newSortedItems = value
-          .map(id => items.find(item => item.id === id))
+          .map((id) => items.find((item) => item.id === id))
           .filter((item): item is { id: string; content: string } => item !== undefined);
         setSortedItems(newSortedItems);
       } else {
@@ -182,40 +166,28 @@ const SortableItemComponent = ({
       if (onChange) {
         onChange({
           target: {
-            value: reorderedItems.map(item => item.id)
-          }
+            value: reorderedItems.map((item) => item.id),
+          },
         });
       }
     };
 
     return (
       <div ref={ref} className="space-y-2">
-        {label && (
-          <label className="block text-sm font-medium text-gray-700">
-            {label}
-          </label>
-        )}
-        <div className={cn("border rounded-md p-2", className)} {...props}>
+        {label && <label className="block text-sm font-medium text-gray-700">{label}</label>}
+        <div className={cn('border rounded-md p-2', className)} {...props}>
           {sortedItems.map((item, index) => (
-            <div
-              key={item.id}
-              className="p-2 mb-2 bg-gray-50 rounded cursor-move"
-              draggable
-            >
+            <div key={item.id} className="p-2 mb-2 bg-gray-50 rounded cursor-move" draggable>
               {item.content}
             </div>
           ))}
         </div>
-        {error && (
-          <p className="mt-1 text-sm text-red-500">
-            {error}
-          </p>
-        )}
+        {error && <p className="mt-1 text-sm text-red-500">{error}</p>}
       </div>
     );
   }
 );
 
-SortableListInput.displayName = "SortableListInput";
+SortableListInput.displayName = 'SortableListInput';
 
 export { SortableListInput, type SortableItem };

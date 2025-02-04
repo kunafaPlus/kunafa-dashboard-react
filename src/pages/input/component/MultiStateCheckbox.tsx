@@ -1,33 +1,34 @@
-import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "../../../utils/cn";
+import { cva, type VariantProps } from 'class-variance-authority';
+import * as React from 'react';
+
+import { cn } from '../../../utils/cn';
 
 const multiStateCheckboxVariants = cva(
-  "inline-flex items-center justify-center rounded transition-colors outline-input-focus border-input-border focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed",
+  'inline-flex items-center justify-center rounded transition-colors outline-input-focus border-input-border focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed',
   {
     variants: {
       variant: {
-        default: "bg-background border",
-        filled: "bg-muted",
-        ghost: "bg-transparent hover:bg-accent",
+        default: 'bg-background border',
+        filled: 'bg-muted',
+        ghost: 'bg-transparent hover:bg-accent',
       },
       size: {
-        sm: "w-4 h-4",
-        md: "w-5 h-5",
-        lg: "w-6 h-6",
+        sm: 'w-4 h-4',
+        md: 'w-5 h-5',
+        lg: 'w-6 h-6',
       },
     },
     defaultVariants: {
-      variant: "default",
-      size: "md",
+      variant: 'default',
+      size: 'md',
     },
   }
 );
 
-type CheckState = boolean | "indeterminate";
+type CheckState = boolean | 'indeterminate';
 
 interface MultiStateCheckboxProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size" | "value" | "onChange">,
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'value' | 'onChange'>,
     VariantProps<typeof multiStateCheckboxVariants> {
   value?: CheckState;
   onChange?: (value: CheckState) => void;
@@ -53,7 +54,7 @@ const MultiStateCheckbox = React.forwardRef<HTMLInputElement, MultiStateCheckbox
       description,
       error,
       disabled,
-      states = ["معطل", "مفعل", "قيد المراجعة"], // القيم الافتراضية للحالات
+      states = ['معطل', 'مفعل', 'قيد المراجعة'], // القيم الافتراضية للحالات
       ...props
     },
     ref
@@ -75,7 +76,7 @@ const MultiStateCheckbox = React.forwardRef<HTMLInputElement, MultiStateCheckbox
       if (internalValue === false) {
         nextValue = true;
       } else if (internalValue === true) {
-        nextValue = "indeterminate";
+        nextValue = 'indeterminate';
       } else {
         nextValue = false;
       }
@@ -88,7 +89,7 @@ const MultiStateCheckbox = React.forwardRef<HTMLInputElement, MultiStateCheckbox
         return icon;
       }
 
-      if (indeterminateIcon && internalValue === "indeterminate") {
+      if (indeterminateIcon && internalValue === 'indeterminate') {
         return indeterminateIcon;
       }
 
@@ -109,7 +110,7 @@ const MultiStateCheckbox = React.forwardRef<HTMLInputElement, MultiStateCheckbox
         );
       }
 
-      if (internalValue === "indeterminate") {
+      if (internalValue === 'indeterminate') {
         return (
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -144,17 +145,17 @@ const MultiStateCheckbox = React.forwardRef<HTMLInputElement, MultiStateCheckbox
           <div
             className={cn(
               multiStateCheckboxVariants({ variant, size }),
-              internalValue === true && "bg-primary text-white border-primary",
-              internalValue === "indeterminate" && "bg-primary/50 text-white border-primary/50",
-              error && "border-destructive",
+              internalValue === true && 'bg-primary text-white border-primary',
+              internalValue === 'indeterminate' && 'bg-primary/50 text-white border-primary/50',
+              error && 'border-destructive',
               className
             )}
             onClick={handleClick}
             role="checkbox"
-            aria-checked={internalValue === "indeterminate" ? "mixed" : internalValue}
+            aria-checked={internalValue === 'indeterminate' ? 'mixed' : internalValue}
             tabIndex={disabled ? -1 : 0}
             onKeyDown={(e) => {
-              if (e.key === " " || e.key === "Enter") {
+              if (e.key === ' ' || e.key === 'Enter') {
                 e.preventDefault();
                 handleClick();
               }
@@ -169,20 +170,16 @@ const MultiStateCheckbox = React.forwardRef<HTMLInputElement, MultiStateCheckbox
             {label && (
               <label
                 className={cn(
-                  "text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
-                  disabled && "cursor-not-allowed opacity-70"
+                  'text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70',
+                  disabled && 'cursor-not-allowed opacity-70'
                 )}
                 onClick={disabled ? undefined : handleClick}
               >
                 {label}
               </label>
             )}
-            {description && (
-              <p className="text-sm text-muted-foreground">{description}</p>
-            )}
-            {error && (
-              <p className="text-sm text-red-500 mt-1">{error}</p>
-            )}
+            {description && <p className="text-sm text-muted-foreground">{description}</p>}
+            {error && <p className="text-sm text-red-500 mt-1">{error}</p>}
           </div>
         )}
       </div>
@@ -190,6 +187,6 @@ const MultiStateCheckbox = React.forwardRef<HTMLInputElement, MultiStateCheckbox
   }
 );
 
-MultiStateCheckbox.displayName = "MultiStateCheckbox";
+MultiStateCheckbox.displayName = 'MultiStateCheckbox';
 
 export { MultiStateCheckbox, type CheckState };
