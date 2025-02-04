@@ -1,32 +1,31 @@
-import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "../../../utils/cn";
+import { cva, type VariantProps } from 'class-variance-authority';
+import * as React from 'react';
+
+import { cn } from '../../../utils/cn';
 
 const downloadButtonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
+  'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50',
   {
     variants: {
       variant: {
-        default: "bg-primary text-white hover:bg-primary/90",
-        destructive:
-          "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
+        default: 'bg-primary text-white hover:bg-primary/90',
+        destructive: 'bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90',
         outline:
-          "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
-        secondary:
-          "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
+          'border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground',
+        secondary: 'bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80',
+        ghost: 'hover:bg-accent hover:text-accent-foreground',
+        link: 'text-primary underline-offset-4 hover:underline',
       },
       size: {
-        default: "h-9 px-4 py-2",
-        sm: "h-8 rounded-md px-3 text-xs",
-        lg: "h-10 rounded-md px-8",
-        icon: "h-9 w-9",
+        default: 'h-9 px-4 py-2',
+        sm: 'h-8 rounded-md px-3 text-xs',
+        lg: 'h-10 rounded-md px-8',
+        icon: 'h-9 w-9',
       },
     },
     defaultVariants: {
-      variant: "default",
-      size: "default",
+      variant: 'default',
+      size: 'default',
     },
   }
 );
@@ -70,11 +69,11 @@ const DownloadButton = React.forwardRef<HTMLButtonElement, DownloadButtonProps>(
     const [fileSize, setFileSize] = React.useState<number | null>(null);
 
     const formatBytes = (bytes: number) => {
-      if (bytes === 0) return "0 Bytes";
+      if (bytes === 0) return '0 Bytes';
       const k = 1024;
-      const sizes = ["Bytes", "KB", "MB", "GB", "TB"];
+      const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
       const i = Math.floor(Math.log(bytes) / Math.log(k));
-      return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
     };
 
     const download = async () => {
@@ -84,14 +83,14 @@ const DownloadButton = React.forwardRef<HTMLButtonElement, DownloadButtonProps>(
         onDownloadStart?.();
 
         const response = await fetch(url);
-        if (!response.ok) throw new Error("Download failed");
+        if (!response.ok) throw new Error('Download failed');
 
-        const contentLength = response.headers.get("content-length");
+        const contentLength = response.headers.get('content-length');
         const total = contentLength ? parseInt(contentLength, 10) : 0;
         setFileSize(total);
 
         const reader = response.body?.getReader();
-        if (!reader) throw new Error("Failed to get reader");
+        if (!reader) throw new Error('Failed to get reader');
 
         let receivedLength = 0;
         const chunks: Uint8Array[] = [];
@@ -110,9 +109,9 @@ const DownloadButton = React.forwardRef<HTMLButtonElement, DownloadButtonProps>(
 
         const blob = new Blob(chunks);
         const downloadUrl = URL.createObjectURL(blob);
-        const a = document.createElement("a");
+        const a = document.createElement('a');
         a.href = downloadUrl;
-        a.download = filename || url.split("/").pop() || "download";
+        a.download = filename || url.split('/').pop() || 'download';
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
@@ -132,11 +131,7 @@ const DownloadButton = React.forwardRef<HTMLButtonElement, DownloadButtonProps>(
         <button
           ref={ref}
           type="button"
-          className={cn(
-            downloadButtonVariants({ variant, size }),
-            "gap-2",
-            className
-          )}
+          className={cn(downloadButtonVariants({ variant, size }), 'gap-2', className)}
           onClick={download}
           disabled={downloading}
           {...props}
@@ -176,8 +171,7 @@ const DownloadButton = React.forwardRef<HTMLButtonElement, DownloadButtonProps>(
               )}
             </span>
           )}
-          {children ||
-            (downloading ? `Downloading... ${progress.toFixed(0)}%` : "Download")}
+          {children || (downloading ? `Downloading... ${progress.toFixed(0)}%` : 'Download')}
         </button>
 
         {showProgress && downloading && (
@@ -189,9 +183,7 @@ const DownloadButton = React.forwardRef<HTMLButtonElement, DownloadButtonProps>(
               />
             </div>
             {showSize && fileSize && (
-              <span className="text-xs text-muted-foreground">
-                {formatBytes(fileSize)}
-              </span>
+              <span className="text-xs text-muted-foreground">{formatBytes(fileSize)}</span>
             )}
           </div>
         )}
@@ -200,6 +192,6 @@ const DownloadButton = React.forwardRef<HTMLButtonElement, DownloadButtonProps>(
   }
 );
 
-DownloadButton.displayName = "DownloadButton";
+DownloadButton.displayName = 'DownloadButton';
 
 export { DownloadButton };

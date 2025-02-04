@@ -1,29 +1,28 @@
-import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "../../../utils/cn";
-import zxcvbn from "zxcvbn";
+import { cva, type VariantProps } from 'class-variance-authority';
+import * as React from 'react';
+import zxcvbn from 'zxcvbn';
 
-const passwordInputVariants = cva(
-  "w-full",
-  {
-    variants: {
-      variant: {
-        default: "border rounded-lg",
-        filled: "bg-muted border-transparent",
-        ghost: "border-transparent",
-      },
-      size: {
-        sm: "text-sm py-1 px-2",
-        md: "text-base py-2 px-3",
-        lg: "text-lg py-3 px-4",
-      },
+import { cn } from '../../../utils/cn';
+
+
+const passwordInputVariants = cva('w-full', {
+  variants: {
+    variant: {
+      default: 'border rounded-lg',
+      filled: 'bg-muted border-transparent',
+      ghost: 'border-transparent',
     },
-    defaultVariants: {
-      variant: "default",
-      size: "md",
+    size: {
+      sm: 'text-sm py-1 px-2',
+      md: 'text-base py-2 px-3',
+      lg: 'text-lg py-3 px-4',
     },
-  }
-);
+  },
+  defaultVariants: {
+    variant: 'default',
+    size: 'md',
+  },
+});
 
 interface PasswordStrength {
   score: number;
@@ -34,7 +33,7 @@ interface PasswordStrength {
 }
 
 interface PasswordInputProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size">,
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'>,
     VariantProps<typeof passwordInputVariants> {
   error?: string;
   hint?: string;
@@ -56,12 +55,12 @@ const generatePassword = (options: {
   upper: boolean;
   lower: boolean;
 }): string => {
-  const numbers = "0123456789";
-  const special = "!@#$%^&*()_+-=[]{}|;:,.<>?";
-  const upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  const lower = "abcdefghijklmnopqrstuvwxyz";
+  const numbers = '0123456789';
+  const special = '!@#$%^&*()_+-=[]{}|;:,.<>?';
+  const upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  const lower = 'abcdefghijklmnopqrstuvwxyz';
 
-  let chars = "";
+  let chars = '';
   if (options.numbers) chars += numbers;
   if (options.special) chars += special;
   if (options.upper) chars += upper;
@@ -69,15 +68,17 @@ const generatePassword = (options: {
 
   if (!chars) chars = lower + upper + numbers;
 
-  let password = "";
+  let password = '';
   for (let i = 0; i < options.length; i++) {
     password += chars.charAt(Math.floor(Math.random() * chars.length));
   }
 
   // Ensure at least one character from each required set
   const requiredChars = [];
-  if (options.numbers) requiredChars.push(numbers.charAt(Math.floor(Math.random() * numbers.length)));
-  if (options.special) requiredChars.push(special.charAt(Math.floor(Math.random() * special.length)));
+  if (options.numbers)
+    requiredChars.push(numbers.charAt(Math.floor(Math.random() * numbers.length)));
+  if (options.special)
+    requiredChars.push(special.charAt(Math.floor(Math.random() * special.length)));
   if (options.upper) requiredChars.push(upper.charAt(Math.floor(Math.random() * upper.length)));
   if (options.lower) requiredChars.push(lower.charAt(Math.floor(Math.random() * lower.length)));
 
@@ -116,7 +117,7 @@ const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputProps>(
     const [showPassword, setShowPassword] = React.useState(false);
     const [strength, setStrength] = React.useState<PasswordStrength>({
       score: 0,
-      feedback: { warning: "", suggestions: [] },
+      feedback: { warning: '', suggestions: [] },
     });
 
     const validatePassword = (password: string) => {
@@ -138,7 +139,7 @@ const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputProps>(
         score: result.score,
         feedback: result.feedback,
       };
-      
+
       setStrength(newStrength);
       onStrengthChange?.(newStrength);
       onChange?.(e);
@@ -163,17 +164,17 @@ const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputProps>(
     const getStrengthColor = (score: number) => {
       switch (score) {
         case 0:
-          return "bg-destructive";
+          return 'bg-destructive';
         case 1:
-          return "bg-destructive/75";
+          return 'bg-destructive/75';
         case 2:
-          return "bg-yellow-500";
+          return 'bg-yellow-500';
         case 3:
-          return "bg-green-500/75";
+          return 'bg-green-500/75';
         case 4:
-          return "bg-green-500";
+          return 'bg-green-500';
         default:
-          return "bg-muted";
+          return 'bg-muted';
       }
     };
 
@@ -182,11 +183,11 @@ const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputProps>(
         <div className="relative">
           <input
             ref={ref}
-            type={showPassword ? "text" : "password"}
+            type={showPassword ? 'text' : 'password'}
             className={cn(
               passwordInputVariants({ variant, size }),
-              "pr-20 bg-transparent transition-colors focus:outline-none focus:ring-2 focus:ring-primary disabled:opacity-50 disabled:cursor-not-allowed",
-              error && "border-destructive focus:ring-destructive",
+              'pr-20 bg-transparent transition-colors focus:outline-none focus:ring-2 focus:ring-primary disabled:opacity-50 disabled:cursor-not-allowed',
+              error && 'border-destructive focus:ring-destructive',
               className
             )}
             onChange={handleChange}
@@ -221,7 +222,7 @@ const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputProps>(
             {showToggle && (
               <button
                 type="button"
-                onClick={() => setShowPassword(!showPassword)}
+                onClick={() => { setShowPassword(!showPassword); }}
                 className="p-1 text-muted-foreground hover:text-foreground"
                 disabled={disabled}
               >
@@ -266,10 +267,8 @@ const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputProps>(
                 <div
                   key={index}
                   className={cn(
-                    "h-1 flex-1 rounded-full transition-colors",
-                    index <= strength.score
-                      ? getStrengthColor(strength.score)
-                      : "bg-muted"
+                    'h-1 flex-1 rounded-full transition-colors',
+                    index <= strength.score ? getStrengthColor(strength.score) : 'bg-muted'
                   )}
                 />
               ))}
@@ -296,9 +295,7 @@ const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputProps>(
             {minLength > 0 && (
               <span className="block">- Be at least {minLength} characters long</span>
             )}
-            {requireNumbers && (
-              <span className="block">- Contain at least one number</span>
-            )}
+            {requireNumbers && <span className="block">- Contain at least one number</span>}
             {requireSpecialChars && (
               <span className="block">- Contain at least one special character</span>
             )}
@@ -312,12 +309,7 @@ const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputProps>(
         )}
 
         {(error || hint) && (
-          <div
-            className={cn(
-              "text-sm",
-              error ? "text-destructive" : "text-muted-foreground"
-            )}
-          >
+          <div className={cn('text-sm', error ? 'text-destructive' : 'text-muted-foreground')}>
             {error || hint}
           </div>
         )}
@@ -326,6 +318,6 @@ const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputProps>(
   }
 );
 
-PasswordInput.displayName = "PasswordInput";
+PasswordInput.displayName = 'PasswordInput';
 
 export { PasswordInput };

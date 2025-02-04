@@ -1,48 +1,45 @@
-import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "../../../utils/cn";
+import { cva, type VariantProps } from 'class-variance-authority';
+import * as React from 'react';
+
+import { cn } from '../../../utils/cn';
 
 const biometricButtonVariants = cva(
-  "group relative inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
+  'group relative inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50',
   {
     variants: {
       variant: {
-        default: "bg-primary text-white hover:bg-primary/90",
-        destructive:
-          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline:
-          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
-        secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
+        default: 'bg-primary text-white hover:bg-primary/90',
+        destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
+        outline: 'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
+        secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
+        ghost: 'hover:bg-accent hover:text-accent-foreground',
+        link: 'text-primary underline-offset-4 hover:underline',
       },
       size: {
-        default: "h-9 px-4 py-2",
-        sm: "h-8 rounded-md px-3 text-xs",
-        lg: "h-10 rounded-md px-8",
-        icon: "h-9 w-9",
+        default: 'h-9 px-4 py-2',
+        sm: 'h-8 rounded-md px-3 text-xs',
+        lg: 'h-10 rounded-md px-8',
+        icon: 'h-9 w-9',
       },
       state: {
-        idle: "",
+        idle: '',
         scanning:
-          "before:absolute before:inset-0 before:rounded-[inherit] before:border-4 before:border-current before:opacity-20 before:animate-pulse",
+          'before:absolute before:inset-0 before:rounded-[inherit] before:border-4 before:border-current before:opacity-20 before:animate-pulse',
         processing:
-          "after:absolute after:inset-[3px] after:rounded-full after:border-2 after:border-current after:border-r-transparent after:animate-spin",
-        success: "bg-green-500 text-white hover:bg-green-600",
-        error: "bg-red-500 text-white hover:bg-red-600",
+          'after:absolute after:inset-[3px] after:rounded-full after:border-2 after:border-current after:border-r-transparent after:animate-spin',
+        success: 'bg-green-500 text-white hover:bg-green-600',
+        error: 'bg-red-500 text-white hover:bg-red-600',
       },
     },
     defaultVariants: {
-      variant: "default",
-      size: "default",
-      state: "idle",
+      variant: 'default',
+      size: 'default',
+      state: 'idle',
     },
   }
 );
 
-interface BiometricButtonProps
-   {
+interface BiometricButtonProps {
   onAuthenticate?: () => Promise<boolean>;
   onSuccess?: () => void;
   onError?: (error: Error) => void;
@@ -55,13 +52,12 @@ interface BiometricButtonProps
   successIcon?: React.ReactNode;
   errorIcon?: React.ReactNode;
   className?: string;
-  variant?: VariantProps<typeof biometricButtonVariants>["variant"];
-  size?: VariantProps<typeof biometricButtonVariants>["size"];
-  state?: VariantProps<typeof biometricButtonVariants>["state"];
+  variant?: VariantProps<typeof biometricButtonVariants>['variant'];
+  size?: VariantProps<typeof biometricButtonVariants>['size'];
+  state?: VariantProps<typeof biometricButtonVariants>['state'];
   children?: React.ReactNode;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
-
 
 const BiometricButton = React.forwardRef<HTMLButtonElement, BiometricButtonProps>(
   (
@@ -88,16 +84,16 @@ const BiometricButton = React.forwardRef<HTMLButtonElement, BiometricButtonProps
     ref
   ) => {
     const [currentState, setCurrentState] = React.useState<
-      "idle" | "scanning" | "processing" | "success" | "error"
-    >("idle");
+      'idle' | 'scanning' | 'processing' | 'success' | 'error'
+    >('idle');
     const timeoutRef = React.useRef<number>();
 
     const authenticate = async () => {
       try {
-        setCurrentState("scanning");
+        setCurrentState('scanning');
         timeoutRef.current = setTimeout(() => {
-          setCurrentState("error");
-          onError?.(new Error("Authentication timeout"));
+          setCurrentState('error');
+          onError?.(new Error('Authentication timeout'));
         }, timeout);
 
         const result = await onAuthenticate?.();
@@ -107,14 +103,14 @@ const BiometricButton = React.forwardRef<HTMLButtonElement, BiometricButtonProps
         }
 
         if (result) {
-          setCurrentState("success");
+          setCurrentState('success');
           onSuccess?.();
         } else {
-          setCurrentState("error");
-          onError?.(new Error("Authentication failed"));
+          setCurrentState('error');
+          onError?.(new Error('Authentication failed'));
         }
       } catch (error) {
-        setCurrentState("error");
+        setCurrentState('error');
         onError?.(error as Error);
       }
     };
@@ -132,7 +128,7 @@ const BiometricButton = React.forwardRef<HTMLButtonElement, BiometricButtonProps
     }, [authenticateOnMount]);
 
     const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
-      if (authenticateOnClick && currentState === "idle") {
+      if (authenticateOnClick && currentState === 'idle') {
         await authenticate();
       }
       onClick?.(e);
@@ -140,7 +136,7 @@ const BiometricButton = React.forwardRef<HTMLButtonElement, BiometricButtonProps
 
     const getIcon = () => {
       switch (currentState) {
-        case "scanning":
+        case 'scanning':
           return (
             scanningIcon || (
               <svg
@@ -159,7 +155,7 @@ const BiometricButton = React.forwardRef<HTMLButtonElement, BiometricButtonProps
               </svg>
             )
           );
-        case "processing":
+        case 'processing':
           return (
             processingIcon || (
               <svg
@@ -178,7 +174,7 @@ const BiometricButton = React.forwardRef<HTMLButtonElement, BiometricButtonProps
               </svg>
             )
           );
-        case "success":
+        case 'success':
           return (
             successIcon || (
               <svg
@@ -197,7 +193,7 @@ const BiometricButton = React.forwardRef<HTMLButtonElement, BiometricButtonProps
               </svg>
             )
           );
-        case "error":
+        case 'error':
           return (
             errorIcon || (
               <svg
@@ -242,10 +238,7 @@ const BiometricButton = React.forwardRef<HTMLButtonElement, BiometricButtonProps
       <button
         ref={ref}
         type="button"
-        className={cn(
-          biometricButtonVariants({ variant, size, state: currentState }),
-          className
-        )}
+        className={cn(biometricButtonVariants({ variant, size, state: currentState }), className)}
         onClick={handleClick}
         {...props}
       >
@@ -256,6 +249,6 @@ const BiometricButton = React.forwardRef<HTMLButtonElement, BiometricButtonProps
   }
 );
 
-BiometricButton.displayName = "BiometricButton";
+BiometricButton.displayName = 'BiometricButton';
 
 export { BiometricButton };

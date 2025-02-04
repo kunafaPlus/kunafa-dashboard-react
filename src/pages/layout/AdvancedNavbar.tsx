@@ -1,8 +1,10 @@
-import * as React from "react";
-import type { VariantProps } from "class-variance-authority";
-import { FaChevronDown, FaBars, FaTimes } from "react-icons/fa";
-import { navbarVariants, navLinkVariants } from "./variants";
-import { cn } from "../../utils/cn";
+import type { VariantProps } from 'class-variance-authority';
+import * as React from 'react';
+import { FaChevronDown, FaBars, FaTimes } from 'react-icons/fa';
+
+import { cn } from '../../utils/cn';
+
+import { navbarVariants, navLinkVariants } from './variants';
 
 interface NavSubItem {
   label: string;
@@ -43,9 +45,9 @@ interface AdvancedNavbarProps
   logo?: React.ReactNode;
   items?: NavItemWithMega[];
   rightContent?: React.ReactNode;
-  mobileBreakpoint?: "sm" | "md" | "lg" | "xl" | "2xl";
-  linkVariant?: VariantProps<typeof navLinkVariants>["variant"];
-  linkSize?: VariantProps<typeof navLinkVariants>["size"];
+  mobileBreakpoint?: 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+  linkVariant?: VariantProps<typeof navLinkVariants>['variant'];
+  linkSize?: VariantProps<typeof navLinkVariants>['size'];
   hideOnScroll?: boolean;
 }
 
@@ -60,9 +62,9 @@ const AdvancedNavbar = React.forwardRef<HTMLElement, AdvancedNavbarProps>(
       position,
       padding,
       border,
-      mobileBreakpoint = "lg",
-      linkVariant = "default",
-      linkSize = "default",
+      mobileBreakpoint = 'lg',
+      linkVariant = 'default',
+      linkSize = 'default',
       hideOnScroll = false,
       className,
       ...props
@@ -94,8 +96,8 @@ const AdvancedNavbar = React.forwardRef<HTMLElement, AdvancedNavbarProps>(
         lastScrollY.current = currentScrollY;
       };
 
-      window.addEventListener("scroll", handleScroll, { passive: true });
-      return () => window.removeEventListener("scroll", handleScroll);
+      window.addEventListener('scroll', handleScroll, { passive: true });
+      return () => { window.removeEventListener('scroll', handleScroll); };
     }, [hideOnScroll]);
 
     const handleDropdownClick = (label: string) => {
@@ -118,7 +120,7 @@ const AdvancedNavbar = React.forwardRef<HTMLElement, AdvancedNavbarProps>(
                           className={cn(
                             navLinkVariants({
                               variant: linkVariant,
-                              size: "sm",
+                              size: 'sm',
                               active: activeItem === subItem.href,
                             })
                           )}
@@ -127,15 +129,11 @@ const AdvancedNavbar = React.forwardRef<HTMLElement, AdvancedNavbarProps>(
                             setOpenDropdown(undefined);
                           }}
                         >
-                          {subItem.icon && (
-                            <span className="mr-2">{subItem.icon}</span>
-                          )}
+                          {subItem.icon && <span className="mr-2">{subItem.icon}</span>}
                           <div>
                             <div>{subItem.label}</div>
                             {subItem.description && (
-                              <p className="text-sm text-muted-foreground">
-                                {subItem.description}
-                              </p>
+                              <p className="text-sm text-muted-foreground">{subItem.description}</p>
                             )}
                           </div>
                         </a>
@@ -186,7 +184,7 @@ const AdvancedNavbar = React.forwardRef<HTMLElement, AdvancedNavbarProps>(
                     size: linkSize,
                     active: activeItem === child.href,
                   }),
-                  "block"
+                  'block'
                 )}
                 onClick={() => {
                   setActiveItem(child.href);
@@ -207,7 +205,7 @@ const AdvancedNavbar = React.forwardRef<HTMLElement, AdvancedNavbarProps>(
         ref={ref}
         className={cn(
           navbarVariants({ variant, size, position, padding, border }),
-          !isVisible && "transform -translate-y-full",
+          !isVisible && 'transform -translate-y-full',
           className
         )}
         {...props}
@@ -231,7 +229,7 @@ const AdvancedNavbar = React.forwardRef<HTMLElement, AdvancedNavbarProps>(
                         active: activeItem === item.href,
                       })
                     )}
-                    onClick={() => setActiveItem(item.href)}
+                    onClick={() => { setActiveItem(item.href); }}
                   >
                     {item.icon && <span className="mr-2">{item.icon}</span>}
                     {item.label}
@@ -244,17 +242,17 @@ const AdvancedNavbar = React.forwardRef<HTMLElement, AdvancedNavbarProps>(
                         variant: linkVariant,
                         size: linkSize,
                       }),
-                      "gap-1"
+                      'gap-1'
                     )}
-                    onClick={() => handleDropdownClick(item.label)}
+                    onClick={() => { handleDropdownClick(item.label); }}
                     aria-expanded={openDropdown === item.label}
                   >
                     {item.icon && <span className="mr-2">{item.icon}</span>}
                     {item.label}
                     <FaChevronDown
                       className={cn(
-                        "h-4 w-4 transition-transform",
-                        openDropdown === item.label && "rotate-180"
+                        'h-4 w-4 transition-transform',
+                        openDropdown === item.label && 'rotate-180'
                       )}
                     />
                   </button>
@@ -271,23 +269,17 @@ const AdvancedNavbar = React.forwardRef<HTMLElement, AdvancedNavbarProps>(
 
         {/* Right Content */}
         {rightContent && (
-          <div className={`hidden ${mobileBreakpoint}:flex ml-auto`}>
-            {rightContent}
-          </div>
+          <div className={`hidden ${mobileBreakpoint}:flex ml-auto`}>{rightContent}</div>
         )}
 
         {/* Mobile FaBars Button */}
         <button
           type="button"
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={() => { setIsOpen(!isOpen); }}
           className={`${mobileBreakpoint}:hidden ml-auto rounded-md p-2 hover:bg-accent hover:text-accent-foreground`}
           aria-label="Toggle FaBars"
         >
-          {isOpen ? (
-            <FaTimes className="h-6 w-6" />
-          ) : (
-            <FaBars className="h-6 w-6" />
-          )}
+          {isOpen ? <FaTimes className="h-6 w-6" /> : <FaBars className="h-6 w-6" />}
         </button>
 
         {/* Mobile Navigation */}
@@ -307,7 +299,7 @@ const AdvancedNavbar = React.forwardRef<HTMLElement, AdvancedNavbarProps>(
                           size: linkSize,
                           active: activeItem === item.href,
                         }),
-                        "block px-4"
+                        'block px-4'
                       )}
                       onClick={() => {
                         setActiveItem(item.href);
@@ -326,9 +318,9 @@ const AdvancedNavbar = React.forwardRef<HTMLElement, AdvancedNavbarProps>(
                             variant: linkVariant,
                             size: linkSize,
                           }),
-                          "flex w-full items-center justify-between px-4"
+                          'flex w-full items-center justify-between px-4'
                         )}
-                        onClick={() => handleDropdownClick(item.label)}
+                        onClick={() => { handleDropdownClick(item.label); }}
                       >
                         <span className="flex items-center">
                           {item.icon && <span className="mr-2">{item.icon}</span>}
@@ -336,8 +328,8 @@ const AdvancedNavbar = React.forwardRef<HTMLElement, AdvancedNavbarProps>(
                         </span>
                         <FaChevronDown
                           className={cn(
-                            "h-4 w-4 transition-transform",
-                            openDropdown === item.label && "rotate-180"
+                            'h-4 w-4 transition-transform',
+                            openDropdown === item.label && 'rotate-180'
                           )}
                         />
                       </button>
@@ -350,19 +342,17 @@ const AdvancedNavbar = React.forwardRef<HTMLElement, AdvancedNavbarProps>(
                               className={cn(
                                 navLinkVariants({
                                   variant: linkVariant,
-                                  size: "sm",
+                                  size: 'sm',
                                   active: activeItem === child.href,
                                 }),
-                                "block py-2"
+                                'block py-2'
                               )}
                               onClick={() => {
                                 setActiveItem(child.href);
                                 setIsOpen(false);
                               }}
                             >
-                              {child.icon && (
-                                <span className="mr-2">{child.icon}</span>
-                              )}
+                              {child.icon && <span className="mr-2">{child.icon}</span>}
                               {child.label}
                             </a>
                           ))}
@@ -373,9 +363,7 @@ const AdvancedNavbar = React.forwardRef<HTMLElement, AdvancedNavbarProps>(
                 </div>
               ))}
             </div>
-            {rightContent && (
-              <div className="border-t p-4">{rightContent}</div>
-            )}
+            {rightContent && <div className="border-t p-4">{rightContent}</div>}
           </div>
         )}
       </nav>
@@ -383,7 +371,7 @@ const AdvancedNavbar = React.forwardRef<HTMLElement, AdvancedNavbarProps>(
   }
 );
 
-AdvancedNavbar.displayName = "AdvancedNavbar";
+AdvancedNavbar.displayName = 'AdvancedNavbar';
 
 export {
   AdvancedNavbar,

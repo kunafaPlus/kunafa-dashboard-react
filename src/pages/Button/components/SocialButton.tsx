@@ -1,31 +1,32 @@
-import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "../../../utils/cn";
+import { cva, type VariantProps } from 'class-variance-authority';
+import * as React from 'react';
+
+import { cn } from '../../../utils/cn';
 
 const socialButtonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
+  'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50',
   {
     variants: {
       variant: {
-        facebook: "bg-[#1877F2] text-white hover:bg-[#1877F2]/90",
-        twitter: "bg-[#1DA1F2] text-white hover:bg-[#1DA1F2]/90",
-        google: "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50",
-        github: "bg-[#24292F] text-white hover:bg-[#24292F]/90",
-        discord: "bg-[#5865F2] text-white hover:bg-[#5865F2]/90",
-        linkedin: "bg-[#0A66C2] text-white hover:bg-[#0A66C2]/90",
-        whatsapp: "bg-[#25D366] text-white hover:bg-[#25D366]/90",
-        telegram: "bg-[#0088CC] text-white hover:bg-[#0088CC]/90",
+        facebook: 'bg-[#1877F2] text-white hover:bg-[#1877F2]/90',
+        twitter: 'bg-[#1DA1F2] text-white hover:bg-[#1DA1F2]/90',
+        google: 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50',
+        github: 'bg-[#24292F] text-white hover:bg-[#24292F]/90',
+        discord: 'bg-[#5865F2] text-white hover:bg-[#5865F2]/90',
+        linkedin: 'bg-[#0A66C2] text-white hover:bg-[#0A66C2]/90',
+        whatsapp: 'bg-[#25D366] text-white hover:bg-[#25D366]/90',
+        telegram: 'bg-[#0088CC] text-white hover:bg-[#0088CC]/90',
       },
       size: {
-        default: "h-9 px-4 py-2",
-        sm: "h-8 rounded-md px-3 text-xs",
-        lg: "h-10 rounded-md px-8",
-        icon: "h-9 w-9",
+        default: 'h-9 px-4 py-2',
+        sm: 'h-8 rounded-md px-3 text-xs',
+        lg: 'h-10 rounded-md px-8',
+        icon: 'h-9 w-9',
       },
     },
     defaultVariants: {
-      variant: "facebook",
-      size: "default",
+      variant: 'facebook',
+      size: 'default',
     },
   }
 );
@@ -126,7 +127,7 @@ const SocialButton = React.forwardRef<HTMLButtonElement, SocialButtonProps>(
       <button
         ref={ref}
         type="button"
-        className={cn(socialButtonVariants({ variant, size }), "gap-2", className)}
+        className={cn(socialButtonVariants({ variant, size }), 'gap-2', className)}
         {...props}
       >
         {loading ? (
@@ -159,6 +160,6 @@ const SocialButton = React.forwardRef<HTMLButtonElement, SocialButtonProps>(
   }
 );
 
-SocialButton.displayName = "SocialButton";
+SocialButton.displayName = 'SocialButton';
 
 export { SocialButton };

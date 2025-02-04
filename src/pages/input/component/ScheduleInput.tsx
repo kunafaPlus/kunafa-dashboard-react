@@ -1,39 +1,36 @@
-import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "../../../utils/cn";
-import { ScheduleInputProps, TimeSlot ,Schedule} from "../utils/type";
+import { cva, type VariantProps } from 'class-variance-authority';
+import * as React from 'react';
 
-export const scheduleInputVariants = cva(
-  "w-full",
-  {
-    variants: {
-      variant: {
-        default: "border rounded-lg",
-        filled: "bg-muted border-transparent",
-        ghost: "border-transparent",
-      },
-      size: {
-        sm: "p-2",
-        md: "p-3",
-        lg: "p-4",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-      size: "md",
-    },
-  }
-);
+import { cn } from '../../../utils/cn';
+import { ScheduleInputProps, TimeSlot, Schedule } from '../utils/type';
 
+export const scheduleInputVariants = cva('w-full', {
+  variants: {
+    variant: {
+      default: 'border rounded-lg',
+      filled: 'bg-muted border-transparent',
+      ghost: 'border-transparent',
+    },
+    size: {
+      sm: 'p-2',
+      md: 'p-3',
+      lg: 'p-4',
+    },
+  },
+  defaultVariants: {
+    variant: 'default',
+    size: 'md',
+  },
+});
 
 const DEFAULT_DAY_LABELS = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
+  'Sunday',
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
 ];
 
 const ScheduleInput = React.forwardRef<HTMLDivElement, ScheduleInputProps>(
@@ -44,10 +41,10 @@ const ScheduleInput = React.forwardRef<HTMLDivElement, ScheduleInputProps>(
       size,
       value = {},
       onChange,
-      minTime = "00:00",
-      maxTime = "23:59",
+      minTime = '00:00',
+      maxTime = '23:59',
       step = 30,
-      format = "24",
+      format = '24',
       disabled = false,
       error,
       hint,
@@ -65,21 +62,16 @@ const ScheduleInput = React.forwardRef<HTMLDivElement, ScheduleInputProps>(
     React.useImperativeHandle(ref, () => containerRef.current!);
 
     const parseTime = (timeStr: string): number => {
-      const [hours, minutes] = timeStr.split(":").map(Number);
+      const [hours, minutes] = timeStr.split(':').map(Number);
       return hours * 60 + minutes;
     };
 
     const formatTime = (minutes: number): string => {
       const hours = Math.floor(minutes / 60);
       const mins = minutes % 60;
-      const period = format === "12" ? (hours >= 12 ? "PM" : "AM") : "";
-      const formattedHours =
-        format === "12"
-          ? hours % 12 || 12
-          : hours.toString().padStart(2, "0");
-      return `${formattedHours}:${mins
-        .toString()
-        .padStart(2, "0")}${period}`;
+      const period = format === '12' ? (hours >= 12 ? 'PM' : 'AM') : '';
+      const formattedHours = format === '12' ? hours % 12 || 12 : hours.toString().padStart(2, '0');
+      return `${formattedHours}:${mins.toString().padStart(2, '0')}${period}`;
     };
 
     const generateTimeOptions = () => {
@@ -87,11 +79,7 @@ const ScheduleInput = React.forwardRef<HTMLDivElement, ScheduleInputProps>(
       const minMinutes = parseTime(minTime);
       const maxMinutes = parseTime(maxTime);
 
-      for (
-        let minutes = minMinutes;
-        minutes <= maxMinutes;
-        minutes += step
-      ) {
+      for (let minutes = minMinutes; minutes <= maxMinutes; minutes += step) {
         options.push(formatTime(minutes));
       }
 
@@ -103,10 +91,7 @@ const ScheduleInput = React.forwardRef<HTMLDivElement, ScheduleInputProps>(
       [minTime, maxTime, step, format]
     );
 
-    const isOverlapping = (
-      slots: TimeSlot[],
-      newSlot: TimeSlot
-    ): boolean => {
+    const isOverlapping = (slots: TimeSlot[], newSlot: TimeSlot): boolean => {
       return slots.some(
         (slot) =>
           slot.enabled &&
@@ -115,11 +100,7 @@ const ScheduleInput = React.forwardRef<HTMLDivElement, ScheduleInputProps>(
       );
     };
 
-    const handleSlotChange = (
-      day: number,
-      index: number,
-      changes: Partial<TimeSlot>
-    ) => {
+    const handleSlotChange = (day: number, index: number, changes: Partial<TimeSlot>) => {
       if (disabled) return;
 
       const newSchedule = { ...value };
@@ -192,9 +173,9 @@ const ScheduleInput = React.forwardRef<HTMLDivElement, ScheduleInputProps>(
       const sourceSlots = value[sourceDay] || [];
       const newSchedule = { ...value };
 
-      dayLabels.forEach((_:any, day:number) => {
+      dayLabels.forEach((_: any, day: number) => {
         if (day !== sourceDay) {
-          newSchedule[day] = sourceSlots.map((slot:any) => ({
+          newSchedule[day] = sourceSlots.map((slot: any) => ({
             ...slot,
             day,
           }));
@@ -207,11 +188,11 @@ const ScheduleInput = React.forwardRef<HTMLDivElement, ScheduleInputProps>(
     return (
       <div
         ref={containerRef}
-        className={cn(scheduleInputVariants({ variant, size }as{}), className)}
+        className={cn(scheduleInputVariants({ variant, size } as {}), className)}
         {...props}
       >
         <div className="space-y-4">
-          {dayLabels.map((label:string, day:number) => (
+          {dayLabels.map((label: string, day: number) => (
             <div key={day} className="space-y-2">
               <div className="flex items-center justify-between">
                 <div className="font-medium">{label}</div>
@@ -220,7 +201,7 @@ const ScheduleInput = React.forwardRef<HTMLDivElement, ScheduleInputProps>(
                     <button
                       type="button"
                       className="text-sm text-primary hover:underline"
-                      onClick={() => addSlot(day)}
+                      onClick={() => { addSlot(day); }}
                       disabled={disabled}
                     >
                       Add Time Slot
@@ -229,7 +210,7 @@ const ScheduleInput = React.forwardRef<HTMLDivElement, ScheduleInputProps>(
                   <button
                     type="button"
                     className="text-sm text-primary hover:underline"
-                    onClick={() => copyToAllDays(day)}
+                    onClick={() => { copyToAllDays(day); }}
                     disabled={disabled}
                   >
                     Copy to All Days
@@ -237,18 +218,15 @@ const ScheduleInput = React.forwardRef<HTMLDivElement, ScheduleInputProps>(
                 </div>
               </div>
 
-              {(value[day] || []).map((slot:any, index:number) => (
-                <div
-                  key={index}
-                  className="flex items-center gap-4 p-2 bg-background rounded-md"
-                >
+              {(value[day] || []).map((slot: any, index: number) => (
+                <div key={index} className="flex items-center gap-4 p-2 bg-background rounded-md">
                   <input
                     type="checkbox"
                     checked={slot.enabled}
                     onChange={(e) =>
-                      handleSlotChange(day, index, {
+                      { handleSlotChange(day, index, {
                         enabled: e.target.checked,
-                      })
+                      }); }
                     }
                     disabled={disabled}
                     className="rounded"
@@ -257,9 +235,9 @@ const ScheduleInput = React.forwardRef<HTMLDivElement, ScheduleInputProps>(
                   <select
                     value={slot.start}
                     onChange={(e) =>
-                      handleSlotChange(day, index, {
+                      { handleSlotChange(day, index, {
                         start: e.target.value,
-                      })
+                      }); }
                     }
                     disabled={disabled || !slot.enabled}
                     className="bg-transparent border rounded-md"
@@ -276,9 +254,9 @@ const ScheduleInput = React.forwardRef<HTMLDivElement, ScheduleInputProps>(
                   <select
                     value={slot.end}
                     onChange={(e) =>
-                      handleSlotChange(day, index, {
+                      { handleSlotChange(day, index, {
                         end: e.target.value,
-                      })
+                      }); }
                     }
                     disabled={disabled || !slot.enabled}
                     className="bg-transparent border rounded-md"
@@ -290,11 +268,10 @@ const ScheduleInput = React.forwardRef<HTMLDivElement, ScheduleInputProps>(
                     ))}
                   </select>
 
-                  {(allowMultipleSlots ||
-                    value[day]?.length > 1) && (
+                  {(allowMultipleSlots || value[day].length > 1) && (
                     <button
                       type="button"
-                      onClick={() => removeSlot(day, index)}
+                      onClick={() => { removeSlot(day, index); }}
                       disabled={disabled}
                       className="p-1 text-destructive hover:bg-destructive/10 rounded-md"
                     >
@@ -316,22 +293,15 @@ const ScheduleInput = React.forwardRef<HTMLDivElement, ScheduleInputProps>(
                 </div>
               ))}
 
-              {value[day]?.length === 0 && (
-                <div className="p-2 text-sm text-muted-foreground">
-                  No time slots added
-                </div>
+              {value[day].length === 0 && (
+                <div className="p-2 text-sm text-muted-foreground">No time slots added</div>
               )}
             </div>
           ))}
         </div>
 
         {(error || hint) && (
-          <div
-            className={cn(
-              "mt-1 text-sm",
-              error ? "text-destructive" : "text-muted-foreground"
-            )}
-          >
+          <div className={cn('mt-1 text-sm', error ? 'text-destructive' : 'text-muted-foreground')}>
             {error || hint}
           </div>
         )}
@@ -340,6 +310,6 @@ const ScheduleInput = React.forwardRef<HTMLDivElement, ScheduleInputProps>(
   }
 );
 
-ScheduleInput.displayName = "ScheduleInput";
+ScheduleInput.displayName = 'ScheduleInput';
 
 export { ScheduleInput, type Schedule, type TimeSlot };

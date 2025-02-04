@@ -1,65 +1,66 @@
-import { AlertButton } from "../components/AlertButton";
-import { AudioPlayButton } from "../components/AudioPlayButton";
-import { BackButton } from "../components/BackButton";
-import { BiometricButton } from "../components/BiometricButton";
-import { ButtonGroup } from "../components/ButtonGroup";
-import { CommentButton } from "../components/CommentButton";
-import { CopyButton } from "../components/CopyButton";
-import { DownloadButton } from "../components/DownloadButton";
-import { FloatingButton } from "../components/FloatingButton";
-import { FollowButton } from "../components/FollowButton";
-import { GlassButton } from "../components/GlassButton";
-import { GradientButton } from "../components/GradientButton";
-import { HoldButton } from "../components/HoldButton";
-import { HoverButton } from "../components/HoverButton";
-import { IconButton } from "../components/IconButton";
-import { BiBell, BiPlus } from "react-icons/bi";
-import { LikeButton } from "../components/LikeButton";
-import { LoadingButton } from "../components/LoadingButton";
-import { LocationButton } from "../components/LocationButton";
-import { MenuButton } from "../components/MenuButton";
-import { NotificationButton } from "../components/NotificationButton";
-import { OutlineButton } from "../components/OutlineButton";
-import { PaginationButton } from "../components/PaginationButton";
-import { PopoverButton } from "../components/PopoverButton";
-import { PressButton } from "../components/PressButton";
-import { PrintButton } from "../components/PrintButton";
-import { ProgressButton } from "../components/ProgressButton";
-import { ScrollToTopButton } from "../components/ScrollToTopButton";
-import { ScrollButton } from "../components/ScrollButton";
-import { SaveButton } from "../components/SaveButton";
-import { SocialButton } from "../components/SocialButton";
-import { ShareButton } from "../components/ShareButton";
-import { UploadButton } from "../components/UploadButton";
-import { TooltipButton } from "../components/TooltipButton";
-import { ThreeDButton } from "../components/ThreeDButton";
-import { ThemeToggleButton } from "../components/ThemeToggleButton";
-import { SwitchButton } from "../components/SwitchButton";
-import { SwipeButton } from "../components/SwipeButton";
-import { StatusButton } from "../components/StatusButton";
-import { useState } from "react";
-import { BsInfo } from "react-icons/bs";
-import { SplitButton } from "../components/SplitButton";
-import { SortButton } from "../components/SortButton";
-import { SegmentedButton } from "../components/SegmentedButton";
-import { RadioButtonGroup } from "../components/RadioButtonGroup";
-import { VideoPlayButton } from "../components/VideoPlayButton";
-import { ToolbarButton } from "../components/ToolbarButton";
-import CustomButton from "../components/CustomButton";
+import { useState } from 'react';
+import { BiBell, BiPlus } from 'react-icons/bi';
+import { BsInfo } from 'react-icons/bs';
+
+import { AlertButton } from '../components/AlertButton';
+import { AudioPlayButton } from '../components/AudioPlayButton';
+import { BackButton } from '../components/BackButton';
+import { BiometricButton } from '../components/BiometricButton';
+import { ButtonGroup } from '../components/ButtonGroup';
+import { CommentButton } from '../components/CommentButton';
+import { CopyButton } from '../components/CopyButton';
+import CustomButton from '../components/CustomButton';
+import { DownloadButton } from '../components/DownloadButton';
+import { FloatingButton } from '../components/FloatingButton';
+import { FollowButton } from '../components/FollowButton';
+import { GlassButton } from '../components/GlassButton';
+import { GradientButton } from '../components/GradientButton';
+import { HoldButton } from '../components/HoldButton';
+import { HoverButton } from '../components/HoverButton';
+import { IconButton } from '../components/IconButton';
+import { LikeButton } from '../components/LikeButton';
+import { LoadingButton } from '../components/LoadingButton';
+import { LocationButton } from '../components/LocationButton';
+import { MenuButton } from '../components/MenuButton';
+import { NotificationButton } from '../components/NotificationButton';
+import { OutlineButton } from '../components/OutlineButton';
+import { PaginationButton } from '../components/PaginationButton';
+import { PopoverButton } from '../components/PopoverButton';
+import { PressButton } from '../components/PressButton';
+import { PrintButton } from '../components/PrintButton';
+import { ProgressButton } from '../components/ProgressButton';
+import { RadioButtonGroup } from '../components/RadioButtonGroup';
+import { SaveButton } from '../components/SaveButton';
+import { ScrollButton } from '../components/ScrollButton';
+import { ScrollToTopButton } from '../components/ScrollToTopButton';
+import { SegmentedButton } from '../components/SegmentedButton';
+import { ShareButton } from '../components/ShareButton';
+import { SocialButton } from '../components/SocialButton';
+import { SortButton } from '../components/SortButton';
+import { SplitButton } from '../components/SplitButton';
+import { StatusButton } from '../components/StatusButton';
+import { SwipeButton } from '../components/SwipeButton';
+import { SwitchButton } from '../components/SwitchButton';
+import { ThemeToggleButton } from '../components/ThemeToggleButton';
+import { ThreeDButton } from '../components/ThreeDButton';
+import { ToolbarButton } from '../components/ToolbarButton';
+import { TooltipButton } from '../components/TooltipButton';
+import { UploadButton } from '../components/UploadButton';
+import { VideoPlayButton } from '../components/VideoPlayButton';
 
 function Button() {
   const [loading, setLoading] = useState(false);
   const handleSwipe = (confirmed) => {
     if (confirmed) {
-      alert("Action confirmed!");
+      alert('Action confirmed!');
     } else {
-      alert("Action reset.");
+      alert('Action reset.');
     }
   };
   const options = [
-    { value: "option1", label: "Option 1" },
-    { value: "option2", label: "Option 2" },
-    { value: "option3", label: "Option 3" },
+    { value: 'option1', label: 'Option 1' },
+    { value: 'option2', label: 'Option 2' },
+    { value: 'option3', label: 'Option 3' },
   ];
   const handleChange = (value) => {
     console.log(`Selected: ${value}`);
@@ -77,25 +78,25 @@ function Button() {
     });
   };
   const handleSuccess = () => {
-    alert("Authentication successful!");
+    alert('Authentication successful!');
   };
   const handleError = (error) => {
     alert(`Authentication failed: ${error.message}`);
   };
   const handlePlay = () => {
-    console.log("Audio is playing");
+    console.log('Audio is playing');
   };
   const handlePause = () => {
-    console.log("Audio is paused");
+    console.log('Audio is paused');
   };
   const handleEnded = () => {
-    console.log("Audio has ended");
+    console.log('Audio has ended');
   };
   const items = [
-    { id: "1", label: "Option 1", onClick: () => alert("Option 1 selected") },
-    { id: "2", label: "Option 2", onClick: () => alert("Option 2 selected") },
-    { id: "3", label: "Divider", divider: true },
-    { id: "4", label: "Option 3", onClick: () => alert("Option 3 selected") },
+    { id: '1', label: 'Option 1', onClick: () => { alert('Option 1 selected'); } },
+    { id: '2', label: 'Option 2', onClick: () => { alert('Option 2 selected'); } },
+    { id: '3', label: 'Divider', divider: true },
+    { id: '4', label: 'Option 3', onClick: () => { alert('Option 3 selected'); } },
   ];
 
   return (
@@ -195,11 +196,7 @@ function Button() {
           <HoverButton>HoverButton</HoverButton>
           <PressButton>PressButton</PressButton>
           <HoldButton>HoldButton</HoldButton>
-          <SwipeButton
-            onChange={handleSwipe}
-            swipeText="Swipe to confirm"
-            confirmText="Confirmed!"
-          >
+          <SwipeButton onChange={handleSwipe} swipeText="Swipe to confirm" confirmText="Confirmed!">
             Confirm
           </SwipeButton>
         </div>
@@ -212,7 +209,7 @@ function Button() {
           <NotificationButton count={5} maxCount={99} showZero={false}>
             Notifications
           </NotificationButton>
-          <StatusButton status="success" onClick={() => alert("Success!")}>
+          <StatusButton status="success" onClick={() => { alert('Success!'); }}>
             Operation Successful
           </StatusButton>
         </div>
@@ -223,9 +220,7 @@ function Button() {
         <h2 className="text-2xl font-bold mb-4">أزرار التلميحات والنوافذ المنبثقة</h2>
         <div className="flex flex-wrap gap-4">
           <TooltipButton tooltip="This is a tooltip">Tooltip Button</TooltipButton>
-          <PopoverButton popoverContent="This is a popover!">
-            Popover Button
-          </PopoverButton>
+          <PopoverButton popoverContent="This is a popover!">Popover Button</PopoverButton>
         </div>
       </section>
 
@@ -240,10 +235,10 @@ function Button() {
           </ButtonGroup>
           <SplitButton
             items={[
-              { id: "1", label: "Edit", onClick: () => console.log("Edit clicked") },
-              { id: "2", label: "Delete", onClick: () => console.log("Delete clicked") },
+              { id: '1', label: 'Edit', onClick: () => { console.log('Edit clicked'); } },
+              { id: '2', label: 'Delete', onClick: () => { console.log('Delete clicked'); } },
             ]}
-            onMainClick={() => console.log("Main button clicked")}
+            onMainClick={() => { console.log('Main button clicked'); }}
           >
             Main Action
           </SplitButton>
@@ -278,15 +273,11 @@ function Button() {
           <OutlineButton>Outline Button</OutlineButton>
           <PaginationButton>Next Page</PaginationButton>
           <ScrollButton>Scroll</ScrollButton>
-          <SegmentedButton
-            options={options}
-            onChange={handleChange}
-            defaultValue="option1"
-          />
+          <SegmentedButton options={options} onChange={handleChange} defaultValue="option1" />
           <SortButton
             options={[
-              { id: "1", label: "Option 1" },
-              { id: "2", label: "Option 2" },
+              { id: '1', label: 'Option 1' },
+              { id: '2', label: 'Option 2' },
             ]}
           >
             Sort

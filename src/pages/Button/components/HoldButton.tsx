@@ -1,47 +1,43 @@
-import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "../../../utils/cn";
+import { cva, type VariantProps } from 'class-variance-authority';
+import * as React from 'react';
+
+import { cn } from '../../../utils/cn';
 
 const holdButtonVariants = cva(
-  "group relative inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 overflow-hidden touch-none select-none",
+  'group relative inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 overflow-hidden touch-none select-none',
   {
     variants: {
       variant: {
-        default:
-          "bg-primary text-white before:bg-primary-dark",
-        destructive:
-          "bg-destructive text-destructive-foreground before:bg-destructive-dark",
-        outline:
-          "border border-input bg-background before:bg-accent",
-        secondary:
-          "bg-secondary text-secondary-foreground before:bg-secondary-dark",
-        ghost: "before:bg-accent",
-        success:
-          "bg-green-500 text-white before:bg-green-600",
+        default: 'bg-primary text-white before:bg-primary-dark',
+        destructive: 'bg-destructive text-destructive-foreground before:bg-destructive-dark',
+        outline: 'border border-input bg-background before:bg-accent',
+        secondary: 'bg-secondary text-secondary-foreground before:bg-secondary-dark',
+        ghost: 'before:bg-accent',
+        success: 'bg-green-500 text-white before:bg-green-600',
       },
       size: {
-        default: "h-12 px-8 py-3",
-        sm: "h-10 rounded-md px-6 text-xs",
-        lg: "h-14 rounded-md px-10",
-        icon: "h-12 w-12",
+        default: 'h-12 px-8 py-3',
+        sm: 'h-10 rounded-md px-6 text-xs',
+        lg: 'h-14 rounded-md px-10',
+        icon: 'h-12 w-12',
       },
       progressStyle: {
-        fill: "before:absolute before:inset-0 before:origin-left before:scale-x-0 before:transition-transform",
+        fill: 'before:absolute before:inset-0 before:origin-left before:scale-x-0 before:transition-transform',
         circular:
-          "after:absolute after:inset-[3px] after:rounded-full after:border-2 after:border-current after:border-r-transparent after:opacity-0 after:transition-opacity group-data-[loading=true]:after:animate-spin",
-        dots: "after:absolute after:inset-0 after:bg-[radial-gradient(circle,currentColor_2px,transparent_3px)] after:bg-[length:8px_8px] after:opacity-0 after:transition-opacity",
+          'after:absolute after:inset-[3px] after:rounded-full after:border-2 after:border-current after:border-r-transparent after:opacity-0 after:transition-opacity group-data-[loading=true]:after:animate-spin',
+        dots: 'after:absolute after:inset-0 after:bg-[radial-gradient(circle,currentColor_2px,transparent_3px)] after:bg-[length:8px_8px] after:opacity-0 after:transition-opacity',
       },
     },
     defaultVariants: {
-      variant: "default",
-      size: "default",
-      progressStyle: "fill",
+      variant: 'default',
+      size: 'default',
+      progressStyle: 'fill',
     },
   }
 );
 
 interface HoldButtonProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange">,
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'>,
     VariantProps<typeof holdButtonVariants> {
   holdTime?: number;
   resetDelay?: number;
@@ -63,12 +59,12 @@ const HoldButton = React.forwardRef<HTMLDivElement, HoldButtonProps>(
       progressStyle,
       holdTime = 1000,
       resetDelay = 1000,
-      holdText = "Hold to confirm",
-      confirmText = "Confirmed!",
+      holdText = 'Hold to confirm',
+      confirmText = 'Confirmed!',
       onChange,
       progressColor,
-      successColor = "#22c55e",
-      transitionDuration = "0.3s",
+      successColor = '#22c55e',
+      transitionDuration = '0.3s',
       showProgress = true,
       children,
       style,
@@ -118,10 +114,10 @@ const HoldButton = React.forwardRef<HTMLDivElement, HoldButtonProps>(
 
     const customStyle = {
       ...style,
-      "--progress-color": progressColor,
-      "--success-color": successColor,
-      "--transition-duration": transitionDuration,
-      "--progress": `${progress}%`,
+      '--progress-color': progressColor,
+      '--success-color': successColor,
+      '--transition-duration': transitionDuration,
+      '--progress': `${progress}%`,
     } as React.CSSProperties;
 
     return (
@@ -130,17 +126,17 @@ const HoldButton = React.forwardRef<HTMLDivElement, HoldButtonProps>(
         className={cn(
           holdButtonVariants({ variant, size, progressStyle }),
           showProgress &&
-            "before:transition-transform before:duration-[var(--transition-duration)]",
-          isConfirmed && "!bg-[var(--success-color,#22c55e)]",
+            'before:transition-transform before:duration-[var(--transition-duration)]',
+          isConfirmed && '!bg-[var(--success-color,#22c55e)]',
           className
         )}
         style={customStyle}
         data-loading={isHolding}
         onMouseDown={startHolding}
-        onMouseUp={() => stopHolding()}
-        onMouseLeave={() => stopHolding()}
+        onMouseUp={() => { stopHolding(); }}
+        onMouseLeave={() => { stopHolding(); }}
         onTouchStart={startHolding}
-        onTouchEnd={() => stopHolding()}
+        onTouchEnd={() => { stopHolding(); }}
         {...props}
       >
         {showProgress && (
@@ -148,22 +144,20 @@ const HoldButton = React.forwardRef<HTMLDivElement, HoldButtonProps>(
             className="absolute inset-0 overflow-hidden rounded-[inherit]"
             style={{
               transform: `scaleX(${progress / 100})`,
-              transformOrigin: "left",
-              backgroundColor: "var(--progress-color, currentColor)",
+              transformOrigin: 'left',
+              backgroundColor: 'var(--progress-color, currentColor)',
               opacity: 0.2,
-              transition: isHolding ? "none" : `transform ${transitionDuration} ease-out`,
+              transition: isHolding ? 'none' : `transform ${transitionDuration} ease-out`,
             }}
           />
         )}
-        <span className="relative z-10">
-          {isConfirmed ? confirmText : holdText}
-        </span>
+        <span className="relative z-10">{isConfirmed ? confirmText : holdText}</span>
         {children && <div className="relative z-10">{children}</div>}
       </div>
     );
   }
 );
 
-HoldButton.displayName = "HoldButton";
+HoldButton.displayName = 'HoldButton';
 
 export { HoldButton };

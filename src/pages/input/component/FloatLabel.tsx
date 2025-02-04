@@ -1,31 +1,27 @@
-import * as React from "react";
-import { cva, VariantProps } from "class-variance-authority";
-import {  FloatLabelProps } from "../utils/type";
-import { cn } from "../../../utils/cn";
+import { cva, VariantProps } from 'class-variance-authority';
+import * as React from 'react';
 
-export const floatLabelVariants = cva(
-  "relative inline-block w-full",
-  {
-    variants: {
-      variant: {
-        default: "[&_input]:border [&_input]:rounded-md",
-        filled: "[&_input]:bg-muted [&_input]:border-b [&_input]:rounded-t-md",
-        ghost: "[&_input]:bg-transparent [&_input]:border-b",
-      },
-      size: {
-        sm: "[&_input]:text-sm [&_input]:p-2 [&_label]:text-xs",
-        md: "[&_input]:text-base [&_input]:p-3 [&_label]:text-sm",
-        lg: "[&_input]:text-lg [&_input]:p-4 [&_label]:text-base",
-      },
+import { cn } from '../../../utils/cn';
+import { FloatLabelProps } from '../utils/type';
+
+export const floatLabelVariants = cva('relative inline-block w-full', {
+  variants: {
+    variant: {
+      default: '[&_input]:border [&_input]:rounded-md',
+      filled: '[&_input]:bg-muted [&_input]:border-b [&_input]:rounded-t-md',
+      ghost: '[&_input]:bg-transparent [&_input]:border-b',
     },
-    defaultVariants: {
-      variant: "default",
-      size: "md",
+    size: {
+      sm: '[&_input]:text-sm [&_input]:p-2 [&_label]:text-xs',
+      md: '[&_input]:text-base [&_input]:p-3 [&_label]:text-sm',
+      lg: '[&_input]:text-lg [&_input]:p-4 [&_label]:text-base',
     },
-  }
-);
-
-
+  },
+  defaultVariants: {
+    variant: 'default',
+    size: 'md',
+  },
+});
 
 const FloatLabel = React.forwardRef<HTMLInputElement, FloatLabelProps>(
   (
@@ -48,9 +44,7 @@ const FloatLabel = React.forwardRef<HTMLInputElement, FloatLabelProps>(
     ref
   ) => {
     const [focused, setFocused] = React.useState(false);
-    const [hasContent, setHasContent] = React.useState(
-      Boolean(value || defaultValue)
-    );
+    const [hasContent, setHasContent] = React.useState(Boolean(value || defaultValue));
 
     React.useEffect(() => {
       setHasContent(Boolean(value));
@@ -74,7 +68,10 @@ const FloatLabel = React.forwardRef<HTMLInputElement, FloatLabelProps>(
     return (
       <div
         className={cn(
-          floatLabelVariants({ variant, size }as {variant:VariantProps<typeof floatLabelVariants>["variant"], size:VariantProps<typeof floatLabelVariants>["size"]}),
+          floatLabelVariants({ variant, size } as {
+            variant: VariantProps<typeof floatLabelVariants>['variant'];
+            size: VariantProps<typeof floatLabelVariants>['size'];
+          }),
           containerClassName
         )}
       >
@@ -86,16 +83,15 @@ const FloatLabel = React.forwardRef<HTMLInputElement, FloatLabelProps>(
           )}
 
           <input
-          
-          {...props}
+            {...props}
             ref={ref}
             {...props}
             className={cn(
-              "w-full bg-transparent transition-all duration-200 outline-input-focus border-input-border disabled:opacity-50 disabled:cursor-not-allowed",
-              startIcon && "pl-10",
-              error && "border-red-500",
-              endIcon && "pr-10",
-              error && "border-red-500 focus:ring-destructive",
+              'w-full bg-transparent transition-all duration-200 outline-input-focus border-input-border disabled:opacity-50 disabled:cursor-not-allowed',
+              startIcon && 'pl-10',
+              error && 'border-red-500',
+              endIcon && 'pr-10',
+              error && 'border-red-500 focus:ring-destructive',
               className
             )}
             onFocus={handleFocus}
@@ -117,15 +113,12 @@ const FloatLabel = React.forwardRef<HTMLInputElement, FloatLabelProps>(
 
           <label
             className={cn(
-              "absolute left-3 transition-all duration-200 pointer-events-none",
-              startIcon && "left-10",
-              (focused || hasContent) &&
-                "transform -translate-y-[calc(100%+4px)] text-primary",
-              !focused &&
-                !hasContent &&
-                "top-1/2 -translate-y-1/2 text-muted-foreground",
-              error && "text-red-500",
-              disabled && "opacity-50"
+              'absolute left-3 transition-all duration-200 pointer-events-none',
+              startIcon && 'left-10',
+              (focused || hasContent) && 'transform -translate-y-[calc(100%+4px)] text-primary',
+              !focused && !hasContent && 'top-1/2 -translate-y-1/2 text-muted-foreground',
+              error && 'text-red-500',
+              disabled && 'opacity-50'
             )}
           >
             {label}
@@ -139,10 +132,7 @@ const FloatLabel = React.forwardRef<HTMLInputElement, FloatLabelProps>(
 
         {(error || hint) && (
           <div
-            className={cn(
-              "mt-1 text-sm",
-              error ? "text-red-500" : "text-muted-foreground"
-            )}
+            className={cn('mt-1 text-sm', error ? 'text-red-500' : 'text-muted-foreground')}
             id={error ? `${props.id}-error` : undefined}
           >
             {error || hint}
@@ -153,6 +143,6 @@ const FloatLabel = React.forwardRef<HTMLInputElement, FloatLabelProps>(
   }
 );
 
-FloatLabel.displayName = "FloatLabel";
+FloatLabel.displayName = 'FloatLabel';
 
 export { FloatLabel };

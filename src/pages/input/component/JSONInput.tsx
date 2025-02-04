@@ -1,35 +1,33 @@
-import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "../../../utils/cn";
+import { cva, type VariantProps } from 'class-variance-authority';
+import * as React from 'react';
 
-const jsonInputVariants = cva(
-  "w-full min-h-[16rem]",
-  {
-    variants: {
-      variant: {
-        default: "border rounded-lg",
-        filled: "bg-muted border-transparent",
-        ghost: "border-transparent",
-      },
-      size: {
-        sm: "text-sm",
-        md: "text-base",
-        lg: "text-lg",
-      },
+import { cn } from '../../../utils/cn';
+
+const jsonInputVariants = cva('w-full min-h-[16rem]', {
+  variants: {
+    variant: {
+      default: 'border rounded-lg',
+      filled: 'bg-muted border-transparent',
+      ghost: 'border-transparent',
     },
-    defaultVariants: {
-      variant: "default",
-      size: "md",
+    size: {
+      sm: 'text-sm',
+      md: 'text-base',
+      lg: 'text-lg',
     },
-  }
-);
+  },
+  defaultVariants: {
+    variant: 'default',
+    size: 'md',
+  },
+});
 
 interface JSONValue {
   [key: string]: any;
 }
 
 interface JSONInputProps
-  extends Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, "value" | "onChange">,
+  extends Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, 'value' | 'onChange'>,
     VariantProps<typeof jsonInputVariants> {
   value?: JSONValue;
   onChange?: (value: JSONValue) => void;
@@ -63,15 +61,15 @@ const JSONInput = React.forwardRef<HTMLTextAreaElement, JSONInputProps>(
     },
     ref
   ) => {
-    const [text, setText] = React.useState("");
-    const [localError, setLocalError] = React.useState<string>("");
+    const [text, setText] = React.useState('');
+    const [localError, setLocalError] = React.useState<string>('');
 
     // Convert JSON object to formatted string
     const formatJSON = (obj: JSONValue): string => {
       try {
         return JSON.stringify(obj, null, indentSize);
       } catch (err) {
-        return "";
+        return '';
       }
     };
 
@@ -86,7 +84,7 @@ const JSONInput = React.forwardRef<HTMLTextAreaElement, JSONInputProps>(
           // For example, using libraries like Ajv or Zod
         }
 
-        setLocalError("");
+        setLocalError('');
         return parsed;
       } catch (err) {
         const error = err as Error;
@@ -127,15 +125,14 @@ const JSONInput = React.forwardRef<HTMLTextAreaElement, JSONInputProps>(
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
       // Handle tab key for indentation
-      if (e.key === "Tab") {
+      if (e.key === 'Tab') {
         e.preventDefault();
         const start = e.currentTarget.selectionStart;
         const end = e.currentTarget.selectionEnd;
-        const spaces = " ".repeat(indentSize);
-        const newText =
-          text.substring(0, start) + spaces + text.substring(end);
+        const spaces = ' '.repeat(indentSize);
+        const newText = text.substring(0, start) + spaces + text.substring(end);
         setText(newText);
-        
+
         // Move cursor after indentation
         requestAnimationFrame(() => {
           e.currentTarget.selectionStart = start + indentSize;
@@ -144,7 +141,7 @@ const JSONInput = React.forwardRef<HTMLTextAreaElement, JSONInputProps>(
       }
 
       // Format with Ctrl/Cmd + Shift + F
-      if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === "F") {
+      if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'F') {
         e.preventDefault();
         const parsed = parseJSON(text);
         if (parsed !== null) {
@@ -157,13 +154,7 @@ const JSONInput = React.forwardRef<HTMLTextAreaElement, JSONInputProps>(
 
     return (
       <div className="space-y-1.5">
-        <div
-          className={cn(
-            jsonInputVariants({ variant, size }),
-            "relative",
-            className
-          )}
-        >
+        <div className={cn(jsonInputVariants({ variant, size }), 'relative', className)}>
           <textarea
             ref={ref}
             value={text}
@@ -171,8 +162,8 @@ const JSONInput = React.forwardRef<HTMLTextAreaElement, JSONInputProps>(
             onBlur={handleBlur}
             onKeyDown={handleKeyDown}
             className={cn(
-              "w-full h-full min-h-[16rem] p-3 font-mono resize-y bg-transparent transition-colors outline-input-focus border-input-border disabled:opacity-50 disabled:cursor-not-allowed",
-              error && "border-destructive focus:ring-destructive"
+              'w-full h-full min-h-[16rem] p-3 font-mono resize-y bg-transparent transition-colors outline-input-focus border-input-border disabled:opacity-50 disabled:cursor-not-allowed',
+              error && 'border-destructive focus:ring-destructive'
             )}
             readOnly={readOnly}
             spellCheck={false}
@@ -213,10 +204,8 @@ const JSONInput = React.forwardRef<HTMLTextAreaElement, JSONInputProps>(
         {(localError || error || hint) && (
           <div
             className={cn(
-              "text-sm",
-              localError || error
-                ? "text-destructive"
-                : "text-muted-foreground"
+              'text-sm',
+              localError || error ? 'text-destructive' : 'text-muted-foreground'
             )}
           >
             {localError || error || hint}
@@ -227,6 +216,6 @@ const JSONInput = React.forwardRef<HTMLTextAreaElement, JSONInputProps>(
   }
 );
 
-JSONInput.displayName = "JSONInput";
+JSONInput.displayName = 'JSONInput';
 
 export { JSONInput, type JSONValue };

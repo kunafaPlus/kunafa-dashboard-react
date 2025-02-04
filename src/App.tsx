@@ -1,67 +1,60 @@
-import { AdvancedNavbar } from "./pages/layout/AdvancedNavbar";
-import { AdvancedSidebar, SidebarSection } from "./pages/layout/AdvancedSidebar";
-import PerfectScrollbar from "react-perfect-scrollbar";
+import { MdInput } from 'react-icons/md';
+import PerfectScrollbar from 'react-perfect-scrollbar';
 
-import { MdInput } from "react-icons/md";
-import { AppRouter } from "./router";
+import { AdvancedNavbar } from './pages/layout/AdvancedNavbar';
+import { AdvancedSidebar, SidebarSection } from './pages/layout/AdvancedSidebar';
+import { AppRouter } from './router';
 
 function App() {
   const sidebarSections: SidebarSection[] = [
     {
-      id: "section-1",
-      title: "Form",
+      id: 'section-1',
+      title: 'Form',
       items: [
         {
-          id: "item-basic",
+          id: 'item-basic',
           icon: <MdInput />,
-          label: "Basic Form",
-          href: "/form",
+          label: 'Basic Form',
+          href: '/form',
         },
         {
-          id: "item-additional-form",
+          id: 'item-additional-form',
           icon: <MdInput />,
-          label: "Additional Form",
-          href: "/form/additional-form",
+          label: 'Additional Form',
+          href: '/form/additional-form',
         },
         {
-          id: "item-advance-form",
+          id: 'item-advance-form',
           icon: <MdInput />,
-          label: "Advance Form",
-          href: "/form/advance-form",
+          label: 'Advance Form',
+          href: '/form/advance-form',
         },
-
-
-
-        
       ],
     },
     {
-      id: "section-2",
-      title: "Button",
+      id: 'section-2',
+      title: 'Button',
       items: [
         {
-          id: "button",
+          id: 'button',
           icon: <MdInput />,
-          label: "button ",
-          href: "/button",
+          label: 'button ',
+          href: '/button',
         },
-        
       ],
     },
     {
-      id: "section-3",
-      title: "Dialog",
+      id: 'section-3',
+      title: 'Dialog',
       items: [
         {
-          id: "dialog",
+          id: 'dialog',
           icon: <MdInput />,
-          label: "dialog ",
-          href: "/dialog",
+          label: 'dialog ',
+          href: '/dialog',
         },
-        
       ],
     },
-
   ];
   return (
     <div className="flex overflow-hidden max-h-screen  ">
@@ -76,7 +69,7 @@ function App() {
         showSearch
         searchPlaceholder="Search..."
         onCollapsedChange={(collapsed) => {
-          console.log("Sidebar collapsed:", collapsed);
+          console.log('Sidebar collapsed:', collapsed);
         }}
       />
 

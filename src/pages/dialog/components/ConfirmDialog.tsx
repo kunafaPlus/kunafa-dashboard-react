@@ -1,11 +1,12 @@
-import * as React from "react";
-import { cn } from "../../../utils/cn";
-import { FiAlertCircle, FiAlertTriangle, FiCheckCircle, FiInfo, FiX } from "react-icons/fi"; // Feather Icons
-import { MdCheckCircle } from "react-icons/md";
-import { TbAlertTriangle } from "react-icons/tb";
-import { BiX } from "react-icons/bi";
+import * as React from 'react';
+import { BiX } from 'react-icons/bi';
+import { FiAlertCircle, FiAlertTriangle, FiCheckCircle, FiInfo, FiX } from 'react-icons/fi'; // Feather Icons
+import { MdCheckCircle } from 'react-icons/md';
+import { TbAlertTriangle } from 'react-icons/tb';
 
-type ConfirmType = "info" | "success" | "warning" | "error";
+import { cn } from '../../../utils/cn';
+
+type ConfirmType = 'info' | 'success' | 'warning' | 'error';
 
 interface ConfirmDialogProps {
   open?: boolean;
@@ -27,11 +28,11 @@ const ConfirmDialog = React.forwardRef<HTMLDivElement, ConfirmDialogProps>(
     {
       open = false,
       onOpenChange,
-      type = "info",
-      title = "Confirm Action",
-      description = "Are you sure you want to continue?",
-      confirmLabel = "Confirm",
-      cancelLabel = "Cancel",
+      type = 'info',
+      title = 'Confirm Action',
+      description = 'Are you sure you want to continue?',
+      confirmLabel = 'Confirm',
+      cancelLabel = 'Cancel',
       onConfirm,
       onCancel,
       loading = false,
@@ -45,11 +46,11 @@ const ConfirmDialog = React.forwardRef<HTMLDivElement, ConfirmDialogProps>(
 
     const getIcon = () => {
       switch (type) {
-        case "success":
+        case 'success':
           return <MdCheckCircle className="h-6 w-6 text-success" />;
-        case "warning":
+        case 'warning':
           return <TbAlertTriangle className="h-6 w-6 text-warning" />;
-        case "error":
+        case 'error':
           return <FiAlertCircle className="h-6 w-6 text-destructive" />;
         default:
           return <FiInfo className="h-6 w-6 text-primary" />;
@@ -100,12 +101,12 @@ const ConfirmDialog = React.forwardRef<HTMLDivElement, ConfirmDialogProps>(
             <button
               type="button"
               className={cn(
-                "inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium text-white ring-offset-background transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none",
-                type === "success" && "bg-success hover:bg-success/90",
-                type === "warning" && "bg-warning hover:bg-warning/90",
-                type === "error" && "bg-destructive hover:bg-destructive/90",
-                type === "info" && "bg-primary hover:bg-primary/90",
-                loading && "cursor-not-allowed opacity-50"
+                'inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium text-white ring-offset-background transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none',
+                type === 'success' && 'bg-success hover:bg-success/90',
+                type === 'warning' && 'bg-warning hover:bg-warning/90',
+                type === 'error' && 'bg-destructive hover:bg-destructive/90',
+                type === 'info' && 'bg-primary hover:bg-primary/90',
+                loading && 'cursor-not-allowed opacity-50'
               )}
               onClick={handleConfirm}
               disabled={loading}
@@ -122,6 +123,6 @@ const ConfirmDialog = React.forwardRef<HTMLDivElement, ConfirmDialogProps>(
   }
 );
 
-ConfirmDialog.displayName = "ConfirmDialog";
+ConfirmDialog.displayName = 'ConfirmDialog';
 
 export { ConfirmDialog, type ConfirmDialogProps, type ConfirmType };

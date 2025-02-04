@@ -1,32 +1,31 @@
-import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "../../../utils/cn";
+import { cva, type VariantProps } from 'class-variance-authority';
+import * as React from 'react';
+
+import { cn } from '../../../utils/cn';
 
 const progressButtonVariants = cva(
-  "relative inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 overflow-hidden",
+  'relative inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 overflow-hidden',
   {
     variants: {
       variant: {
-        default: "bg-primary text-white shadow hover:bg-primary/90",
-        destructive:
-          "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
+        default: 'bg-primary text-white shadow hover:bg-primary/90',
+        destructive: 'bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90',
         outline:
-          "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
-        secondary:
-          "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
+          'border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground',
+        secondary: 'bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80',
+        ghost: 'hover:bg-accent hover:text-accent-foreground',
+        link: 'text-primary underline-offset-4 hover:underline',
       },
       size: {
-        default: "h-9 px-4 py-2",
-        sm: "h-8 rounded-md px-3 text-xs",
-        lg: "h-10 rounded-md px-8",
-        icon: "h-9 w-9",
+        default: 'h-9 px-4 py-2',
+        sm: 'h-8 rounded-md px-3 text-xs',
+        lg: 'h-10 rounded-md px-8',
+        icon: 'h-9 w-9',
       },
     },
     defaultVariants: {
-      variant: "default",
-      size: "default",
+      variant: 'default',
+      size: 'default',
     },
   }
 );
@@ -36,7 +35,7 @@ interface ProgressButtonProps
     VariantProps<typeof progressButtonVariants> {
   progress?: number;
   showProgress?: boolean;
-  progressPlacement?: "background" | "foreground";
+  progressPlacement?: 'background' | 'foreground';
   progressColor?: string;
   progressClassName?: string;
   progressText?: string | ((progress: number) => string);
@@ -50,7 +49,7 @@ const ProgressButton = React.forwardRef<HTMLButtonElement, ProgressButtonProps>(
       size,
       progress = 0,
       showProgress = true,
-      progressPlacement = "background",
+      progressPlacement = 'background',
       progressColor,
       progressClassName,
       progressText,
@@ -61,11 +60,11 @@ const ProgressButton = React.forwardRef<HTMLButtonElement, ProgressButtonProps>(
     ref
   ) => {
     const normalizedProgress = Math.min(Math.max(progress, 0), 100);
-    
+
     const displayText = React.useMemo(() => {
       if (!showProgress) return children;
       if (!progressText) return children;
-      if (typeof progressText === "function") {
+      if (typeof progressText === 'function') {
         return progressText(normalizedProgress);
       }
       return progressText;
@@ -82,14 +81,14 @@ const ProgressButton = React.forwardRef<HTMLButtonElement, ProgressButtonProps>(
         {showProgress && (
           <div
             className={cn(
-              "absolute left-0 top-0 h-full transition-all duration-300 ease-in-out",
-              progressPlacement === "background" ? "z-0" : "z-10",
+              'absolute left-0 top-0 h-full transition-all duration-300 ease-in-out',
+              progressPlacement === 'background' ? 'z-0' : 'z-10',
               progressClassName
             )}
             style={{
               width: `${normalizedProgress}%`,
-              backgroundColor: progressColor || "currentColor",
-              opacity: progressPlacement === "background" ? 0.15 : 0.2,
+              backgroundColor: progressColor || 'currentColor',
+              opacity: progressPlacement === 'background' ? 0.15 : 0.2,
             }}
           />
         )}
@@ -108,6 +107,6 @@ const ProgressButton = React.forwardRef<HTMLButtonElement, ProgressButtonProps>(
   }
 );
 
-ProgressButton.displayName = "ProgressButton";
+ProgressButton.displayName = 'ProgressButton';
 
 export { ProgressButton };

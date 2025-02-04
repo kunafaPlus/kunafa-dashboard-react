@@ -1,32 +1,27 @@
-import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { FileUploaderProps } from "../utils/type";
-import { cn } from "../../../utils/cn";
+import { cva, type VariantProps } from 'class-variance-authority';
+import * as React from 'react';
 
+import { cn } from '../../../utils/cn';
+import { FileUploaderProps } from '../utils/type';
 
-const fileUploaderVariants = cva(
-  "relative rounded-lg border-2 border-dashed transition-colors",
-  {
-    variants: {
-      variant: {
-        default: "border-muted-foreground/25 hover:border-muted-foreground/50",
-        accent: "border-primary/25 hover:border-primary/50",
-        ghost: "border-transparent bg-muted/50",
-      },
-      size: {
-        sm: "p-4",
-        md: "p-6",
-        lg: "p-8",
-      },
+const fileUploaderVariants = cva('relative rounded-lg border-2 border-dashed transition-colors', {
+  variants: {
+    variant: {
+      default: 'border-muted-foreground/25 hover:border-muted-foreground/50',
+      accent: 'border-primary/25 hover:border-primary/50',
+      ghost: 'border-transparent bg-muted/50',
     },
-    defaultVariants: {
-      variant: "default",
-      size: "md",
+    size: {
+      sm: 'p-4',
+      md: 'p-6',
+      lg: 'p-8',
     },
-  }
-);
-
-
+  },
+  defaultVariants: {
+    variant: 'default',
+    size: 'md',
+  },
+});
 
 const FileUploader = React.forwardRef<HTMLDivElement, FileUploaderProps>(
   (
@@ -59,9 +54,9 @@ const FileUploader = React.forwardRef<HTMLDivElement, FileUploaderProps>(
         e.stopPropagation();
         if (disabled) return;
 
-        if (e.type === "dragenter" || e.type === "dragover") {
+        if (e.type === 'dragenter' || e.type === 'dragover') {
           setDragActive(true);
-        } else if (e.type === "dragleave") {
+        } else if (e.type === 'dragleave') {
           setDragActive(false);
         }
       },
@@ -146,8 +141,8 @@ const FileUploader = React.forwardRef<HTMLDivElement, FileUploaderProps>(
         ref={ref}
         className={cn(
           fileUploaderVariants({ variant, size } as any),
-          dragActive && "border-primary",
-          disabled && "opacity-50 cursor-not-allowed",
+          dragActive && 'border-primary',
+          disabled && 'opacity-50 cursor-not-allowed',
           className
         )}
         onDragEnter={handleDrag}
@@ -156,11 +151,7 @@ const FileUploader = React.forwardRef<HTMLDivElement, FileUploaderProps>(
         onDrop={handleDrop}
         {...props}
       >
-             {label && (
-          <label className="text-sm font-medium text-gray-700">
-            {label}
-          </label>
-        )}
+        {label && <label className="text-sm font-medium text-gray-700">{label}</label>}
         <input
           ref={inputRef}
           type="file"
@@ -173,15 +164,13 @@ const FileUploader = React.forwardRef<HTMLDivElement, FileUploaderProps>(
 
         <div className="flex flex-col items-center justify-center space-y-2 text-center">
           {dragActive ? (
-            dragActiveContent || (
-              <div className="text-primary">Drop files here...</div>
-            )
+            dragActiveContent || <div className="text-primary">Drop files here...</div>
           ) : (
             <>
               {children || (
                 <>
                   <div className="text-muted-foreground">
-                    Drag & drop files here, or{" "}
+                    Drag & drop files here, or{' '}
                     <button
                       type="button"
                       onClick={handleButtonClick}
@@ -192,9 +181,7 @@ const FileUploader = React.forwardRef<HTMLDivElement, FileUploaderProps>(
                     </button>
                   </div>
                   {accept && (
-                    <div className="text-sm text-muted-foreground">
-                      Accepted files: {accept}
-                    </div>
+                    <div className="text-sm text-muted-foreground">Accepted files: {accept}</div>
                   )}
                   {maxSize && (
                     <div className="text-sm text-muted-foreground">
@@ -212,12 +199,9 @@ const FileUploader = React.forwardRef<HTMLDivElement, FileUploaderProps>(
             {files.map((file, index) => {
               const fileURL = URL.createObjectURL(file); // Create a URL for the file
               return (
-                <div
-                  key={index}
-                  className="flex items-center justify-between rounded bg-muted p-2"
-                >
+                <div key={index} className="flex items-center justify-between rounded bg-muted p-2">
                   <div className="flex items-center space-x-2">
-                    {file.type.startsWith("image/") ? (
+                    {file.type.startsWith('image/') ? (
                       <img
                         src={fileURL}
                         alt={file.name}
@@ -232,7 +216,7 @@ const FileUploader = React.forwardRef<HTMLDivElement, FileUploaderProps>(
                   </div>
                   <button
                     type="button"
-                    onClick={() => removeFile(index)}
+                    onClick={() => { removeFile(index); }}
                     className="text-muted-foreground hover:text-foreground"
                     aria-label="Remove file"
                   >
@@ -243,12 +227,12 @@ const FileUploader = React.forwardRef<HTMLDivElement, FileUploaderProps>(
             })}
           </div>
         )}
-        {error&&<p className="text-red-500 -mt-2">{error}</p>}
+        {error && <p className="text-red-500 -mt-2">{error}</p>}
       </div>
     );
   }
 );
 
-FileUploader.displayName = "FileUploader";
+FileUploader.displayName = 'FileUploader';
 
 export { FileUploader, fileUploaderVariants };

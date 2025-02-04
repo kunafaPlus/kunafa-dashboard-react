@@ -1,32 +1,31 @@
-import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "../../../utils/cn";
+import { cva, type VariantProps } from 'class-variance-authority';
+import * as React from 'react';
+
+import { cn } from '../../../utils/cn';
 
 const menuButtonVariants = cva(
-  "inline-flex items-center  justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
+  'inline-flex items-center  justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50',
   {
     variants: {
       variant: {
-        default: "bg-primary text-white shadow hover:bg-primary/90",
-        destructive:
-          "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
+        default: 'bg-primary text-white shadow hover:bg-primary/90',
+        destructive: 'bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90',
         outline:
-          "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
-        secondary:
-          "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
+          'border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground',
+        secondary: 'bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80',
+        ghost: 'hover:bg-accent hover:text-accent-foreground',
+        link: 'text-primary underline-offset-4 hover:underline',
       },
       size: {
-        default: "h-9 px-4 py-2",
-        sm: "h-8 rounded-md px-3 text-xs",
-        lg: "h-10 rounded-md px-8",
-        icon: "h-9 w-9",
+        default: 'h-9 px-4 py-2',
+        sm: 'h-8 rounded-md px-3 text-xs',
+        lg: 'h-10 rounded-md px-8',
+        icon: 'h-9 w-9',
       },
     },
     defaultVariants: {
-      variant: "default",
-      size: "default",
+      variant: 'default',
+      size: 'default',
     },
   }
 );
@@ -52,8 +51,8 @@ interface MenuButtonProps
   maxHeight?: number;
   closeOnSelect?: boolean;
   showIcons?: boolean;
-  placement?: "bottom-start" | "bottom-end" | "top-start" | "top-end";
-  submenuPlacement?: "right-start" | "left-start";
+  placement?: 'bottom-start' | 'bottom-end' | 'top-start' | 'top-end';
+  submenuPlacement?: 'right-start' | 'left-start';
   chevronIcon?: React.ReactNode;
 }
 
@@ -70,8 +69,8 @@ const MenuButton = React.forwardRef<HTMLButtonElement, MenuButtonProps>(
       maxHeight = 250,
       closeOnSelect = true,
       showIcons = true,
-      placement = "bottom-start",
-      submenuPlacement = "right-start",
+      placement = 'bottom-start',
+      submenuPlacement = 'right-start',
       chevronIcon,
       children,
       disabled,
@@ -101,8 +100,8 @@ const MenuButton = React.forwardRef<HTMLButtonElement, MenuButtonProps>(
         }
       };
 
-      document.addEventListener("mousedown", handleClickOutside);
-      return () => document.removeEventListener("mousedown", handleClickOutside);
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => { document.removeEventListener('mousedown', handleClickOutside); };
     }, []);
 
     const defaultChevronIcon = (
@@ -135,35 +134,26 @@ const MenuButton = React.forwardRef<HTMLButtonElement, MenuButtonProps>(
       </svg>
     );
 
-    const renderMenuItem = (
-      item: MenuItem,
-      path: string[] = [],
-      isSubmenu = false
-    ) => {
+    const renderMenuItem = (item: MenuItem, path: string[] = [], isSubmenu = false) => {
       if (item.divider) {
-        return (
-          <div
-            key={`divider-${path.join("-")}`}
-            className="my-1 h-px bg-white"
-          />
-        );
+        return <div key={`divider-${path.join('-')}`} className="my-1 h-px bg-white" />;
       }
 
       const itemPath = [...path, item.id];
-      const isActive = activeSubmenuPath.join("-") === itemPath.join("-");
+      const isActive = activeSubmenuPath.join('-') === itemPath.join('-');
 
       return (
         <div key={item.id} className="relative">
           <button
             type="button"
             className={cn(
-              "relative flex w-full cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors",
+              'relative flex w-full cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors',
               {
-                "text-destructive": item.danger,
-                "opacity-50": item.disabled,
-                "hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground":
+                'text-destructive': item.danger,
+                'opacity-50': item.disabled,
+                'hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground':
                   !item.disabled,
-                "bg-white text-accent-foreground": isActive,
+                'bg-white text-accent-foreground': isActive,
               },
               itemClassName
             )}
@@ -187,9 +177,7 @@ const MenuButton = React.forwardRef<HTMLButtonElement, MenuButtonProps>(
               }
             }}
           >
-            {showIcons && item.icon && (
-              <span className="mr-2">{item.icon}</span>
-            )}
+            {showIcons && item.icon && <span className="mr-2">{item.icon}</span>}
             <span className="flex-1">{item.label}</span>
             {item.submenu && submenuChevronIcon}
           </button>
@@ -198,16 +186,14 @@ const MenuButton = React.forwardRef<HTMLButtonElement, MenuButtonProps>(
           {item.submenu && isActive && (
             <div
               className={cn(
-                "absolute z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md",
+                'absolute z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md',
                 {
-                  "left-full top-0 ml-1": submenuPlacement === "right-start",
-                  "right-full top-0 mr-1": submenuPlacement === "left-start",
+                  'left-full top-0 ml-1': submenuPlacement === 'right-start',
+                  'right-full top-0 mr-1': submenuPlacement === 'left-start',
                 }
               )}
             >
-              {item.submenu.map((subitem) =>
-                renderMenuItem(subitem, itemPath, true)
-              )}
+              {item.submenu.map((subitem) => renderMenuItem(subitem, itemPath, true))}
             </div>
           )}
         </div>
@@ -219,11 +205,7 @@ const MenuButton = React.forwardRef<HTMLButtonElement, MenuButtonProps>(
         <button
           ref={buttonRef}
           type="button"
-          className={cn(
-            menuButtonVariants({ variant, size }),
-            "gap-1",
-            className
-          )}
+          className={cn(menuButtonVariants({ variant, size }), 'gap-1', className)}
           onClick={() => !disabled && setIsOpen(!isOpen)}
           disabled={disabled}
           {...props}
@@ -236,21 +218,19 @@ const MenuButton = React.forwardRef<HTMLButtonElement, MenuButtonProps>(
           <div
             ref={menuRef}
             className={cn(
-              "absolute z-50 bg-white min-w-[8rem] overflow-hidden rounded-md border border-gray-200 p-1 text-popover-foreground shadow-md",
+              'absolute z-50 bg-white min-w-[8rem] overflow-hidden rounded-md border border-gray-200 p-1 text-popover-foreground shadow-md',
               {
-                "mt-1": placement.startsWith("bottom"),
-                "bottom-full mb-1": placement.startsWith("top"),
-                "left-0": placement.endsWith("start"),
-                "right-0": placement.endsWith("end"),
+                'mt-1': placement.startsWith('bottom'),
+                'bottom-full mb-1': placement.startsWith('top'),
+                'left-0': placement.endsWith('start'),
+                'right-0': placement.endsWith('end'),
               },
               menuClassName
             )}
             style={{ maxHeight }}
-            onMouseLeave={() => setActiveSubmenuPath([])}
+            onMouseLeave={() => { setActiveSubmenuPath([]); }}
           >
-            <div className="overflow-y-auto">
-              {items.map((item) => renderMenuItem(item))}
-            </div>
+            <div className="overflow-y-auto">{items.map((item) => renderMenuItem(item))}</div>
           </div>
         )}
       </div>
@@ -258,6 +238,6 @@ const MenuButton = React.forwardRef<HTMLButtonElement, MenuButtonProps>(
   }
 );
 
-MenuButton.displayName = "MenuButton";
+MenuButton.displayName = 'MenuButton';
 
 export { MenuButton };

@@ -1,28 +1,26 @@
-import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "../../../utils/cn";
+import { cva, type VariantProps } from 'class-variance-authority';
+import * as React from 'react';
 
-const listBoxVariants = cva(
-  "w-full overflow-auto border rounded-lg bg-background",
-  {
-    variants: {
-      variant: {
-        default: "",
-        bordered: "border-2",
-        ghost: "bg-muted/50 border-none",
-      },
-      size: {
-        sm: "max-h-[200px]",
-        md: "max-h-[300px]",
-        lg: "max-h-[400px]",
-      },
+import { cn } from '../../../utils/cn';
+
+const listBoxVariants = cva('w-full overflow-auto border rounded-lg bg-background', {
+  variants: {
+    variant: {
+      default: '',
+      bordered: 'border-2',
+      ghost: 'bg-muted/50 border-none',
     },
-    defaultVariants: {
-      variant: "default",
-      size: "md",
+    size: {
+      sm: 'max-h-[200px]',
+      md: 'max-h-[300px]',
+      lg: 'max-h-[400px]',
     },
-  }
-);
+  },
+  defaultVariants: {
+    variant: 'default',
+    size: 'md',
+  },
+});
 
 interface ListBoxOption {
   value: string;
@@ -33,8 +31,7 @@ interface ListBoxOption {
   metadata?: any;
 }
 
-interface ListBoxProps
-   {
+interface ListBoxProps {
   options: ListBoxOption[];
   value?: string | string[];
   onChange?: (value: string | string[]) => void;
@@ -50,8 +47,8 @@ interface ListBoxProps
   filterOption?: (option: ListBoxOption, searchValue: string) => boolean;
   compareOption?: (option: ListBoxOption, value: string) => boolean;
   className?: string;
-  variant?: VariantProps<typeof listBoxVariants>["variant"];
-  size?: VariantProps<typeof listBoxVariants>["size"];
+  variant?: VariantProps<typeof listBoxVariants>['variant'];
+  size?: VariantProps<typeof listBoxVariants>['size'];
 }
 
 const ListBox = React.forwardRef<HTMLDivElement, ListBoxProps>(
@@ -69,8 +66,8 @@ const ListBox = React.forwardRef<HTMLDivElement, ListBoxProps>(
       searchable = false,
       virtualScroll = false,
       itemHeight = 40,
-      emptyMessage = "No options available",
-      loadingMessage = "Loading...",
+      emptyMessage = 'No options available',
+      loadingMessage = 'Loading...',
       renderOption,
       filterOption,
       compareOption,
@@ -78,7 +75,7 @@ const ListBox = React.forwardRef<HTMLDivElement, ListBoxProps>(
     },
     ref
   ) => {
-    const [searchValue, setSearchValue] = React.useState("");
+    const [searchValue, setSearchValue] = React.useState('');
     const [scrollTop, setScrollTop] = React.useState(0);
     const containerRef = React.useRef<HTMLDivElement>(null);
 
@@ -88,14 +85,10 @@ const ListBox = React.forwardRef<HTMLDivElement, ListBoxProps>(
       if (!value) return false;
       if (multiple) {
         return (value as string[]).some((v) =>
-          compareOption
-            ? compareOption(option, v)
-            : option.value === v
+          compareOption ? compareOption(option, v) : option.value === v
         );
       }
-      return compareOption
-        ? compareOption(option, value as string)
-        : option.value === value;
+      return compareOption ? compareOption(option, value as string) : option.value === value;
     };
 
     const handleSelect = (option: ListBoxOption) => {
@@ -105,9 +98,7 @@ const ListBox = React.forwardRef<HTMLDivElement, ListBoxProps>(
         const currentValue = (value || []) as string[];
         const newValue = isSelected(option)
           ? currentValue.filter((v) =>
-              compareOption
-                ? !compareOption(option, v)
-                : v !== option.value
+              compareOption ? !compareOption(option, v) : v !== option.value
             )
           : [...currentValue, option.value];
         onChange?.(newValue);
@@ -125,10 +116,7 @@ const ListBox = React.forwardRef<HTMLDivElement, ListBoxProps>(
       return options.filter((option) =>
         filterOption
           ? filterOption(option, searchValue)
-          : option.label
-              .toString()
-              .toLowerCase()
-              .includes(searchValue.toLowerCase())
+          : option.label.toString().toLowerCase().includes(searchValue.toLowerCase())
       );
     }, [options, searchValue, filterOption]);
 
@@ -151,17 +139,11 @@ const ListBox = React.forwardRef<HTMLDivElement, ListBoxProps>(
 
     const defaultRenderOption = (option: ListBoxOption) => (
       <div className="flex items-center px-3 py-2">
-        {option.icon && (
-          <span className="mr-2 text-muted-foreground">
-            {option.icon}
-          </span>
-        )}
+        {option.icon && <span className="mr-2 text-muted-foreground">{option.icon}</span>}
         <div className="flex-1 min-w-0">
           <div className="truncate">{option.label}</div>
           {option.description && (
-            <div className="text-sm text-muted-foreground truncate">
-              {option.description}
-            </div>
+            <div className="text-sm text-muted-foreground truncate">{option.description}</div>
           )}
         </div>
         {multiple && isSelected(option) && (
@@ -186,7 +168,7 @@ const ListBox = React.forwardRef<HTMLDivElement, ListBoxProps>(
         ref={containerRef}
         className={cn(
           listBoxVariants({ variant, size }),
-          disabled && "opacity-50 cursor-not-allowed",
+          disabled && 'opacity-50 cursor-not-allowed',
           className
         )}
         onScroll={handleScroll}
@@ -219,7 +201,7 @@ const ListBox = React.forwardRef<HTMLDivElement, ListBoxProps>(
               virtualScroll
                 ? {
                     height: filteredOptions.length * itemHeight,
-                    position: "relative",
+                    position: 'relative',
                   }
                 : undefined
             }
@@ -228,30 +210,23 @@ const ListBox = React.forwardRef<HTMLDivElement, ListBoxProps>(
               <div
                 key={option.value}
                 className={cn(
-                  "transition-colors cursor-pointer",
-                  isSelected(option)
-                    ? "bg-primary/10 text-primary"
-                    : "hover:bg-accent",
-                  option.disabled &&
-                    "opacity-50 cursor-not-allowed pointer-events-none"
+                  'transition-colors cursor-pointer',
+                  isSelected(option) ? 'bg-primary/10 text-primary' : 'hover:bg-accent',
+                  option.disabled && 'opacity-50 cursor-not-allowed pointer-events-none'
                 )}
                 style={
                   virtualScroll
                     ? {
-                        position: "absolute",
-                        top:
-                          (Math.floor(scrollTop / itemHeight) + index) *
-                          itemHeight,
+                        position: 'absolute',
+                        top: (Math.floor(scrollTop / itemHeight) + index) * itemHeight,
                         height: itemHeight,
-                        width: "100%",
+                        width: '100%',
                       }
                     : undefined
                 }
-                onClick={() => handleSelect(option)}
+                onClick={() => { handleSelect(option); }}
               >
-                {renderOption
-                  ? renderOption(option)
-                  : defaultRenderOption(option)}
+                {renderOption ? renderOption(option) : defaultRenderOption(option)}
               </div>
             ))}
           </div>
@@ -261,6 +236,6 @@ const ListBox = React.forwardRef<HTMLDivElement, ListBoxProps>(
   }
 );
 
-ListBox.displayName = "ListBox";
+ListBox.displayName = 'ListBox';
 
 export { ListBox, type ListBoxOption };

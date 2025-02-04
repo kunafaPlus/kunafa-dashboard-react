@@ -1,8 +1,9 @@
-import * as React from "react";
-import { cn } from "../../../utils/cn";
-import { BiX } from "react-icons/bi";
+import * as React from 'react';
+import { BiX } from 'react-icons/bi';
 
-interface FormDialogProps  {
+import { cn } from '../../../utils/cn';
+
+interface FormDialogProps {
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
   title?: React.ReactNode;
@@ -14,7 +15,7 @@ interface FormDialogProps  {
   loading?: boolean;
   error?: string;
   success?: string;
-  size?: "sm" | "md" | "lg" | "xl" | "full";
+  size?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
   preventClose?: boolean;
   showDividers?: boolean;
   className?: string;
@@ -28,14 +29,14 @@ const FormDialog = React.forwardRef<HTMLDivElement, FormDialogProps>(
       onOpenChange,
       title,
       description,
-      submitLabel = "Submit",
-      cancelLabel = "Cancel",
+      submitLabel = 'Submit',
+      cancelLabel = 'Cancel',
       onSubmit,
       onCancel,
       loading = false,
       error,
       success,
-      size = "md",
+      size = 'md',
       preventClose = false,
       showDividers = true,
       className,
@@ -51,18 +52,18 @@ const FormDialog = React.forwardRef<HTMLDivElement, FormDialogProps>(
 
     const getMaxWidth = () => {
       switch (size) {
-        case "sm":
-          return "max-w-sm";
-        case "md":
-          return "max-w-md";
-        case "lg":
-          return "max-w-lg";
-        case "xl":
-          return "max-w-xl";
-        case "full":
-          return "max-w-[calc(100%-2rem)]";
+        case 'sm':
+          return 'max-w-sm';
+        case 'md':
+          return 'max-w-md';
+        case 'lg':
+          return 'max-w-lg';
+        case 'xl':
+          return 'max-w-xl';
+        case 'full':
+          return 'max-w-[calc(100%-2rem)]';
         default:
-          return "max-w-md";
+          return 'max-w-md';
       }
     };
 
@@ -81,30 +82,31 @@ const FormDialog = React.forwardRef<HTMLDivElement, FormDialogProps>(
         const data = Object.fromEntries(formData.entries());
         await onSubmit?.(data);
       } catch (error) {
-        console.error("Form submission error:", error);
+        console.error('Form submission error:', error);
       }
     };
     const handleClose = async (e: React.FormEvent) => {
       e.preventDefault();
 
       onCancel?.();
-      
     };
 
     return (
       <div className="fixed inset-0 z-50 bg-black/80 " {...props}>
         <div
           className={cn(
-            "fixed left-[50%] top-[50%] z-50 grid w-full translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background shadow-lg duration-200 sm:rounded-lg",
+            'fixed left-[50%] top-[50%] z-50 grid w-full translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background shadow-lg duration-200 sm:rounded-lg',
             getMaxWidth(),
             className
           )}
           ref={ref}
         >
           {/* Header */}
-          <div className={cn("flex items-center gap-2 p-6", showDividers && "border-b")}>
+          <div className={cn('flex items-center gap-2 p-6', showDividers && 'border-b')}>
             <div className="flex-1 space-y-1">
-              {title && <h2 className="text-lg font-semibold leading-none tracking-tight">{title}</h2>}
+              {title && (
+                <h2 className="text-lg font-semibold leading-none tracking-tight">{title}</h2>
+              )}
               {description && <p className="text-sm text-muted-foreground">{description}</p>}
             </div>
             {!preventClose && (
@@ -127,17 +129,15 @@ const FormDialog = React.forwardRef<HTMLDivElement, FormDialogProps>(
             {/* Status Messages */}
             {(error || success) && (
               <div className="px-6">
-                {error && (
-                  <p className="text-sm text-destructive">{error}</p>
-                )}
-                {success && (
-                  <p className="text-sm text-success">{success}</p>
-                )}
+                {error && <p className="text-sm text-destructive">{error}</p>}
+                {success && <p className="text-sm text-success">{success}</p>}
               </div>
             )}
 
             {/* Footer */}
-            <div className={cn("flex items-center justify-end gap-4 p-6", showDividers && "border-t")}>
+            <div
+              className={cn('flex items-center justify-end gap-4 p-6', showDividers && 'border-t')}
+            >
               {!preventClose && (
                 <button
                   type="button"
@@ -151,8 +151,8 @@ const FormDialog = React.forwardRef<HTMLDivElement, FormDialogProps>(
               <button
                 type="submit"
                 className={cn(
-                  "inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-white ring-offset-background transition-colors hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none",
-                  loading && "cursor-not-allowed opacity-50"
+                  'inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-white ring-offset-background transition-colors hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none',
+                  loading && 'cursor-not-allowed opacity-50'
                 )}
                 disabled={loading}
               >
@@ -169,6 +169,6 @@ const FormDialog = React.forwardRef<HTMLDivElement, FormDialogProps>(
   }
 );
 
-FormDialog.displayName = "FormDialog";
+FormDialog.displayName = 'FormDialog';
 
 export { FormDialog, type FormDialogProps };

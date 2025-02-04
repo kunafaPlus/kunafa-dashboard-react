@@ -1,44 +1,37 @@
-import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "../../../utils/cn";
-import { TreeNode, TreeSelectProps } from "../utils/type";
+import { cva, type VariantProps } from 'class-variance-authority';
+import * as React from 'react';
 
-const treeSelectVariants = cva(
-  "w-full",
-  {
-    variants: {
-      variant: {
-        default: "[&_input]:border [&_input]:rounded-md",
-        filled: "[&_input]:bg-muted [&_input]:border-b",
-        ghost: "[&_input]:bg-transparent [&_input]:border-b",
-      },
-      size: {
-        sm: "[&_input]:text-sm [&_input]:p-2",
-        md: "[&_input]:text-base [&_input]:p-3",
-        lg: "[&_input]:text-lg [&_input]:p-4",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-      size: "md",
-    },
-  }
-);
+import { cn } from '../../../utils/cn';
+import { TreeNode, TreeSelectProps } from '../utils/type';
 
+const treeSelectVariants = cva('w-full', {
+  variants: {
+    variant: {
+      default: '[&_input]:border [&_input]:rounded-md',
+      filled: '[&_input]:bg-muted [&_input]:border-b',
+      ghost: '[&_input]:bg-transparent [&_input]:border-b',
+    },
+    size: {
+      sm: '[&_input]:text-sm [&_input]:p-2',
+      md: '[&_input]:text-base [&_input]:p-3',
+      lg: '[&_input]:text-lg [&_input]:p-4',
+    },
+  },
+  defaultVariants: {
+    variant: 'default',
+    size: 'md',
+  },
+});
 
 const TreeSelect = React.forwardRef<HTMLDivElement, TreeSelectProps>(
-  ({ 
-    className,
-    options,
-    value,
-    onChange,
-    label,
-    error,
-    placeholder = "اختر...",
-    ...props
-  }, ref) => {
+  (
+    { className, options, value, onChange, label, error, placeholder = 'اختر...', ...props },
+    ref
+  ) => {
     const [isOpen, setIsOpen] = React.useState(false);
-    const [selectedValues, setSelectedValues] = React.useState<string[]>(Array.isArray(value) ? value : []);
+    const [selectedValues, setSelectedValues] = React.useState<string[]>(
+      Array.isArray(value) ? value : []
+    );
     const treeSelectRef = React.useRef<HTMLDivElement>(null);
 
     React.useEffect(() => {
@@ -49,7 +42,7 @@ const TreeSelect = React.forwardRef<HTMLDivElement, TreeSelectProps>(
 
     const handleSelect = (nodeValue: string) => {
       const newValues = selectedValues.includes(nodeValue)
-        ? selectedValues.filter(v => v !== nodeValue)
+        ? selectedValues.filter((v) => v !== nodeValue)
         : [...selectedValues, nodeValue];
 
       setSelectedValues(newValues);
@@ -57,8 +50,8 @@ const TreeSelect = React.forwardRef<HTMLDivElement, TreeSelectProps>(
       if (onChange) {
         onChange({
           target: {
-            value: newValues
-          }
+            value: newValues,
+          },
         });
       }
     };
@@ -67,14 +60,14 @@ const TreeSelect = React.forwardRef<HTMLDivElement, TreeSelectProps>(
       <div key={node.value} style={{ paddingLeft: `${level * 20}px` }}>
         <div
           className={cn(
-            "flex items-center p-2 hover:bg-gray-100 cursor-pointer",
-            selectedValues.includes(node.value) && "bg-primary/10"
+            'flex items-center p-2 hover:bg-gray-100 cursor-pointer',
+            selectedValues.includes(node.value) && 'bg-primary/10'
           )}
-          onClick={() => handleSelect(node.value)}
+          onClick={() => { handleSelect(node.value); }}
         >
           <span>{node.label}</span>
         </div>
-        {node.children?.map(child => renderNode(child, level + 1))}
+        {node.children?.map((child) => renderNode(child, level + 1))}
       </div>
     );
 
@@ -91,9 +84,9 @@ const TreeSelect = React.forwardRef<HTMLDivElement, TreeSelectProps>(
       };
 
       return selectedValues
-        .map(value => findLabel(options, value))
+        .map((value) => findLabel(options, value))
         .filter((label): label is string => label !== undefined)
-        .join(", ");
+        .join(', ');
     };
 
     // Close the dropdown when clicking outside
@@ -105,31 +98,27 @@ const TreeSelect = React.forwardRef<HTMLDivElement, TreeSelectProps>(
       };
 
       if (isOpen) {
-        document.addEventListener("mousedown", handleClickOutside);
+        document.addEventListener('mousedown', handleClickOutside);
       } else {
-        document.removeEventListener("mousedown", handleClickOutside);
+        document.removeEventListener('mousedown', handleClickOutside);
       }
 
       return () => {
-        document.removeEventListener("mousedown", handleClickOutside);
+        document.removeEventListener('mousedown', handleClickOutside);
       };
     }, [isOpen]);
 
     return (
       <div ref={treeSelectRef} className="space-y-2">
-        {label && (
-          <label className="block text-sm font-medium text-gray-700">
-            {label}
-          </label>
-        )}
+        {label && <label className="block text-sm font-medium text-gray-700">{label}</label>}
         <div className="relative">
           <div
             className={cn(
-              "flex items-center justify-between p-2 border rounded-md cursor-pointer",
-              error && "border-red-500",
+              'flex items-center justify-between p-2 border rounded-md cursor-pointer',
+              error && 'border-red-500',
               className
             )}
-            onClick={() => setIsOpen(!isOpen)}
+            onClick={() => { setIsOpen(!isOpen); }}
           >
             <span className="truncate">
               {selectedValues.length > 0 ? getSelectedLabels() : placeholder}
@@ -138,20 +127,16 @@ const TreeSelect = React.forwardRef<HTMLDivElement, TreeSelectProps>(
           </div>
           {isOpen && (
             <div className="absolute z-10 w-full mt-1 bg-white border rounded-md shadow-lg max-h-60 overflow-auto">
-              {options.map(option => renderNode(option))}
+              {options.map((option) => renderNode(option))}
             </div>
           )}
         </div>
-        {error && (
-          <p className="mt-1 text-sm text-red-500">
-            {error}
-          </p>
-        )}
+        {error && <p className="mt-1 text-sm text-red-500">{error}</p>}
       </div>
     );
   }
 );
 
-TreeSelect.displayName = "TreeSelect";
+TreeSelect.displayName = 'TreeSelect';
 
 export { TreeSelect, type TreeNode };

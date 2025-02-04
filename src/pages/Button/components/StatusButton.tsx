@@ -1,48 +1,49 @@
-import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "../../../utils/cn";
+import { cva, type VariantProps } from 'class-variance-authority';
+import * as React from 'react';
+
+import { cn } from '../../../utils/cn';
 
 const statusButtonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
+  'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50',
   {
     variants: {
       variant: {
-        default: "bg-primary text-white shadow hover:bg-primary/90",
-        success: "bg-green-600 text-white shadow hover:bg-green-700",
-        warning: "bg-yellow-600 text-white shadow hover:bg-yellow-700",
-        error: "bg-red-600 text-white shadow hover:bg-red-700",
-        info: "bg-blue-600 text-white shadow hover:bg-blue-700",
-        pending: "bg-orange-600 text-white shadow hover:bg-orange-700",
+        default: 'bg-primary text-white shadow hover:bg-primary/90',
+        success: 'bg-green-600 text-white shadow hover:bg-green-700',
+        warning: 'bg-yellow-600 text-white shadow hover:bg-yellow-700',
+        error: 'bg-red-600 text-white shadow hover:bg-red-700',
+        info: 'bg-blue-600 text-white shadow hover:bg-blue-700',
+        pending: 'bg-orange-600 text-white shadow hover:bg-orange-700',
       },
       size: {
-        default: "h-9 px-4 py-2",
-        sm: "h-8 rounded-md px-3 text-xs",
-        lg: "h-10 rounded-md px-8",
-        icon: "h-9 w-9",
+        default: 'h-9 px-4 py-2',
+        sm: 'h-8 rounded-md px-3 text-xs',
+        lg: 'h-10 rounded-md px-8',
+        icon: 'h-9 w-9',
       },
     },
     defaultVariants: {
-      variant: "default",
-      size: "default",
+      variant: 'default',
+      size: 'default',
     },
   }
 );
 
-type Status = "idle" | "success" | "warning" | "error" | "info" | "pending";
+type Status = 'idle' | 'success' | 'warning' | 'error' | 'info' | 'pending';
 
 interface StatusConfig {
   icon?: React.ReactNode;
   text?: string;
-  variant?: VariantProps<typeof statusButtonVariants>["variant"];
+  variant?: VariantProps<typeof statusButtonVariants>['variant'];
 }
 
 interface StatusButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    Omit<VariantProps<typeof statusButtonVariants>, "variant"> {
+    Omit<VariantProps<typeof statusButtonVariants>, 'variant'> {
   status?: Status;
   statuses?: Partial<Record<Status, StatusConfig>>;
   showIcon?: boolean;
-  iconPlacement?: "start" | "end";
+  iconPlacement?: 'start' | 'end';
   iconClassName?: string;
   statusClassName?: string;
   pulseOnChange?: boolean;
@@ -60,7 +61,7 @@ const defaultStatuses: Record<Status, StatusConfig> = {
         <path d="M10 2a8 8 0 100 16 8 8 0 000-16zm0 14a6 6 0 110-12 6 6 0 010 12z" />
       </svg>
     ),
-    variant: "default",
+    variant: 'default',
   },
   success: {
     icon: (
@@ -77,7 +78,7 @@ const defaultStatuses: Record<Status, StatusConfig> = {
         />
       </svg>
     ),
-    variant: "success",
+    variant: 'success',
   },
   warning: {
     icon: (
@@ -94,7 +95,7 @@ const defaultStatuses: Record<Status, StatusConfig> = {
         />
       </svg>
     ),
-    variant: "warning",
+    variant: 'warning',
   },
   error: {
     icon: (
@@ -111,7 +112,7 @@ const defaultStatuses: Record<Status, StatusConfig> = {
         />
       </svg>
     ),
-    variant: "error",
+    variant: 'error',
   },
   info: {
     icon: (
@@ -128,7 +129,7 @@ const defaultStatuses: Record<Status, StatusConfig> = {
         />
       </svg>
     ),
-    variant: "info",
+    variant: 'info',
   },
   pending: {
     icon: (
@@ -145,7 +146,7 @@ const defaultStatuses: Record<Status, StatusConfig> = {
         />
       </svg>
     ),
-    variant: "pending",
+    variant: 'pending',
   },
 };
 
@@ -154,10 +155,10 @@ const StatusButton = React.forwardRef<HTMLButtonElement, StatusButtonProps>(
     {
       className,
       size,
-      status = "idle",
+      status = 'idle',
       statuses = {},
       showIcon = true,
-      iconPlacement = "start",
+      iconPlacement = 'start',
       iconClassName,
       statusClassName,
       pulseOnChange = true,
@@ -183,9 +184,9 @@ const StatusButton = React.forwardRef<HTMLButtonElement, StatusButtonProps>(
     React.useEffect(() => {
       if (pulseOnChange && status !== prevStatus.current) {
         setIsPulsing(true);
-        const timer = setTimeout(() => setIsPulsing(false), 1000);
+        const timer = setTimeout(() => { setIsPulsing(false); }, 1000);
         prevStatus.current = status;
-        return () => clearTimeout(timer);
+        return () => { clearTimeout(timer); };
       }
     }, [status, pulseOnChange]);
 
@@ -197,28 +198,26 @@ const StatusButton = React.forwardRef<HTMLButtonElement, StatusButtonProps>(
             variant: currentStatus.variant,
             size,
           }),
-          isPulsing && "animate-pulse",
+          isPulsing && 'animate-pulse',
           statusClassName,
           className
         )}
         {...props}
       >
-        {showIcon && iconPlacement === "start" && currentStatus.icon && (
-          <span className={cn("mr-2", iconClassName)}>{currentStatus.icon}</span>
+        {showIcon && iconPlacement === 'start' && currentStatus.icon && (
+          <span className={cn('mr-2', iconClassName)}>{currentStatus.icon}</span>
         )}
-        
-        <span>
-          {currentStatus.text || children}
-        </span>
 
-        {showIcon && iconPlacement === "end" && currentStatus.icon && (
-          <span className={cn("ml-2", iconClassName)}>{currentStatus.icon}</span>
+        <span>{currentStatus.text || children}</span>
+
+        {showIcon && iconPlacement === 'end' && currentStatus.icon && (
+          <span className={cn('ml-2', iconClassName)}>{currentStatus.icon}</span>
         )}
       </button>
     );
   }
 );
 
-StatusButton.displayName = "StatusButton";
+StatusButton.displayName = 'StatusButton';
 
 export { StatusButton, type Status, type StatusConfig };

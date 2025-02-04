@@ -1,32 +1,31 @@
-import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "../../../utils/cn";
+import { cva, type VariantProps } from 'class-variance-authority';
+import * as React from 'react';
+
+import { cn } from '../../../utils/cn';
 
 const shareButtonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
+  'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50',
   {
     variants: {
       variant: {
-        default: "bg-primary text-white shadow hover:bg-primary/90",
-        destructive:
-          "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
+        default: 'bg-primary text-white shadow hover:bg-primary/90',
+        destructive: 'bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90',
         outline:
-          "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
-        secondary:
-          "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
+          'border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground',
+        secondary: 'bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80',
+        ghost: 'hover:bg-accent hover:text-accent-foreground',
+        link: 'text-primary underline-offset-4 hover:underline',
       },
       size: {
-        default: "h-9 px-4 py-2",
-        sm: "h-8 rounded-md px-3 text-xs",
-        lg: "h-10 rounded-md px-8",
-        icon: "h-9 w-9",
+        default: 'h-9 px-4 py-2',
+        sm: 'h-8 rounded-md px-3 text-xs',
+        lg: 'h-10 rounded-md px-8',
+        icon: 'h-9 w-9',
       },
     },
     defaultVariants: {
-      variant: "default",
-      size: "default",
+      variant: 'default',
+      size: 'default',
     },
   }
 );
@@ -37,7 +36,7 @@ interface ShareButtonProps
   url?: string;
   title?: string;
   text?: string;
-  platforms?: ("facebook" | "twitter" | "linkedin" | "whatsapp" | "telegram" | "email" | "copy")[];
+  platforms?: ('facebook' | 'twitter' | 'linkedin' | 'whatsapp' | 'telegram' | 'email' | 'copy')[];
   onShare?: (platform: string) => void;
   onError?: (error: Error) => void;
   menuClassName?: string;
@@ -54,7 +53,7 @@ const ShareButton = React.forwardRef<HTMLButtonElement, ShareButtonProps>(
       url = window.location.href,
       title = document.title,
       text,
-      platforms = ["facebook", "twitter", "linkedin", "whatsapp", "telegram", "email", "copy"],
+      platforms = ['facebook', 'twitter', 'linkedin', 'whatsapp', 'telegram', 'email', 'copy'],
       onShare,
       onError,
       menuClassName,
@@ -86,31 +85,25 @@ const ShareButton = React.forwardRef<HTMLButtonElement, ShareButtonProps>(
         }
       };
 
-      document.addEventListener("mousedown", handleClickOutside);
-      return () => document.removeEventListener("mousedown", handleClickOutside);
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => { document.removeEventListener('mousedown', handleClickOutside); };
     }, []);
 
     // Reset copied state after 2 seconds
     React.useEffect(() => {
       if (copied) {
-        const timeout = setTimeout(() => setCopied(false), 2000);
-        return () => clearTimeout(timeout);
+        const timeout = setTimeout(() => { setCopied(false); }, 2000);
+        return () => { clearTimeout(timeout); };
       }
     }, [copied]);
 
     const shareUrls = {
-      facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-        url
-      )}`,
+      facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
       twitter: `https://twitter.com/intent/tweet?url=${encodeURIComponent(
         url
       )}&text=${encodeURIComponent(text || title)}`,
-      linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
-        url
-      )}`,
-      whatsapp: `https://wa.me/?text=${encodeURIComponent(
-        `${text || title} ${url}`
-      )}`,
+      linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
+      whatsapp: `https://wa.me/?text=${encodeURIComponent(`${text || title} ${url}`)}`,
       telegram: `https://t.me/share/url?url=${encodeURIComponent(
         url
       )}&text=${encodeURIComponent(text || title)}`,
@@ -194,11 +187,11 @@ const ShareButton = React.forwardRef<HTMLButtonElement, ShareButtonProps>(
 
     const handleShare = async (platform: string) => {
       try {
-        if (platform === "copy") {
+        if (platform === 'copy') {
           await navigator.clipboard.writeText(url);
           setCopied(true);
         } else {
-          window.open(shareUrls[platform], "_blank");
+          window.open(shareUrls[platform], '_blank');
         }
         onShare?.(platform);
       } catch (error) {
@@ -212,7 +205,7 @@ const ShareButton = React.forwardRef<HTMLButtonElement, ShareButtonProps>(
           ref={buttonRef}
           type="button"
           className={cn(shareButtonVariants({ variant, size }), className)}
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={() => { setIsOpen(!isOpen); }}
           {...props}
         >
           <svg
@@ -230,7 +223,7 @@ const ShareButton = React.forwardRef<HTMLButtonElement, ShareButtonProps>(
           <div
             ref={menuRef}
             className={cn(
-              "absolute z-50 mt-1 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md",
+              'absolute z-50 mt-1 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md',
               menuClassName
             )}
           >
@@ -239,7 +232,7 @@ const ShareButton = React.forwardRef<HTMLButtonElement, ShareButtonProps>(
                 key={platform}
                 type="button"
                 className={cn(
-                  "relative flex w-full cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+                  'relative flex w-full cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground',
                   itemClassName
                 )}
                 onClick={() => {
@@ -249,24 +242,24 @@ const ShareButton = React.forwardRef<HTMLButtonElement, ShareButtonProps>(
               >
                 {showIcons && (
                   <span className="mr-2">
-                    {platform === "copy" && copied
-                      ? (
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 512 512"
-                            className="h-4 w-4"
-                            fill="currentColor"
-                          >
-                            <path d="M470.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L192 338.7 425.4 105.4c12.5-12.5 32.8-12.5 45.3 0z" />
-                          </svg>
-                        )
-                      : shareIcons[platform]}
+                    {platform === 'copy' && copied ? (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 512 512"
+                        className="h-4 w-4"
+                        fill="currentColor"
+                      >
+                        <path d="M470.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L192 338.7 425.4 105.4c12.5-12.5 32.8-12.5 45.3 0z" />
+                      </svg>
+                    ) : (
+                      shareIcons[platform]
+                    )}
                   </span>
                 )}
-                {platform === "copy"
+                {platform === 'copy'
                   ? copied
-                    ? "Copied!"
-                    : "Copy Link"
+                    ? 'Copied!'
+                    : 'Copy Link'
                   : platform.charAt(0).toUpperCase() + platform.slice(1)}
               </button>
             ))}
@@ -277,6 +270,6 @@ const ShareButton = React.forwardRef<HTMLButtonElement, ShareButtonProps>(
   }
 );
 
-ShareButton.displayName = "ShareButton";
+ShareButton.displayName = 'ShareButton';
 
 export { ShareButton };

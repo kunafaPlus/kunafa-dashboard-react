@@ -1,40 +1,38 @@
-import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "../../../utils/cn";
+import { cva, type VariantProps } from 'class-variance-authority';
+import * as React from 'react';
+
+import { cn } from '../../../utils/cn';
 
 const themeToggleButtonVariants = cva(
-  "group relative inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
+  'group relative inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50',
   {
     variants: {
       variant: {
-        default: "bg-primary text-white hover:bg-primary/90",
-        destructive:
-          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline:
-          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
-        secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
+        default: 'bg-primary text-white hover:bg-primary/90',
+        destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
+        outline: 'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
+        secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
+        ghost: 'hover:bg-accent hover:text-accent-foreground',
+        link: 'text-primary underline-offset-4 hover:underline',
       },
       size: {
-        default: "h-9 px-4 py-2",
-        sm: "h-8 rounded-md px-3 text-xs",
-        lg: "h-10 rounded-md px-8",
-        icon: "h-9 w-9",
+        default: 'h-9 px-4 py-2',
+        sm: 'h-8 rounded-md px-3 text-xs',
+        lg: 'h-10 rounded-md px-8',
+        icon: 'h-9 w-9',
       },
       animation: {
-        none: "",
-        fade: "transition-opacity duration-200",
-        rotate: "transition-transform duration-200 group-hover:rotate-180",
-        scale: "transition-transform duration-200 group-hover:scale-110",
-        bounce: "animate-bounce",
+        none: '',
+        fade: 'transition-opacity duration-200',
+        rotate: 'transition-transform duration-200 group-hover:rotate-180',
+        scale: 'transition-transform duration-200 group-hover:scale-110',
+        bounce: 'animate-bounce',
       },
     },
     defaultVariants: {
-      variant: "default",
-      size: "default",
-      animation: "rotate",
+      variant: 'default',
+      size: 'default',
+      animation: 'rotate',
     },
   }
 );
@@ -42,13 +40,13 @@ const themeToggleButtonVariants = cva(
 interface ThemeToggleButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof themeToggleButtonVariants> {
-  theme?: "light" | "dark" | "system";
-  onThemeChange?: (theme: "light" | "dark" | "system") => void;
+  theme?: 'light' | 'dark' | 'system';
+  onThemeChange?: (theme: 'light' | 'dark' | 'system') => void;
   lightIcon?: React.ReactNode;
   darkIcon?: React.ReactNode;
   systemIcon?: React.ReactNode;
   showLabel?: boolean;
-  labelFormat?: "capitalize" | "lowercase" | "uppercase";
+  labelFormat?: 'capitalize' | 'lowercase' | 'uppercase';
   persist?: boolean;
   storageKey?: string;
 }
@@ -60,32 +58,26 @@ const ThemeToggleButton = React.forwardRef<HTMLButtonElement, ThemeToggleButtonP
       variant,
       size,
       animation,
-      theme: initialTheme = "system",
+      theme: initialTheme = 'system',
       onThemeChange,
       lightIcon,
       darkIcon,
       systemIcon,
       showLabel = false,
-      labelFormat = "capitalize",
+      labelFormat = 'capitalize',
       persist = true,
-      storageKey = "theme",
+      storageKey = 'theme',
       children,
       onClick,
       ...props
     },
     ref
   ) => {
-    const [theme, setTheme] = React.useState<"light" | "dark" | "system">(
-      initialTheme
-    );
+    const [theme, setTheme] = React.useState<'light' | 'dark' | 'system'>(initialTheme);
 
     React.useEffect(() => {
       if (persist) {
-        const savedTheme = localStorage.getItem(storageKey) as
-          | "light"
-          | "dark"
-          | "system"
-          | null;
+        const savedTheme = localStorage.getItem(storageKey) as 'light' | 'dark' | 'system' | null;
         if (savedTheme) {
           setTheme(savedTheme);
           applyTheme(savedTheme);
@@ -93,15 +85,14 @@ const ThemeToggleButton = React.forwardRef<HTMLButtonElement, ThemeToggleButtonP
       }
     }, [persist, storageKey]);
 
-    const applyTheme = (newTheme: "light" | "dark" | "system") => {
+    const applyTheme = (newTheme: 'light' | 'dark' | 'system') => {
       const root = window.document.documentElement;
-      root.classList.remove("light", "dark");
+      root.classList.remove('light', 'dark');
 
-      if (newTheme === "system") {
-        const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
-          .matches
-          ? "dark"
-          : "light";
+      if (newTheme === 'system') {
+        const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
+          ? 'dark'
+          : 'light';
         root.classList.add(systemTheme);
       } else {
         root.classList.add(newTheme);
@@ -115,7 +106,7 @@ const ThemeToggleButton = React.forwardRef<HTMLButtonElement, ThemeToggleButtonP
     };
 
     const cycleTheme = () => {
-      const themes: ("light" | "dark" | "system")[] = ["light", "dark", "system"];
+      const themes: ('light' | 'dark' | 'system')[] = ['light', 'dark', 'system'];
       const currentIndex = themes.indexOf(theme);
       const nextTheme = themes[(currentIndex + 1) % themes.length];
       setTheme(nextTheme);
@@ -129,7 +120,7 @@ const ThemeToggleButton = React.forwardRef<HTMLButtonElement, ThemeToggleButtonP
 
     const getIcon = () => {
       switch (theme) {
-        case "light":
+        case 'light':
           return (
             lightIcon || (
               <svg
@@ -148,7 +139,7 @@ const ThemeToggleButton = React.forwardRef<HTMLButtonElement, ThemeToggleButtonP
               </svg>
             )
           );
-        case "dark":
+        case 'dark':
           return (
             darkIcon || (
               <svg
@@ -167,7 +158,7 @@ const ThemeToggleButton = React.forwardRef<HTMLButtonElement, ThemeToggleButtonP
               </svg>
             )
           );
-        case "system":
+        case 'system':
           return (
             systemIcon || (
               <svg
@@ -190,11 +181,11 @@ const ThemeToggleButton = React.forwardRef<HTMLButtonElement, ThemeToggleButtonP
     };
 
     const getLabel = () => {
-      let label = theme;
+      const label = theme;
       switch (labelFormat) {
-        case "uppercase":
+        case 'uppercase':
           return label.toUpperCase();
-        case "lowercase":
+        case 'lowercase':
           return label.toLowerCase();
         default:
           return label.charAt(0).toUpperCase() + label.slice(1);
@@ -216,6 +207,6 @@ const ThemeToggleButton = React.forwardRef<HTMLButtonElement, ThemeToggleButtonP
   }
 );
 
-ThemeToggleButton.displayName = "ThemeToggleButton";
+ThemeToggleButton.displayName = 'ThemeToggleButton';
 
 export { ThemeToggleButton };

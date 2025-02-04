@@ -1,10 +1,11 @@
-import React from "react";
+import React from 'react';
 
-import { FormError } from "./FormError";
-import { InputWrapper, Label, StyledInput } from "../utils/styles";
-import { cn } from "../../../utils/cn";
+import { cn } from '../../../utils/cn';
+import { InputWrapper, Label, StyledInput } from '../utils/styles';
 
-interface CurrencyInputProps  {
+import { FormError } from './FormError';
+
+interface CurrencyInputProps {
   variant?: string; // Define specific variants if needed
   size?: string; // Define specific sizes if needed
   value?: number | null; // Value should be a number or null
@@ -40,9 +41,9 @@ const CurrencyInput = React.forwardRef<HTMLInputElement, CurrencyInputProps>(
       size,
       value,
       onChange,
-      currencySymbol = "SAR",
-      currencyCode = "SAR",
-      locale = "ar-SA",
+      currencySymbol = 'SAR',
+      currencyCode = 'SAR',
+      locale = 'ar-SA',
       precision = 2,
       min,
       max,
@@ -62,7 +63,7 @@ const CurrencyInput = React.forwardRef<HTMLInputElement, CurrencyInputProps>(
     ref
   ) => {
     const [focused, setFocused] = React.useState(false);
-    const [inputValue, setInputValue] = React.useState("");
+    const [inputValue, setInputValue] = React.useState('');
     const inputRef = React.useRef<HTMLInputElement>(null);
 
     React.useImperativeHandle(ref, () => inputRef.current!);
@@ -70,7 +71,7 @@ const CurrencyInput = React.forwardRef<HTMLInputElement, CurrencyInputProps>(
     const formatter = React.useMemo(
       () =>
         new Intl.NumberFormat(locale, {
-          style: "currency",
+          style: 'currency',
           currency: currencyCode,
           minimumFractionDigits: precision,
           maximumFractionDigits: precision,
@@ -80,7 +81,7 @@ const CurrencyInput = React.forwardRef<HTMLInputElement, CurrencyInputProps>(
     );
 
     const parse = (value: string): number | null => {
-      const digits = value.replace(/[^\d.-]/g, "");
+      const digits = value.replace(/[^\d.-]/g, '');
       if (!digits) return null;
 
       let number = parseFloat(digits) / Math.pow(10, precision);
@@ -90,11 +91,11 @@ const CurrencyInput = React.forwardRef<HTMLInputElement, CurrencyInputProps>(
         number = Math.abs(number);
       }
 
-      if (typeof min === "number") {
+      if (typeof min === 'number') {
         number = Math.max(number, min);
       }
 
-      if (typeof max === "number") {
+      if (typeof max === 'number') {
         number = Math.min(number, max);
       }
 
@@ -102,14 +103,14 @@ const CurrencyInput = React.forwardRef<HTMLInputElement, CurrencyInputProps>(
     };
 
     const format = (value: number | null): string => {
-      if (value === null) return "";
+      if (value === null) return '';
 
       const formatted = formatter.format(value);
       if (!showPrefix) {
-        return formatted.replace(/^[^\d]*/, "");
+        return formatted.replace(/^[^\d]*/, '');
       }
       if (!showSuffix) {
-        return formatted.replace(/[^\d.]*$/, "");
+        return formatted.replace(/[^\d.]*$/, '');
       }
       return formatted;
     };
@@ -124,10 +125,10 @@ const CurrencyInput = React.forwardRef<HTMLInputElement, CurrencyInputProps>(
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const rawValue = e.target.value;
       const parsedValue = parse(rawValue);
-    
+
       // Keep the raw input while focused
       setInputValue(rawValue);
-    
+
       // Create a synthetic event that matches React.ChangeEvent<HTMLInputElement>
       const syntheticEvent: React.ChangeEvent<HTMLInputElement> = {
         target: {
@@ -151,7 +152,7 @@ const CurrencyInput = React.forwardRef<HTMLInputElement, CurrencyInputProps>(
       if (onChange) {
         onChange(syntheticEvent); // Pass the synthetic event
       }
-    
+
       if (onValueChange) {
         onValueChange({
           float: parsedValue,
@@ -164,34 +165,34 @@ const CurrencyInput = React.forwardRef<HTMLInputElement, CurrencyInputProps>(
       setFocused(true);
       props.onFocus?.(e); // Safe to call because onFocus is now part of props
     };
-    
+
     const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
       setFocused(false);
       const parsedValue = parse(inputValue);
       setInputValue(format(parsedValue));
       props.onBlur?.(e); // Safe to call because onBlur is now part of props
     };
-    
+
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (disabled) return;
-    
+
       // Handle up/down arrow keys
-      if (e.key === "ArrowUp" || e.key === "ArrowDown") {
+      if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
         e.preventDefault();
         const parsedValue = parse(inputValue) ?? 0;
-        const delta = e.key === "ArrowUp" ? step : -step;
+        const delta = e.key === 'ArrowUp' ? step : -step;
         const newValue = parsedValue + delta;
-    
+
         if (
-          (typeof min === "number" && newValue < min) ||
-          (typeof max === "number" && newValue > max)
+          (typeof min === 'number' && newValue < min) ||
+          (typeof max === 'number' && newValue > max)
         ) {
           return;
         }
-    
+
         const formattedValue = format(newValue);
         setInputValue(formattedValue);
-    
+
         // Create a synthetic event
         const syntheticEvent: React.ChangeEvent<HTMLInputElement> = {
           target: {
@@ -209,10 +210,10 @@ const CurrencyInput = React.forwardRef<HTMLInputElement, CurrencyInputProps>(
           defaultPrevented: false,
           isTrusted: true,
         } as React.ChangeEvent<HTMLInputElement>;
-    
+
         // Call the original onChange if provided
         onChange?.(syntheticEvent);
-    
+
         if (onValueChange) {
           onValueChange({
             float: newValue,
@@ -220,7 +221,7 @@ const CurrencyInput = React.forwardRef<HTMLInputElement, CurrencyInputProps>(
           });
         }
       }
-    
+
       props.onKeyDown?.(e); // Safe to call because onKeyDown is now part of props
     };
 
@@ -254,6 +255,6 @@ const CurrencyInput = React.forwardRef<HTMLInputElement, CurrencyInputProps>(
   }
 );
 
-CurrencyInput.displayName = "CurrencyInput";
+CurrencyInput.displayName = 'CurrencyInput';
 
 export { CurrencyInput };

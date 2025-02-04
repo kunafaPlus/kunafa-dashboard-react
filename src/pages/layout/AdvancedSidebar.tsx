@@ -1,15 +1,13 @@
-import * as React from "react";
-
-import type { VariantProps } from "class-variance-authority";
-import { FaChevronLeft, FaChevronRight, FaChevronDown } from "react-icons/fa";
-
-
-
-import { Link } from "react-router-dom";
+import type { VariantProps } from 'class-variance-authority';
+import * as React from 'react';
+import { FaChevronLeft, FaChevronRight, FaChevronDown } from 'react-icons/fa';
 import PerfectScrollbar from 'react-perfect-scrollbar';
+import { Link } from 'react-router-dom';
+
 import 'react-perfect-scrollbar/dist/css/styles.css'; // Import the styles
-import { sidebarItemVariants, sidebarSectionVariants, sidebarVariants } from "./sidebarVariants";
-import { cn } from "../../utils/cn";
+import { cn } from '../../utils/cn';
+
+import { sidebarItemVariants, sidebarSectionVariants, sidebarVariants } from './sidebarVariants';
 
 interface SubMenuItem {
   id: string;
@@ -36,7 +34,7 @@ interface SidebarSection {
 
 interface AdvancedSidebarProps
   extends React.HTMLAttributes<HTMLElement>,
-  VariantProps<typeof sidebarVariants> {
+    VariantProps<typeof sidebarVariants> {
   sections?: SidebarSection[];
   sidebarHeight?: string;
   header?: React.ReactNode;
@@ -44,9 +42,9 @@ interface AdvancedSidebarProps
   collapsible?: boolean;
   defaultCollapsed?: boolean;
   showCollapseButton?: boolean;
-  itemVariant?: VariantProps<typeof sidebarItemVariants>["variant"];
-  sectionPadding?: VariantProps<typeof sidebarSectionVariants>["padding"];
-  sectionSpacing?: VariantProps<typeof sidebarSectionVariants>["spacing"];
+  itemVariant?: VariantProps<typeof sidebarItemVariants>['variant'];
+  sectionPadding?: VariantProps<typeof sidebarSectionVariants>['padding'];
+  sectionSpacing?: VariantProps<typeof sidebarSectionVariants>['spacing'];
   onCollapsedChange?: (collapsed: boolean) => void;
   showSearch?: boolean;
   searchPlaceholder?: string;
@@ -66,12 +64,12 @@ const AdvancedSidebar = React.forwardRef<HTMLElement, AdvancedSidebarProps>(
       collapsible = false,
       defaultCollapsed = false,
       showCollapseButton = true,
-      itemVariant = "default",
-      sectionPadding = "default",
-      sectionSpacing = "default",
+      itemVariant = 'default',
+      sectionPadding = 'default',
+      sectionSpacing = 'default',
       onCollapsedChange,
       showSearch = false,
-      searchPlaceholder = "Search...",
+      searchPlaceholder = 'Search...',
       className,
       ...props
     },
@@ -83,7 +81,7 @@ const AdvancedSidebar = React.forwardRef<HTMLElement, AdvancedSidebarProps>(
       new Set(sections.filter((s) => s.defaultExpanded).map((s) => s.id))
     );
     const [expandedItems, setExpandedItems] = React.useState<Set<string>>(new Set());
-    const [searchQuery, setSearchQuery] = React.useState("");
+    const [searchQuery, setSearchQuery] = React.useState('');
 
     React.useEffect(() => {
       const path = window.location.pathname;
@@ -144,80 +142,48 @@ const AdvancedSidebar = React.forwardRef<HTMLElement, AdvancedSidebarProps>(
           children: item.children?.filter(
             (child: any) =>
               child.label.toLowerCase().includes(searchQuery.toLowerCase()) ||
-              (child.description && child.description.toLowerCase().includes(searchQuery.toLowerCase()))
+              (child.description &&
+                child.description.toLowerCase().includes(searchQuery.toLowerCase()))
           ),
         }))
         .filter(
           (item) =>
             item.label.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            (item.description && item.description.toLowerCase().includes(searchQuery.toLowerCase())) ||
+            (item.description &&
+              item.description.toLowerCase().includes(searchQuery.toLowerCase())) ||
             (item.children && item.children.length > 0)
         );
     };
 
     const renderMenuItem = (item: MenuItem | SubMenuItem, isChild = false) => {
       const isActive = activeItem === item.id;
-      const hasChildren = "children" in item && item.children && item.children.length > 0;
+      const hasChildren = 'children' in item && item.children && item.children.length > 0;
       const isExpanded = expandedItems.has(item.id);
 
       return (
         <div key={item.id} className="">
           {item.href ? (
-           <Link
-           to={item.href} // استبدال href بـ to
-           className={cn(
-             "group   flex items-center gap-x-2 rounded-md px-4 py-2 text-sm transition-all duration-200",
-             !collapsed && "hover:bg-accent/80 hover:text-accent-foreground hover:shadow-sm",
-             isActive && "bg-white text-black  shadow-sm",
-             item.disabled && "pointer-events-none opacity-50",
-             isChild && "ml-4"
-           )}
-           onClick={() => handleItemClick(item)}
-         >
-           {item.icon && (
-             <span className={cn(
-               "flex h-5 w-5 items-center justify-center",
-               !collapsed && "group-hover:text-accent-foreground",
-               isActive && "text-accent-foreground"
-             )}>
-               {item.icon}
-             </span>
-           )}
-           {!collapsed && (
-             <div className="flex flex-1 items-center justify-between overflow-hidden">
-               <div>
-                 <span className="inline-block truncate">{item.label}</span>
-                 {"description" in item && item.description && (
-                   <p className="truncate text-xs text-muted-foreground">
-                     {item.description}
-                   </p>
-                 )}
-               </div>
-               {"badge" in item && item.badge}
-             </div>
-           )}
-         </Link>
-          ) : (
-            <button
-              type="button"
+            <Link
+              to={item.href} // استبدال href بـ to
               className={cn(
-                "group flex w-full items-center gap-x-2 rounded-md px-4 py-2 text-sm transition-all duration-200",
-                !collapsed && "hover:bg-accent/80 hover:text-accent-foreground hover:shadow-sm",
-                isActive && "bg-accent/90 text-accent-foreground shadow-sm",
-                item.disabled && "pointer-events-none opacity-50",
-                isChild && "ml-4"
+                'group   flex items-center gap-x-2 rounded-md px-4 py-2 text-sm transition-all duration-200',
+                !collapsed && 'hover:bg-accent/80 hover:text-accent-foreground hover:shadow-sm',
+                isActive && 'bg-white text-black  shadow-sm',
+                item.disabled && 'pointer-events-none opacity-50',
+                isChild && 'ml-4'
               )}
               onClick={() => {
                 handleItemClick(item);
-                if (hasChildren) toggleItem(item.id);
               }}
             >
               {item.icon && (
-                <span className={cn(
-                  "flex h-5 w-5 items-center justify-center",
-                  !collapsed && "group-hover:text-accent-foreground",
-                  isActive && "text-accent-foreground"
-                )}>
+                <span
+                  className={cn(
+                    'flex h-5 w-5 items-center justify-center',
+                    !collapsed && 'group-hover:text-accent-foreground',
+                    isActive && 'text-accent-foreground'
+                  )}
+                >
                   {item.icon}
                 </span>
               )}
@@ -225,29 +191,65 @@ const AdvancedSidebar = React.forwardRef<HTMLElement, AdvancedSidebarProps>(
                 <div className="flex flex-1 items-center justify-between overflow-hidden">
                   <div>
                     <span className="inline-block truncate">{item.label}</span>
-                    {"description" in item && item.description && (
-                      <p className="truncate text-xs text-muted-foreground">
-                        {item.description}
-                      </p>
+                    {'description' in item && item.description && (
+                      <p className="truncate text-xs text-muted-foreground">{item.description}</p>
+                    )}
+                  </div>
+                  {'badge' in item && item.badge}
+                </div>
+              )}
+            </Link>
+          ) : (
+            <button
+              type="button"
+              className={cn(
+                'group flex w-full items-center gap-x-2 rounded-md px-4 py-2 text-sm transition-all duration-200',
+                !collapsed && 'hover:bg-accent/80 hover:text-accent-foreground hover:shadow-sm',
+                isActive && 'bg-accent/90 text-accent-foreground shadow-sm',
+                item.disabled && 'pointer-events-none opacity-50',
+                isChild && 'ml-4'
+              )}
+              onClick={() => {
+                handleItemClick(item);
+                if (hasChildren) toggleItem(item.id);
+              }}
+            >
+              {item.icon && (
+                <span
+                  className={cn(
+                    'flex h-5 w-5 items-center justify-center',
+                    !collapsed && 'group-hover:text-accent-foreground',
+                    isActive && 'text-accent-foreground'
+                  )}
+                >
+                  {item.icon}
+                </span>
+              )}
+              {!collapsed && (
+                <div className="flex flex-1 items-center justify-between overflow-hidden">
+                  <div>
+                    <span className="inline-block truncate">{item.label}</span>
+                    {'description' in item && item.description && (
+                      <p className="truncate text-xs text-muted-foreground">{item.description}</p>
                     )}
                   </div>
                   {hasChildren && (
                     <FaChevronDown
                       size={16}
                       className={cn(
-                        "transition-transform duration-200",
-                        isExpanded ? "rotate-180" : ""
+                        'transition-transform duration-200',
+                        isExpanded ? 'rotate-180' : ''
                       )}
                     />
                   )}
-                  {"badge" in item && item.badge}
+                  {'badge' in item && item.badge}
                 </div>
               )}
             </button>
           )}
           {hasChildren && isExpanded && !collapsed && (
             <div className="mt-1 space-y-1">
-              {(item as MenuItem).children?.map((child) => renderMenuItem(child, true))}
+              {item.children?.map((child) => renderMenuItem(child, true))}
             </div>
           )}
         </div>
@@ -260,45 +262,42 @@ const AdvancedSidebar = React.forwardRef<HTMLElement, AdvancedSidebarProps>(
         {mobile && !collapsed && (
           <div className="fixed inset-0 bg-background/80 backdrop-blur-sm" />
         )}
-      {/* <PerfectScrollbar> */}
-<PerfectScrollbar>
-
-        {/* Sidebar */}
-        <aside
-          ref={ref}
-          className={cn(
-            "no-scrollbar fixed top-0 left-0 flex-col bg-blue-900  ",
-            "shadow-lg shadow-background/20",
-            "relative z-20",
-            "overflow-y-auto",
-            sidebarVariants({ variant, size, position }),
-            collapsed && "collapsed-sidebar", // إضافة الفئة عند التقلص
-            className
-          )}
-          style={sidebarHeight ? { height: sidebarHeight } : { height: "98vh" }}
-          {...props}
-        >
-
-
-          {/* Header */}
-          {header && (
-            <div className="flex h-[60px] items-center  px-4 py-2 shadow-sm">
-              <div className="flex-1 overflow-hidden">
-                {!collapsed && <div className="transition-all duration-200">{header}</div>}
+        {/* <PerfectScrollbar> */}
+        <PerfectScrollbar>
+          {/* Sidebar */}
+          <aside
+            ref={ref}
+            className={cn(
+              'no-scrollbar fixed top-0 left-0 flex-col bg-blue-900  ',
+              'shadow-lg shadow-background/20',
+              'relative z-20',
+              'overflow-y-auto',
+              sidebarVariants({ variant, size, position }),
+              collapsed && 'collapsed-sidebar', // إضافة الفئة عند التقلص
+              className
+            )}
+            style={sidebarHeight ? { height: sidebarHeight } : { height: '98vh' }}
+            {...props}
+          >
+            {/* Header */}
+            {header && (
+              <div className="flex h-[60px] items-center  px-4 py-2 shadow-sm">
+                <div className="flex-1 overflow-hidden">
+                  {!collapsed && <div className="transition-all duration-200">{header}</div>}
+                </div>
+                {collapsible && showCollapseButton && (
+                  <button
+                    onClick={handleCollapse}
+                    className="ml-2 rounded-md p-2 hover:bg-accent/80 hover:text-accent-foreground hover:shadow-sm transition-all duration-200"
+                  >
+                    {collapsed ? <FaChevronRight size={18} /> : <FaChevronLeft size={18} />}
+                  </button>
+                )}
               </div>
-              {collapsible && showCollapseButton && (
-                <button
-                  onClick={handleCollapse}
-                  className="ml-2 rounded-md p-2 hover:bg-accent/80 hover:text-accent-foreground hover:shadow-sm transition-all duration-200"
-                >
-                  {collapsed ? <FaChevronRight size={18} /> : <FaChevronLeft size={18} />}
-                </button>
-              )}
-            </div>
-          )}
+            )}
 
-          {/* Search */}
-          {/* {showSearch && !collapsed && (
+            {/* Search */}
+            {/* {showSearch && !collapsed && (
             <div className=" px-4 py-2 ">
               <div className="relative">
                 <input
@@ -312,68 +311,67 @@ const AdvancedSidebar = React.forwardRef<HTMLElement, AdvancedSidebarProps>(
             </div>
           )} */}
 
-          {/* Sections */}
-          <div className="flex-1 overflow-auto">
-            {sections.map((section) => {
-              const filteredItems = filterItems(section.items);
-              if (filteredItems.length === 0) return null;
+            {/* Sections */}
+            <div className="flex-1 overflow-auto">
+              {sections.map((section) => {
+                const filteredItems = filterItems(section.items);
+                if (filteredItems.length === 0) return null;
 
-              return (
-                <div
-                  key={section.id}
-                  className={cn(
-                    "py-2",
-                    sidebarSectionVariants({
-                      padding: sectionPadding,
-                      spacing: sectionSpacing,
-                    })
-                  )}
-                >
-                  {section.title && !collapsed && (
-                    <div
-                      className={cn(
-                        "mb-2 px-4 text-xs font-medium uppercase text-muted-foreground",
-                        section.collapsible && "cursor-pointer hover:text-foreground"
-                      )}
-                      onClick={() => section.collapsible && toggleSection(section.id)}
-                    >
-                      <div className="flex items-center justify-between">
-                        {section.title}
-                        {section.collapsible && (
-                          <FaChevronDown
-                            size={14}
-                            className={cn(
-                              "transition-transform duration-200",
-                              expandedSections.has(section.id) ? "rotate-180" : ""
-                            )}
-                          />
+                return (
+                  <div
+                    key={section.id}
+                    className={cn(
+                      'py-2',
+                      sidebarSectionVariants({
+                        padding: sectionPadding,
+                        spacing: sectionSpacing,
+                      })
+                    )}
+                  >
+                    {section.title && !collapsed && (
+                      <div
+                        className={cn(
+                          'mb-2 px-4 text-xs font-medium uppercase text-muted-foreground',
+                          section.collapsible && 'cursor-pointer hover:text-foreground'
                         )}
+                        onClick={() => section.collapsible && toggleSection(section.id)}
+                      >
+                        <div className="flex items-center justify-between">
+                          {section.title}
+                          {section.collapsible && (
+                            <FaChevronDown
+                              size={14}
+                              className={cn(
+                                'transition-transform duration-200',
+                                expandedSections.has(section.id) ? 'rotate-180' : ''
+                              )}
+                            />
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  )}
-                    
-                  {(!section.collapsible || expandedSections.has(section.id)) &&
-                    filteredItems.map((item) => renderMenuItem(item))}
-                </div>
-              );
-            })}
-          </div>
+                    )}
 
-          {/* Footer */}
-          {footer && (
-            <div className="mt-auto  px-4 py-2 shadow-sm">
-              {!collapsed && <div className="transition-all duration-200">{footer}</div>}
+                    {(!section.collapsible || expandedSections.has(section.id)) &&
+                      filteredItems.map((item) => renderMenuItem(item))}
+                  </div>
+                );
+              })}
             </div>
-          )}
-        </aside>
-        </PerfectScrollbar>
 
+            {/* Footer */}
+            {footer && (
+              <div className="mt-auto  px-4 py-2 shadow-sm">
+                {!collapsed && <div className="transition-all duration-200">{footer}</div>}
+              </div>
+            )}
+          </aside>
+        </PerfectScrollbar>
       </>
     );
   }
 );
 
-AdvancedSidebar.displayName = "AdvancedSidebar";
+AdvancedSidebar.displayName = 'AdvancedSidebar';
 
 export {
   AdvancedSidebar,

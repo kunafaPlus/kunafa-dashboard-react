@@ -1,32 +1,27 @@
-import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { CascadeOption, CascadeSelectProps } from "../utils/type";
-import { cn } from "../../../utils/cn";
+import { cva, type VariantProps } from 'class-variance-authority';
+import * as React from 'react';
 
+import { cn } from '../../../utils/cn';
+import { CascadeOption, CascadeSelectProps } from '../utils/type';
 
-export const cascadeSelectVariants = cva(
-  "relative inline-flex flex-col gap-1 w-full ",
-  {
-    variants: {
-      variant: {
-        default: "",
-        bordered: "p-1  rounded-md",
-        ghost: "bg-muted/50",
-      },
-      size: {
-        sm: "[&_select]:text-sm [&_select]:p-1",
-        md: "[&_select]:text-base [&_select]:p-2",
-        lg: "[&_select]:text-lg [&_select]:p-3",
-      },
+export const cascadeSelectVariants = cva('relative inline-flex flex-col gap-1 w-full ', {
+  variants: {
+    variant: {
+      default: '',
+      bordered: 'p-1  rounded-md',
+      ghost: 'bg-muted/50',
     },
-    defaultVariants: {
-      variant: "default",
-      size: "md",
+    size: {
+      sm: '[&_select]:text-sm [&_select]:p-1',
+      md: '[&_select]:text-base [&_select]:p-2',
+      lg: '[&_select]:text-lg [&_select]:p-3',
     },
-  }
-);
-
-
+  },
+  defaultVariants: {
+    variant: 'default',
+    size: 'md',
+  },
+});
 
 const CascadeSelect = React.forwardRef<HTMLDivElement, CascadeSelectProps>(
   (
@@ -39,13 +34,13 @@ const CascadeSelect = React.forwardRef<HTMLDivElement, CascadeSelectProps>(
       options,
       value = [],
       onChange,
-      placeholder = ["Select..."],
+      placeholder = ['Select...'],
       disabled = false,
       loading = false,
       showPath = false,
       clearable = true,
       searchable = false,
-      error=false,
+      error = false,
       ...props
     },
     ref
@@ -60,7 +55,7 @@ const CascadeSelect = React.forwardRef<HTMLDivElement, CascadeSelectProps>(
         let currentOptions = options;
 
         for (const val of value) {
-          const option = currentOptions.find((opt:any) => opt.value === val);
+          const option = currentOptions.find((opt: any) => opt.value === val);
           if (option) {
             path.push(option);
             currentOptions = option.children || [];
@@ -79,7 +74,7 @@ const CascadeSelect = React.forwardRef<HTMLDivElement, CascadeSelectProps>(
       let currentOptions = options;
       for (let i = 0; i < level; i++) {
         const selectedOption = selectedPath[i];
-        if (selectedOption?.children) {
+        if (selectedOption.children) {
           currentOptions = selectedOption.children;
         } else {
           return [];
@@ -93,9 +88,7 @@ const CascadeSelect = React.forwardRef<HTMLDivElement, CascadeSelectProps>(
 
       const newPath = selectedPath.slice(0, level);
       const currentOptions = getOptionsAtLevel(level);
-      const selectedOption = currentOptions.find(
-        (opt) => opt.value === newValue
-      );
+      const selectedOption = currentOptions.find((opt) => opt.value === newValue);
 
       if (selectedOption) {
         newPath[level] = selectedOption;
@@ -112,9 +105,7 @@ const CascadeSelect = React.forwardRef<HTMLDivElement, CascadeSelectProps>(
 
     const filterOptions = (options: CascadeOption[], query: string) => {
       if (!query) return options;
-      return options.filter((opt) =>
-        opt.label.toLowerCase().includes(query.toLowerCase())
-      );
+      return options.filter((opt) => opt.label.toLowerCase().includes(query.toLowerCase()));
     };
 
     const handleClear = () => {
@@ -126,9 +117,9 @@ const CascadeSelect = React.forwardRef<HTMLDivElement, CascadeSelectProps>(
     const getLevels = () => {
       const levels: number[] = [0];
       let currentOptions = options;
-      
+
       for (const option of selectedPath) {
-        if (option?.children?.length) {
+        if (option.children?.length) {
           currentOptions = option.children;
           levels.push(levels.length);
         } else {
@@ -142,15 +133,21 @@ const CascadeSelect = React.forwardRef<HTMLDivElement, CascadeSelectProps>(
     return (
       <div
         ref={ref}
-        className={cn(cascadeSelectVariants({ variant, size }as {variant: VariantProps<typeof cascadeSelectVariants>["variant"]; size: VariantProps<typeof cascadeSelectVariants>["size"]}), className)}
+        className={cn(
+          cascadeSelectVariants({ variant, size } as {
+            variant: VariantProps<typeof cascadeSelectVariants>['variant'];
+            size: VariantProps<typeof cascadeSelectVariants>['size'];
+          }),
+          className
+        )}
         {...props}
       >
-        {label&& <p>{label}</p>}
+        {label && <p>{label}</p>}
         {showPath && selectedPath.length > 0 && (
           <div className="text-sm text-muted-foreground mb-2">
             {selectedPath.map((opt, i) => (
               <React.Fragment key={i}>
-                {i > 0 && " / "}
+                {i > 0 && ' / '}
                 {opt.label}
               </React.Fragment>
             ))}
@@ -160,10 +157,7 @@ const CascadeSelect = React.forwardRef<HTMLDivElement, CascadeSelectProps>(
         <div className="flex flex-col gap-2">
           {getLevels().map((level) => {
             const currentOptions = getOptionsAtLevel(level);
-            const filteredOptions = filterOptions(
-              currentOptions,
-              searchValues[level] || ""
-            );
+            const filteredOptions = filterOptions(currentOptions, searchValues[level] || '');
 
             return (
               <div key={level} className="relative">
@@ -171,28 +165,22 @@ const CascadeSelect = React.forwardRef<HTMLDivElement, CascadeSelectProps>(
                   <input
                     type="text"
                     className="w-full px-3 py-2 border rounded-md mb-1"
-                    placeholder={`Search ${placeholder[level] || "options"}...`}
-                    value={searchValues[level] || ""}
-                    onChange={(e) => handleSearch(level, e.target.value)}
+                    placeholder={`Search ${placeholder[level] || 'options'}...`}
+                    value={searchValues[level] || ''}
+                    onChange={(e) => { handleSearch(level, e.target.value); }}
                     disabled={disabled}
                   />
                 )}
 
                 <select
                   className="w-full appearance-none bg-transparent border rounded-md outline-input-focus border-input-border disabled:opacity-50"
-                  value={selectedPath[level]?.value || ""}
-                  onChange={(e) => handleSelectChange(level, e.target.value)}
+                  value={selectedPath[level]?.value || ''}
+                  onChange={(e) => { handleSelectChange(level, e.target.value); }}
                   disabled={disabled || loading}
                 >
-                  <option value="">
-                    {placeholder[level] || placeholder[0]}
-                  </option>
+                  <option value="">{placeholder[level] || placeholder[0]}</option>
                   {filteredOptions.map((option) => (
-                    <option
-                      key={option.value}
-                      value={option.value}
-                      disabled={option.disabled}
-                    >
+                    <option key={option.value} value={option.value} disabled={option.disabled}>
                       {option.label}
                     </option>
                   ))}
@@ -218,12 +206,12 @@ const CascadeSelect = React.forwardRef<HTMLDivElement, CascadeSelectProps>(
             Clear
           </button>
         )}
-        {error&&<p className="text-red-500 -mt-2">{error}</p>}
+        {error && <p className="text-red-500 -mt-2">{error}</p>}
       </div>
     );
   }
 );
 
-CascadeSelect.displayName = "CascadeSelect";
+CascadeSelect.displayName = 'CascadeSelect';
 
 export { CascadeSelect, type CascadeOption };

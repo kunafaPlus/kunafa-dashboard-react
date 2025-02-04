@@ -1,42 +1,40 @@
-import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "../../../utils/cn";
+import { cva, type VariantProps } from 'class-variance-authority';
+import * as React from 'react';
+
+import { cn } from '../../../utils/cn';
 
 const voiceCommandButtonVariants = cva(
-  "group relative inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
+  'group relative inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50',
   {
     variants: {
       variant: {
-        default: "bg-primary text-white hover:bg-primary/90",
-        destructive:
-          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline:
-          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
-        secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
+        default: 'bg-primary text-white hover:bg-primary/90',
+        destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
+        outline: 'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
+        secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
+        ghost: 'hover:bg-accent hover:text-accent-foreground',
+        link: 'text-primary underline-offset-4 hover:underline',
       },
       size: {
-        default: "h-9 px-4 py-2",
-        sm: "h-8 rounded-md px-3 text-xs",
-        lg: "h-10 rounded-md px-8",
-        icon: "h-9 w-9",
+        default: 'h-9 px-4 py-2',
+        sm: 'h-8 rounded-md px-3 text-xs',
+        lg: 'h-10 rounded-md px-8',
+        icon: 'h-9 w-9',
       },
       state: {
-        idle: "",
+        idle: '',
         listening:
-          "before:absolute before:inset-0 before:rounded-[inherit] before:border-4 before:border-current before:opacity-20 before:animate-ping",
+          'before:absolute before:inset-0 before:rounded-[inherit] before:border-4 before:border-current before:opacity-20 before:animate-ping',
         processing:
-          "after:absolute after:inset-[3px] after:rounded-full after:border-2 after:border-current after:border-r-transparent after:animate-spin",
-        success: "bg-green-500 text-white hover:bg-green-600",
-        error: "bg-red-500 text-white hover:bg-red-600",
+          'after:absolute after:inset-[3px] after:rounded-full after:border-2 after:border-current after:border-r-transparent after:animate-spin',
+        success: 'bg-green-500 text-white hover:bg-green-600',
+        error: 'bg-red-500 text-white hover:bg-red-600',
       },
     },
     defaultVariants: {
-      variant: "default",
-      size: "default",
-      state: "idle",
+      variant: 'default',
+      size: 'default',
+      state: 'idle',
     },
   }
 );
@@ -67,7 +65,7 @@ const VoiceCommandButton = React.forwardRef<HTMLButtonElement, VoiceCommandButto
       state,
       onCommand,
       commands = [],
-      language = "en-US",
+      language = 'en-US',
       continuous = false,
       interimResults = true,
       maxAlternatives = 1,
@@ -84,15 +82,13 @@ const VoiceCommandButton = React.forwardRef<HTMLButtonElement, VoiceCommandButto
     ref
   ) => {
     const [currentState, setCurrentState] = React.useState<
-      "idle" | "listening" | "processing" | "success" | "error"
-    >("idle");
-    const [recognition, setRecognition] = React.useState<SpeechRecognition | null>(
-      null
-    );
+      'idle' | 'listening' | 'processing' | 'success' | 'error'
+    >('idle');
+    const [recognition, setRecognition] = React.useState<SpeechRecognition | null>(null);
     const timeoutRef = React.useRef<NodeJS.Timeout>();
 
     React.useEffect(() => {
-      if (typeof window !== "undefined" && "SpeechRecognition" in window) {
+      if (typeof window !== 'undefined' && 'SpeechRecognition' in window) {
         const SpeechRecognition =
           window.SpeechRecognition || (window as any).webkitSpeechRecognition;
         const recognition = new SpeechRecognition();
@@ -102,10 +98,10 @@ const VoiceCommandButton = React.forwardRef<HTMLButtonElement, VoiceCommandButto
         recognition.lang = language;
 
         recognition.onstart = () => {
-          setCurrentState("listening");
+          setCurrentState('listening');
           timeoutRef.current = setTimeout(() => {
             recognition.stop();
-            setCurrentState("error");
+            setCurrentState('error');
           }, recognitionTimeout);
         };
 
@@ -114,23 +110,23 @@ const VoiceCommandButton = React.forwardRef<HTMLButtonElement, VoiceCommandButto
           const command = event.results[last][0].transcript.trim().toLowerCase();
 
           if (commands.length === 0 || commands.includes(command)) {
-            setCurrentState("success");
+            setCurrentState('success');
             onCommand?.(command);
           } else {
-            setCurrentState("error");
+            setCurrentState('error');
           }
         };
 
         recognition.onerror = () => {
-          setCurrentState("error");
+          setCurrentState('error');
         };
 
         recognition.onend = () => {
           if (timeoutRef.current) {
             clearTimeout(timeoutRef.current);
           }
-          if (currentState === "listening") {
-            setCurrentState("idle");
+          if (currentState === 'listening') {
+            setCurrentState('idle');
           }
         };
 
@@ -154,9 +150,9 @@ const VoiceCommandButton = React.forwardRef<HTMLButtonElement, VoiceCommandButto
 
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
       if (recognition) {
-        if (currentState === "idle") {
+        if (currentState === 'idle') {
           recognition.start();
-        } else if (currentState === "listening") {
+        } else if (currentState === 'listening') {
           recognition.stop();
         }
       }
@@ -165,7 +161,7 @@ const VoiceCommandButton = React.forwardRef<HTMLButtonElement, VoiceCommandButto
 
     const getIcon = () => {
       switch (currentState) {
-        case "listening":
+        case 'listening':
           return (
             listeningIcon || (
               <svg
@@ -184,7 +180,7 @@ const VoiceCommandButton = React.forwardRef<HTMLButtonElement, VoiceCommandButto
               </svg>
             )
           );
-        case "processing":
+        case 'processing':
           return (
             processingIcon || (
               <svg
@@ -203,7 +199,7 @@ const VoiceCommandButton = React.forwardRef<HTMLButtonElement, VoiceCommandButto
               </svg>
             )
           );
-        case "success":
+        case 'success':
           return (
             successIcon || (
               <svg
@@ -222,7 +218,7 @@ const VoiceCommandButton = React.forwardRef<HTMLButtonElement, VoiceCommandButto
               </svg>
             )
           );
-        case "error":
+        case 'error':
           return (
             errorIcon || (
               <svg
@@ -281,6 +277,6 @@ const VoiceCommandButton = React.forwardRef<HTMLButtonElement, VoiceCommandButto
   }
 );
 
-VoiceCommandButton.displayName = "VoiceCommandButton";
+VoiceCommandButton.displayName = 'VoiceCommandButton';
 
 export { VoiceCommandButton };
