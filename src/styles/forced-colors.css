@@ -1,0 +1,21 @@
+@media (forced-colors: active) {
+  /* Replace -ms-high-contrast styles with forced-colors mode */
+  .table-header {
+    forced-color-adjust: none;
+    background-color: Canvas;
+    color: CanvasText;
+  }
+
+  .table-row:hover {
+    forced-color-adjust: none;
+    background-color: Highlight;
+    color: HighlightText;
+  }
+
+  .group-row {
+    forced-color-adjust: none;
+    background-color: Canvas;
+    color: CanvasText;
+  }
+}
+8

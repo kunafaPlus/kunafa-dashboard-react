@@ -559,3 +559,28 @@ disabled?: boolean;
 variant?: string; 
 size?: string; 
 }
+
+
+export interface ColumnProps {
+  field: string;
+  header: string;
+  sortable?: boolean;
+  body?: (data: any, row: any) => React.ReactNode;
+  editable?: boolean; // Allow editing for this column
+}
+
+export interface DataTableProps {
+  value: any[];
+  children: React.ReactElement<ColumnProps>[] | React.ReactElement<ColumnProps>;
+  filterable?: boolean;
+  pagination?: boolean;
+  rowsPerPage?: number;
+  groupField?: string; // For grouping rows
+  editable?: boolean; // Enable editing for the entire table
+  onEdit?: (row: any, field: string, value: any) => void; // Handle cell edits
+  exportToExcel?: boolean; // Enable Excel export
+  convertToKanban?: boolean; // Enable Kanban conversion
+  onConvertToKanban?: (data: any[]) => void; // Handle Kanban conversion
+  treeTable?: boolean; // Enable tree table structure
+  treeField?: string; // Field to use for tree hierarchy
+}

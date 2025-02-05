@@ -1,5 +1,8 @@
 import { AdvancedNavbar } from "./pages/layout/AdvancedNavbar";
-import { AdvancedSidebar, SidebarSection } from "./pages/layout/AdvancedSidebar";
+import {
+  AdvancedSidebar,
+  SidebarSection,
+} from "./pages/layout/AdvancedSidebar";
 import PerfectScrollbar from "react-perfect-scrollbar";
 
 import { MdInput } from "react-icons/md";
@@ -29,10 +32,6 @@ function App() {
           label: "Advance Form",
           href: "/form/advance-form",
         },
-
-
-
-        
       ],
     },
     {
@@ -45,7 +44,6 @@ function App() {
           label: "button ",
           href: "/button",
         },
-        
       ],
     },
     {
@@ -58,10 +56,121 @@ function App() {
           label: "dialog ",
           href: "/dialog",
         },
-        
       ],
     },
-
+    {
+      id: "section-4",
+      title: "panel",
+      items: [
+        {
+          id: "panel",
+          icon: <MdInput />,
+          label: "panel ",
+          href: "/panel",
+        },
+      ],
+    },
+    {
+      id: "section-5",
+      title: "misc",
+      items: [
+        {
+          id: "misc",
+          icon: <MdInput />,
+          label: "misc ",
+          href: "/misc",
+        },
+        {
+          id: "navigation",
+          icon: <MdInput />,
+          label: "navigation ",
+          href: "/navigation",
+        },
+        {
+          id: "layout",
+          icon: <MdInput />,
+          label: "layout ",
+          href: "/layout",
+        },
+      ],
+    },
+    {
+      id: "section-6",
+      title: "data table",
+      items: [
+        {
+          href: "/data-table/basic",
+          label: "Basic Data Grid",
+          id: "layout",
+          icon: <MdInput />,
+        },
+        {
+          href: "/data-table/editable",
+          label: "Editable Data Grid",
+          id: "layout",
+          icon: <MdInput />,
+        },
+        {
+          href: "/data-table/virtual",
+          label: "Virtual Data Grid",
+          id: "layout",
+          icon: <MdInput />,
+        },
+        {
+          href: "/data-table/tree-table",
+          label: "Tree Table",
+          id: "layout",
+          icon: <MdInput />,
+        },
+        {
+          href: "/data-table/org-chart",
+          label: "Organization Chart",
+          id: "layout",
+          icon: <MdInput />,
+        },
+        {
+          href: "/data-table/kanban",
+          label: "Kanban Board",
+          id: "layout",
+          icon: <MdInput />,
+        },
+        {
+          href: "/data-table/scheduler",
+          label: "Scheduler",
+          id: "layout",
+          icon: <MdInput />,
+        },
+        {
+          href: "/data-table/picklist",
+          label: "Pick List",
+          id: "layout",
+          icon: <MdInput />,
+        },
+        {
+          href: "/data-table/spreadsheet",
+          label: "Spreadsheet Grid",
+          id: "layout",
+          icon: <MdInput />,
+        },
+      ],
+    },
+    {
+      id: "section-7",
+      title: "carousel",
+      items: [
+        {
+          id: "carousel",
+          icon: <MdInput />,
+          label: "carousel ",
+          href: "/carousel",
+        },
+      ],
+    },
+    {
+      id: "section-8",
+      title: "navigation",
+      items: [],
+    },
   ];
   return (
     <div className="flex overflow-hidden max-h-screen  ">

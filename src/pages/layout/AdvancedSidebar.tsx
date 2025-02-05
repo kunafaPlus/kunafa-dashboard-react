@@ -156,12 +156,12 @@ const AdvancedSidebar = React.forwardRef<HTMLElement, AdvancedSidebarProps>(
     };
 
     const renderMenuItem = (item: MenuItem | SubMenuItem, isChild = false) => {
-      const isActive = activeItem === item.id;
+      const isActive = activeItem === item.href;
       const hasChildren = "children" in item && item.children && item.children.length > 0;
       const isExpanded = expandedItems.has(item.id);
 
       return (
-        <div key={item.id} className="">
+        <div key={item.href} className="">
           {item.href ? (
            <Link
            to={item.href} // استبدال href بـ to
@@ -314,13 +314,13 @@ const AdvancedSidebar = React.forwardRef<HTMLElement, AdvancedSidebarProps>(
 
           {/* Sections */}
           <div className="flex-1 overflow-auto">
-            {sections.map((section) => {
+            {sections.map((section,index) => {
               const filteredItems = filterItems(section.items);
               if (filteredItems.length === 0) return null;
 
               return (
                 <div
-                  key={section.id}
+                  key={index}
                   className={cn(
                     "py-2",
                     sidebarSectionVariants({
