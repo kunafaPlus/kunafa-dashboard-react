@@ -3,7 +3,7 @@ import { ReactNode, useEffect, useRef } from 'react'
 import { IoClose } from "react-icons/io5";
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '../../../utils/cn';
-import { IconButton } from '../../Button/components/IconButton';
+import { IconButton } from '../../../components/button/IconButton';
 
 const dialogVariants = cva(
     "fixed w-full transform overflow-hidden bg-white shadow-xl transition-all duration-300",

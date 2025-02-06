@@ -24,6 +24,8 @@ interface TooltipProps
   content: React.ReactNode;
   delayDuration?: number;
   side?: "top" | "right" | "bottom" | "left";
+  position?:string
+  delay?:number
 }
 
 const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
@@ -33,8 +35,10 @@ const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
       variant,
       content,
       delayDuration = 200,
+      delay=delayDuration,
       side = "top",
       children,
+      position,
       ...props
     },
     ref

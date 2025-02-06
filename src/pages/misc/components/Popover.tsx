@@ -26,14 +26,19 @@ const popoverVariants = cva(
 );
 
 interface PopoverProps
-  extends React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof popoverVariants> {
-  trigger: React.ReactNode;
+ {
+  trigger?: React.ReactNode;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
   side?: "top" | "right" | "bottom" | "left";
   align?: "start" | "center" | "end";
   modal?: boolean;
+  placement?: string;
+  className?: string;
+  size?: string;
+  variant?: string;
+  content?:React.ReactNode
+  children?:React.ReactNode
 }
 
 const Popover = React.forwardRef<HTMLDivElement, PopoverProps>(
@@ -43,6 +48,8 @@ const Popover = React.forwardRef<HTMLDivElement, PopoverProps>(
       children,
       trigger,
       variant,
+      placement,
+      content,
       size,
       open: controlledOpen,
       onOpenChange,

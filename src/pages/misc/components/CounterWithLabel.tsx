@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { CiCircleMinus, CiCirclePlus } from 'react-icons/ci';
 import { cn } from "../../../utils/cn";
-import CustomButton from '../../Button/components/CustomButton';
+import CustomButton from '../../../components/button/CustomButton';
 
 const CounterWithLabel = ({title}:{title:string}) => {
   const [count, setCount] = useState(0);

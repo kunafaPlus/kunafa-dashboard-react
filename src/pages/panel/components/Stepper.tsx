@@ -3,7 +3,7 @@ import { ReactNode, useState } from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '../../../utils/cn'
 import { IoCheckmark } from "react-icons/io5"
-import CustomButton from '../../Button/components/CustomButton'
+import CustomButton from '../../../components/button/CustomButton'
 
 const stepperVariants = cva(
     "relative flex w-full justify-between",
