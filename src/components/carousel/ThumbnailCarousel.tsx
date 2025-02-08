@@ -1,24 +1,11 @@
 import * as React from "react";
-import { cn } from "../../../utils/cn";
+import { cn } from "../../utils/cn";
 import { BiChevronDown, BiChevronLeft, BiChevronRight, BiChevronUp, BiZoomIn, BiZoomOut } from "react-icons/bi";
 import { FiRotateCw } from "react-icons/fi";
-;
+import { useCarousel } from "./hooks/useCarousel"; // تأكد من المسار الصحيح
+import { ThumbnailCarouselProps } from "./types";
 
-interface ThumbnailCarouselProps extends React.HTMLAttributes<HTMLDivElement> {
-  images: Array<{
-    src: string;
-    alt?: string;
-    thumbnail?: string;
-  }>;
-  thumbnailPosition?: "left" | "right" | "top" | "bottom";
-  thumbnailSize?: number;
-  thumbnailGap?: number;
-  visibleThumbnails?: number;
-  showArrows?: boolean;
-  showZoom?: boolean;
-  zoomScale?: number;
-  onImageChange?: (index: number) => void;
-}
+
 
 const ThumbnailCarousel = React.forwardRef<HTMLDivElement, ThumbnailCarouselProps>(
   (
@@ -37,7 +24,22 @@ const ThumbnailCarousel = React.forwardRef<HTMLDivElement, ThumbnailCarouselProp
     },
     ref
   ) => {
-    const [currentIndex, setCurrentIndex] = React.useState(0);
+    const {
+      currentSlide,
+      handlePrevious,
+      handleNext,
+      handleIndicatorClick,
+      setIsPlaying,
+    } = useCarousel(
+      images,
+      true, // autoPlay
+      5000, // interval
+      1, // slidesToShow
+      1, // slidesToScroll
+      true, // loop
+      true // pauseOnHover
+    );
+
     const [thumbnailStart, setThumbnailStart] = React.useState(0);
     const [isZoomed, setIsZoomed] = React.useState(false);
     const [zoomPosition, setZoomPosition] = React.useState({ x: 0, y: 0 });
@@ -46,36 +48,12 @@ const ThumbnailCarousel = React.forwardRef<HTMLDivElement, ThumbnailCarouselProp
 
     const isVertical = thumbnailPosition === "left" || thumbnailPosition === "right";
 
-    const handlePrevious = () => {
-      setCurrentIndex((prev) => {
-        const newIndex = prev === 0 ? images.length - 1 : prev - 1;
-        onImageChange?.(newIndex);
-        return newIndex;
-      });
-    };
-
-    const handleNext = () => {
-      setCurrentIndex((prev) => {
-        const newIndex = prev === images.length - 1 ? 0 : prev + 1;
-        onImageChange?.(newIndex);
-        return newIndex;
-      });
-    };
-
-    const handleThumbnailClick = (index: number) => {
-      setCurrentIndex(index);
-      onImageChange?.(index);
-    };
-
     const handleThumbnailScroll = (direction: "prev" | "next") => {
       setThumbnailStart((prev) => {
         if (direction === "prev") {
           return Math.max(0, prev - 1);
         } else {
-          return Math.min(
-            images.length - visibleThumbnails,
-            prev + 1
-          );
+          return Math.min(images.length - visibleThumbnails, prev + 1);
         }
       });
     };
@@ -108,8 +86,7 @@ const ThumbnailCarousel = React.forwardRef<HTMLDivElement, ThumbnailCarouselProp
 
     return (
       <div
-        ref={ref}
-        className={cn(
+        ref={ref}         className={cn(
           "relative",
           isVertical ? "flex" : "flex flex-col",
           className
@@ -120,8 +97,8 @@ const ThumbnailCarousel = React.forwardRef<HTMLDivElement, ThumbnailCarouselProp
         <div className="relative flex-1 overflow-hidden">
           <img
             ref={mainImageRef}
-            src={images[currentIndex].src}
-            alt={images[currentIndex].alt || ""}
+            src={images[currentSlide].src}
+            alt={images[currentSlide].alt || ""}
             className={cn(
               "h-full w-full object-contain transition-transform",
               isZoomed && "cursor-zoom-out"
@@ -216,7 +193,7 @@ const ThumbnailCarousel = React.forwardRef<HTMLDivElement, ThumbnailCarouselProp
                 onClick={() => handleThumbnailClick(actualIndex)}
                 className={cn(
                   "relative overflow-hidden rounded-md border-2 transition-all",
-                  actualIndex === currentIndex
+                  actualIndex === currentSlide
                     ? "border-primary"
                     : "border-transparent hover:border-primary/50"
                 )}

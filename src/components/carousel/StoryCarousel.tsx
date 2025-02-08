@@ -1,28 +1,8 @@
 import * as React from "react";
-import { cn } from "../../../utils/cn";
+import { cn } from "../../utils/cn";
 import { BiChevronLeft, BiChevronRight, BiPause, BiPlay } from "react-icons/bi";
 import { FiVolume2, FiVolumeX } from "react-icons/fi";
-
-interface StoryContent {
-  id: string | number;
-  type: "image" | "video";
-  src: string;
-  duration?: number;
-  thumbnail?: string;
-  caption?: string;
-  audio?: boolean;
-}
-
-interface StoryCarouselProps extends React.HTMLAttributes<HTMLDivElement> {
-  stories: StoryContent[];
-  autoPlay?: boolean;
-  defaultDuration?: number;
-  showProgress?: boolean;
-  showControls?: boolean;
-  showCaption?: boolean;
-  onComplete?: () => void;
-  onStoryChange?: (index: number) => void;
-}
+import { StoryCarouselProps,StoryContent } from "./types";
 
 const StoryCarousel = React.forwardRef<HTMLDivElement, StoryCarouselProps>(
   (
@@ -44,7 +24,7 @@ const StoryCarousel = React.forwardRef<HTMLDivElement, StoryCarouselProps>(
     const [isPlaying, setIsPlaying] = React.useState(autoPlay);
     const [progress, setProgress] = React.useState(0);
     const [isMuted, setIsMuted] = React.useState(true);
-    const progressRef = React.useRef<NodeJS.Timeout>();
+    const progressRef = React.useRef<number>();
     const videoRef = React.useRef<HTMLVideoElement>(null);
 
     const currentStory = stories[currentIndex];

@@ -2,15 +2,12 @@ import { Route, Routes } from "react-router-dom";
 import BasicForm from "./pages/input/view/BasicForm";
 import AdditionalForms from "./pages/input/view/AdditionalForms";
 import AdvancedForm from "./pages/input/view/AdvancedForm";
-import Button from "./pages/Button/view/Button";
+import Button from "./pages/Button/Button";
 import Dialog from "./pages/dialog/view/Dialog";
-import CarouselExample from "./pages/carousel/views/CarouselExample";
 import MiscExample from "./pages/misc/views/MiscExample";
 import PanelsExample from "./pages/panel/views/PanelsExample";
 import NavigationExample from "./pages/misc/views/NavigationExample";
 import LayoutExample from "./pages/layout/LayoutExample";
-import DataGridExample from "./pages/data-table/views/DataGridExample";
-import DataGridExamples from "./pages/data-table/views";
 import BasicDataGrid from "./pages/data-table/views/BasicDataGrid";
 import VirtualDataGridExample from "./pages/data-table/views/VirtualDataGrid";
 import EditableDataGridExample from "./pages/data-table/views/EditableDataGrid";
@@ -20,6 +17,7 @@ import OrganizationChartExample from "./pages/data-table/views/OrganizationChart
 import SchedulerExample from "./pages/data-table/views/Scheduler";
 import PickListExample from "./pages/data-table/views/PickList";
 import SpreadsheetGridExample from "./pages/data-table/views/SpreadsheetGrid";
+import CarouselExample from "./pages/carousel/CarouselExample";
 
 
 // تعريف المسارات

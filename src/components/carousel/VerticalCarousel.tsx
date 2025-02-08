@@ -1,22 +1,10 @@
 import * as React from "react";
-import { cn } from "../../../utils/cn";
+import { cn } from "../../utils/cn";
 import { BiChevronDown, BiChevronUp } from "react-icons/bi";
+import { VerticalCarouselProps } from "./types";
 
 
-interface VerticalCarouselProps extends React.HTMLAttributes<HTMLDivElement> {
-  slides: React.ReactNode[];
-  height?: number | string;
-  autoPlay?: boolean;
-  interval?: number;
-  showArrows?: boolean;
-  showIndicators?: boolean;
-  pauseOnHover?: boolean;
-  loop?: boolean;
-  animation?: "slide" | "fade";
-  transitionDuration?: number;
-  slideSpacing?: number;
-  onSlideChange?: (index: number) => void;
-}
+
 
 const VerticalCarousel = React.forwardRef<HTMLDivElement, VerticalCarouselProps>(
   (
@@ -42,7 +30,7 @@ const VerticalCarousel = React.forwardRef<HTMLDivElement, VerticalCarouselProps>
     const [isPlaying, setIsPlaying] = React.useState(autoPlay);
     const [touchStart, setTouchStart] = React.useState(0);
     const [touchEnd, setTouchEnd] = React.useState(0);
-    const autoPlayRef = React.useRef<NodeJS.Timeout>();
+    const autoPlayRef = React.useRef<number>();
 
     const startAutoPlay = React.useCallback(() => {
       if (autoPlay && slides.length > 1) {

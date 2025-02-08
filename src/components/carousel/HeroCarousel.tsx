@@ -1,31 +1,9 @@
 import * as React from "react";
-import { cn } from "../../../utils/cn";
+import { cn } from "../../utils/cn";
 import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
+import { useCarousel } from "./hooks/useCarousel"; // استيراد الهوك الموجود
+import { HeroCarouselProps,HeroSlide } from "./types";
 
-interface HeroSlide {
-  image: string;
-  title?: string;
-  description?: string;
-  ctaLabel?: string;
-  ctaUrl?: string;
-  overlay?: boolean;
-  overlayOpacity?: number;
-  textColor?: string;
-  textAlignment?: "left" | "center" | "right";
-}
-
-interface HeroCarouselProps extends React.HTMLAttributes<HTMLDivElement> {
-  slides: HeroSlide[];
-  height?: string | number;
-  autoPlay?: boolean;
-  interval?: number;
-  showArrows?: boolean;
-  showIndicators?: boolean;
-  pauseOnHover?: boolean;
-  animation?: "fade" | "slide";
-  transitionDuration?: number;
-  onSlideChange?: (index: number) => void;
-}
 
 const HeroCarousel = React.forwardRef<HTMLDivElement, HeroCarouselProps>(
   (
@@ -45,51 +23,13 @@ const HeroCarousel = React.forwardRef<HTMLDivElement, HeroCarouselProps>(
     },
     ref
   ) => {
-    const [currentSlide, setCurrentSlide] = React.useState(0);
-    const [isPlaying, setIsPlaying] = React.useState(autoPlay);
-    const autoPlayRef = React.useRef<number>();
-
-    const startAutoPlay = React.useCallback(() => {
-      if (autoPlay && slides.length > 1) {
-        autoPlayRef.current = setInterval(() => {
-          handleNext();
-        }, interval);
-      }
-    }, [autoPlay, interval, slides.length]);
-
-    const stopAutoPlay = React.useCallback(() => {
-      if (autoPlayRef.current) {
-        clearInterval(autoPlayRef.current);
-      }
-    }, []);
-
-    React.useEffect(() => {
-      if (isPlaying) {
-        startAutoPlay();
-      }
-      return () => stopAutoPlay();
-    }, [isPlaying, startAutoPlay, stopAutoPlay]);
-
-    const handlePrevious = () => {
-      setCurrentSlide((prev) => {
-        const newIndex = prev === 0 ? slides.length - 1 : prev - 1;
-        onSlideChange?.(newIndex);
-        return newIndex;
-      });
-    };
-
-    const handleNext = () => {
-      setCurrentSlide((prev) => {
-        const newIndex = prev === slides.length - 1 ? 0 : prev + 1;
-        onSlideChange?.(newIndex);
-        return newIndex;
-      });
-    };
-
-    const handleIndicatorClick = (index: number) => {
-      setCurrentSlide(index);
-      onSlideChange?.(index);
-    };
+    const {
+      currentSlide,
+      handlePrevious,
+      handleNext,
+      setIsPlaying,
+      handleIndicatorClick,
+    } = useCarousel(slides, autoPlay, interval, 1, 1, true,true, onSlideChange); // تأكد من أن slides هنا مصفوفة صحيحة
 
     const handleMouseEnter = () => {
       if (pauseOnHover) {
@@ -152,16 +92,6 @@ const HeroCarousel = React.forwardRef<HTMLDivElement, HeroCarouselProps>(
                 style={{ backgroundImage: `url(${slide.image})` }}
               />
 
-              {/* Overlay */}
-              {slide.overlay && (
-                <div
-                  className="absolute inset-0 bg-black"
-                  style={{
-                    opacity: slide.overlayOpacity || 0.5,
-                  }}
-                />
-              )}
-
               {/* Content */}
               <div
                 className={cn(
@@ -179,7 +109,7 @@ const HeroCarousel = React.forwardRef<HTMLDivElement, HeroCarouselProps>(
                       {slide.title}
                     </h2>
                   )}
-                  {slide.description && (
+                                   {slide.description && (
                     <p className="mb-6 text-lg md:text-xl">
                       {slide.description}
                     </p>

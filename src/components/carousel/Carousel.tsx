@@ -1,54 +1,8 @@
 import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "../../../utils/cn";
+import { cn } from "../../utils/cn";
+import { CarouselProps } from "./types";
+import { carouselVariants, navigationButtonVariants } from "./variants";
 
-const carouselVariants = cva(
-  "relative w-full overflow-hidden",
-  {
-    variants: {
-      size: {
-        sm: "max-w-sm",
-        md: "max-w-md",
-        lg: "max-w-lg",
-        xl: "max-w-xl",
-        full: "max-w-full",
-      },
-      variant: {
-        default: "",
-        bordered: "border rounded-lg",
-        shadow: "shadow-xl rounded-lg",
-      },
-    },
-    defaultVariants: {
-      size: "full",
-      variant: "default",
-    },
-  }
-);
-
-const navigationButtonVariants = cva(
-  "absolute top-1/2 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded-full bg-white/70 shadow-md hover:bg-white focus:outline-none",
-  {
-    variants: {
-      position: {
-        left: "left-2",
-        right: "right-2",
-      },
-    },
-    defaultVariants: {
-      position: "left",
-    },
-  }
-);
-
-interface CarouselProps
-  extends React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof carouselVariants> {
-  autoPlay?: boolean;
-  interval?: number;
-  showArrows?: boolean;
-  showDots?: boolean;
-}
 
 const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
   (
@@ -72,7 +26,7 @@ const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
 
     React.useEffect(() => {
       let timer: number;
-      if (autoPlay && !isHovered) {
+      if (autoPlay && !isHovered && totalItems > 0) {
         timer = setInterval(() => {
           setCurrentIndex((prev) => (prev + 1) % totalItems);
         }, interval);
@@ -116,7 +70,7 @@ const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
           <>
             <button
               onClick={goToPrevious}
-              className={navigationButtonVariants({ position: "left" })}
+              className={navigationButtonVariants({               position: "left" })}
               aria-label="Previous slide"
             >
               ←

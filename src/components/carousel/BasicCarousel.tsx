@@ -1,20 +1,10 @@
 import * as React from "react";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
-import { cn } from "../../../utils/cn";
+import { cn } from "../../utils/cn";
+import { useCarousel } from "./hooks/useCarousel";
+import { BasicCarouselProps } from "./types";
 
 
-interface BasicCarouselProps extends React.HTMLAttributes<HTMLDivElement> {
-  slides: React.ReactNode[];
-  autoPlay?: boolean;
-  interval?: number;
-  showArrows?: boolean;
-  showIndicators?: boolean;
-  pauseOnHover?: boolean;
-  loop?: boolean;
-  animation?: "slide" | "fade";
-  transitionDuration?: number;
-  onSlideChange?: (index: number) => void;
-}
 
 const BasicCarousel = React.forwardRef<HTMLDivElement, BasicCarouselProps>(
   (
@@ -25,7 +15,6 @@ const BasicCarousel = React.forwardRef<HTMLDivElement, BasicCarouselProps>(
       showArrows = true,
       showIndicators = true,
       pauseOnHover = true,
-      loop = true,
       animation = "slide",
       transitionDuration = 300,
       onSlideChange,
@@ -34,53 +23,9 @@ const BasicCarousel = React.forwardRef<HTMLDivElement, BasicCarouselProps>(
     },
     ref
   ) => {
-    const [currentSlide, setCurrentSlide] = React.useState(0);
-    const [isPlaying, setIsPlaying] = React.useState(autoPlay);
+    const { currentSlide, handlePrevious, handleNext, setIsPlaying ,setCurrentSlide} = useCarousel(slides, autoPlay, interval, 1, 1, true,true, onSlideChange);
     const [touchStart, setTouchStart] = React.useState(0);
     const [touchEnd, setTouchEnd] = React.useState(0);
-    const autoPlayRef = React.useRef<number>();
-
-    const startAutoPlay = React.useCallback(() => {
-      if (autoPlay && slides.length > 1) {
-        autoPlayRef.current = setInterval(() => {
-          handleNext();
-        }, interval);
-      }
-    }, [autoPlay, interval, slides.length]);
-
-    const stopAutoPlay = React.useCallback(() => {
-      if (autoPlayRef.current) {
-        clearInterval(autoPlayRef.current);
-      }
-    }, []);
-
-    React.useEffect(() => {
-      if (isPlaying) {
-        startAutoPlay();
-      }
-      return () => stopAutoPlay();
-    }, [isPlaying, startAutoPlay, stopAutoPlay]);
-
-    const handlePrevious = () => {
-      setCurrentSlide((prev) => {
-        const newIndex = prev === 0 ? slides.length - 1 : prev - 1;
-        onSlideChange?.(newIndex);
-        return newIndex;
-      });
-    };
-
-    const handleNext = () => {
-      setCurrentSlide((prev) => {
-        const newIndex = prev === slides.length - 1 ? 0 : prev + 1;
-        onSlideChange?.(newIndex);
-        return newIndex;
-      });
-    };
-
-    const handleIndicatorClick = (index: number) => {
-      setCurrentSlide(index);
-      onSlideChange?.(index);
-    };
 
     const handleTouchStart = (e: React.TouchEvent) => {
       setTouchStart(e.targetTouches[0].clientX);
@@ -111,8 +56,7 @@ const BasicCarousel = React.forwardRef<HTMLDivElement, BasicCarouselProps>(
       }
     };
 
-    if (!slides.length) return null;
-
+    if (!slides.length) return null
     return (
       <div
         ref={ref}
@@ -175,7 +119,10 @@ const BasicCarousel = React.forwardRef<HTMLDivElement, BasicCarouselProps>(
               <button
                 key={index}
                 type="button"
-                onClick={() => handleIndicatorClick(index)}
+                onClick={() => {
+                  setCurrentSlide(index);
+                  onSlideChange?.(index);
+                }}
                 className={cn(
                   "h-2 w-2 rounded-full transition-all",
                   index === currentSlide

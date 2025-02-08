@@ -1,11 +1,10 @@
-'use client';
+import { BasicCarousel } from "../../components/carousel/BasicCarousel";
+import { GalleryCarousel } from "../../components/carousel/GalleryCarousel";
+import { HeroCarousel } from "../../components/carousel/HeroCarousel";
+import { InfiniteCarousel } from "../../components/carousel/InfiniteCarousel";
+import { ProductCarousel } from "../../components/carousel/ProductCarousel";
+import CustomCard from "../panel/components/CustomCard";
 
-import CustomCard from '../../panel/components/CustomCard';
-import { BasicCarousel } from '../components/BasicCarousel';
-import { GalleryCarousel } from '../components/GalleryCarousel';
-import { HeroCarousel } from '../components/HeroCarousel';
-import { InfiniteCarousel } from '../components/InfiniteCarousel';
-import { ProductCarousel } from '../components/ProductCarousel';
 
 
 export default function CarouselExample() {

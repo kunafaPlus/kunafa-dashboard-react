@@ -1,34 +1,12 @@
 import * as React from "react";
-import { cn } from "../../../utils/cn";
+import { cn } from "../../utils/cn";
 import { BiChevronLeft, BiChevronRight, BiDownload, BiX, BiZoomIn, BiZoomOut } from "react-icons/bi";
 import { FiRotateCw } from "react-icons/fi";
 import { BsInfo } from "react-icons/bs";
+import { useGalleryCarousel } from "./hooks/useGalleryCarousel"; // استيراد الهوك الجديد
+import { GalleryCarouselProps ,GalleryImage} from "./types";
 
-interface GalleryImage {
-  id: string | number;
-  src: string;
-  alt?: string;
-  title?: string;
-  description?: string;
-  tags?: string[];
-  date?: string | Date;
-  metadata?: Record<string, any>;
-}
 
-interface GalleryCarouselProps extends React.HTMLAttributes<HTMLDivElement> {
-  images: GalleryImage[];
-  initialIndex?: number;
-  thumbnailSize?: number;
-  gridCols?: number;
-  showInfo?: boolean;
-  showControls?: boolean;
-  showThumbnails?: boolean;
-  enableDownload?: boolean;
-  enableZoom?: boolean;
-  enableRotate?: boolean;
-  onClose?: () => void;
-  onImageChange?: (index: number) => void;
-}
 
 const GalleryCarousel = React.forwardRef<HTMLDivElement, GalleryCarouselProps>(
   (
@@ -50,66 +28,28 @@ const GalleryCarousel = React.forwardRef<HTMLDivElement, GalleryCarouselProps>(
     },
     ref
   ) => {
-    const [currentIndex, setCurrentIndex] = React.useState(initialIndex);
-    const [isZoomed, setIsZoomed] = React.useState(false);
-    const [zoomLevel, setZoomLevel] = React.useState(1);
-    const [rotation, setRotation] = React.useState(0);
-    const [showMetadata, setShowMetadata] = React.useState(false);
-    const [position, setPosition] = React.useState({ x: 0, y: 0 });
+    const {
+      currentIndex,
+      isZoomed,
+      zoomLevel,
+      rotation,
+      position,
+      handlePrevious,
+      handleNext,
+      handleThumbnailClick,
+      resetZoom,
+      handleZoomIn,
+      handleZoomOut,
+      handleRotate,
+      setPosition,
+      setIsZoomed
+    } = useGalleryCarousel(images, initialIndex, onImageChange);
+
     const containerRef = React.useRef<HTMLDivElement>(null);
     const imageRef = React.useRef<HTMLImageElement>(null);
+    const [showMetadata, setShowMetadata] = React.useState(false);
 
     const currentImage = images[currentIndex];
-
-    const handlePrevious = () => {
-      setCurrentIndex((prev) => {
-        const newIndex = prev === 0 ? images.length - 1 : prev - 1;
-        onImageChange?.(newIndex);
-        return newIndex;
-      });
-      resetZoom();
-    };
-
-    const handleNext = () => {
-      setCurrentIndex((prev) => {
-        const newIndex = prev === images.length - 1 ? 0 : prev + 1;
-        onImageChange?.(newIndex);
-        return newIndex;
-      });
-      resetZoom();
-    };
-
-    const handleThumbnailClick = (index: number) => {
-      setCurrentIndex(index);
-      onImageChange?.(index);
-      resetZoom();
-    };
-
-    const resetZoom = () => {
-      setIsZoomed(false);
-      setZoomLevel(1);
-      setRotation(0);
-      setPosition({ x: 0, y: 0 });
-    };
-
-    const handleZoomIn = () => {
-      setZoomLevel((prev) => Math.min(prev + 0.5, 3));
-      setIsZoomed(true);
-    };
-
-    const handleZoomOut = () => {
-      setZoomLevel((prev) => {
-        const newZoom = Math.max(prev - 0.5, 1);
-        if (newZoom === 1) {
-          setIsZoomed(false);
-        }
-        return newZoom;
-      });
-    };
-
-    const handleRotate = () => {
-      setRotation((prev) => (prev + 90) % 360);
-    };
 
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
       if (!isZoomed || !containerRef.current || !imageRef.current) return;
@@ -220,7 +160,7 @@ const GalleryCarousel = React.forwardRef<HTMLDivElement, GalleryCarouselProps>(
                   className="rounded-full bg-background/80 p-2 text-foreground/80 shadow-sm backdrop-blur-sm hover:bg-background hover:text-foreground"
                 >
                   <BiX className="h-5 w-5" />
-                </button>
+                  </button>
               )}
             </div>
           )}

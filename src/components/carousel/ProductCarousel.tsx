@@ -1,49 +1,12 @@
 import * as React from "react";
-import { cn } from "../../../utils/cn";
+import { cn } from "../../utils/cn";
 import { BiChevronLeft, BiChevronRight, BiHeart, BiStar } from "react-icons/bi";
 import { CiShare2 } from "react-icons/ci";
 import { CgShoppingCart } from "react-icons/cg";
+import { useCarousel } from "./hooks/useCarousel"; // تأكد من المسار الصحيح
+import { Product, ProductCarouselProps } from "./types";
 
 
-interface ProductImage {
-  src: string;
-  alt?: string;
-}
-
-interface ProductReview {
-  rating: number;
-  comment?: string;
-  author?: string;
-  date?: string;
-}
-
-interface Product {
-  id: string | number;
-  name: string;
-  price: number;
-  images: ProductImage[];
-  description?: string;
-  reviews?: ProductReview[];
-  rating?: number;
-  discount?: number;
-  inStock?: boolean;
-  variants?: Array<{
-    id: string | number;
-    name: string;
-    price?: number;
-  }>;
-}
-
-interface ProductCarouselProps extends React.HTMLAttributes<HTMLDivElement> {
-  product: Product;
-  onAddToCart?: (product: Product) => void;
-  onToggleWishlist?: (product: Product) => void;
-  onShare?: (product: Product) => void;
-  currency?: string;
-  showThumbnails?: boolean;
-  showControls?: boolean;
-  thumbnailPosition?: "left" | "right" | "bottom";
-}
 
 const ProductCarousel = React.forwardRef<HTMLDivElement, ProductCarouselProps>(
   (
@@ -61,26 +24,25 @@ const ProductCarousel = React.forwardRef<HTMLDivElement, ProductCarouselProps>(
     },
     ref
   ) => {
-    const [currentImage, setCurrentImage] = React.useState(0);
+    const {
+      currentSlide,
+      handlePrevious,
+      handleNext,
+      handleIndicatorClick,
+
+    } = useCarousel(
+      product.images,
+      true, // autoPlay
+      3000, // interval
+      1, // slidesToShow
+      1, // slidesToScroll
+      true, // loop
+      true // pauseOnHover
+    );
+
     const [selectedVariant, setSelectedVariant] = React.useState<
       Product["variants"][0] | undefined
     >(product.variants?.[0]);
-
-    const handlePrevious = () => {
-      setCurrentImage((prev) =>
-        prev === 0 ? product.images.length - 1 : prev - 1
-      );
-    };
-
-    const handleNext = () => {
-      setCurrentImage((prev) =>
-        prev === product.images.length - 1 ? 0 : prev + 1
-      );
-    };
-
-    const handleThumbnailClick = (index: number) => {
-      setCurrentImage(index);
-    };
 
     const handleVariantChange = (variant: Product["variants"][0]) => {
       setSelectedVariant(variant);
@@ -123,8 +85,8 @@ const ProductCarousel = React.forwardRef<HTMLDivElement, ProductCarouselProps>(
         <div className="relative flex-1">
           <div className="aspect-square overflow-hidden rounded-lg bg-gray-100">
             <img
-              src={product.images[currentImage].src}
-              alt={product.images[currentImage].alt || product.name}
+              src={product.images[currentSlide].src}
+              alt={product.images[currentSlide].alt || product.name}
               className="h-full w-full object-cover"
             />
           </div>
@@ -141,7 +103,7 @@ const ProductCarousel = React.forwardRef<HTMLDivElement, ProductCarouselProps>(
               <button
                 type="button"
                 onClick={handleNext}
-                className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-background/80 p-2 text-foreground/80 shadow-sm hover:bg-background hover:text-foreground"
+                className="absolute right-4                 top-1/2 -translate-y-1/2 rounded-full bg-background/80 p-2 text-foreground/80 shadow-sm hover:bg-background hover:text-foreground"
               >
                 <BiChevronRight className="h-6 w-6" />
               </button>
@@ -179,10 +141,10 @@ const ProductCarousel = React.forwardRef<HTMLDivElement, ProductCarouselProps>(
               <button
                 key={index}
                 type="button"
-                onClick={() => handleThumbnailClick(index)}
+                onClick={() => handleIndicatorClick(index)}
                 className={cn(
                   "relative aspect-square w-20 overflow-hidden rounded-md",
-                  currentImage === index && "ring-2 ring-primary ring-offset-2"
+                  currentSlide === index && "ring-2 ring-primary ring-offset-2"
                 )}
               >
                 <img
@@ -275,7 +237,4 @@ ProductCarousel.displayName = "ProductCarousel";
 export {
   ProductCarousel,
   type ProductCarouselProps,
-  type Product,
-  type ProductImage,
-  type ProductReview,
-};
+}

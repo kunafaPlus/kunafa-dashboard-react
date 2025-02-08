@@ -1,5 +1,3 @@
-import React from 'react'
-
 export default function Avatar({title,subTitle}:{title:string,subTitle:string}) {
   return (
     <div className="flex gap-4 items-center">

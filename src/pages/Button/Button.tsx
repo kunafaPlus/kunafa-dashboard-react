@@ -1,51 +1,51 @@
-import { AlertButton } from "../../../components/button/AlertButton";
-import { AudioPlayButton } from "../../../components/button/AudioPlayButton";
-import { BackButton } from "../../../components/button/BackButton";
-import { BiometricButton } from "../../../components/button/BiometricButton";
-import { ButtonGroup } from "../../../components/button/ButtonGroup";
-import { CommentButton } from "../../../components/button/CommentButton";
-import { CopyButton } from "../../../components/button/CopyButton";
-import { DownloadButton } from "../../../components/button/DownloadButton";
-import { FloatingButton } from "../../../components/button/FloatingButton";
-import { FollowButton } from "../../../components/button/FollowButton";
-import { GlassButton } from "../../../components/button/GlassButton";
-import { GradientButton } from "../../../components/button/GradientButton";
-import { HoldButton } from "../../../components/button/HoldButton";
-import { HoverButton } from "../../../components/button/HoverButton";
-import { IconButton } from "../../../components/button/IconButton";
+import { AlertButton } from "../../components/button/AlertButton";
+import { AudioPlayButton } from "../../components/button/AudioPlayButton";
+import { BackButton } from "../../components/button/BackButton";
+import { BiometricButton } from "../../components/button/BiometricButton";
+import { ButtonGroup } from "../../components/button/ButtonGroup";
+import { CommentButton } from "../../components/button/CommentButton";
+import { CopyButton } from "../../components/button/CopyButton";
+import { DownloadButton } from "../../components/button/DownloadButton";
+import { FloatingButton } from "../../components/button/FloatingButton";
+import { FollowButton } from "../../components/button/FollowButton";
+import { GlassButton } from "../../components/button/GlassButton";
+import { GradientButton } from "../../components/button/GradientButton";
+import { HoldButton } from "../../components/button/HoldButton";
+import { HoverButton } from "../../components/button/HoverButton";
+import { IconButton } from "../../components/button/IconButton";
 import { BiBell, BiPlus } from "react-icons/bi";
-import { LikeButton } from "../../../components/button/LikeButton";
-import { LoadingButton } from "../../../components/button/LoadingButton";
-import { LocationButton } from "../../../components/button/LocationButton";
-import { MenuButton } from "../../../components/button/MenuButton";
-import { NotificationButton } from "../../../components/button/NotificationButton";
-import { OutlineButton } from "../../../components/button/OutlineButton";
-import { PaginationButton } from "../../../components/button/PaginationButton";
-import { PopoverButton } from "../../../components/button/PopoverButton";
-import { PressButton } from "../../../components/button/PressButton";
-import { PrintButton } from "../../../components/button/PrintButton";
-import { ProgressButton } from "../../../components/button/ProgressButton";
-import { ScrollToTopButton } from "../../../components/button/ScrollToTopButton";
-import { ScrollButton } from "../../../components/button/ScrollButton";
-import { SaveButton } from "../../../components/button/SaveButton";
-import { SocialButton } from "../../../components/button/SocialButton";
-import { ShareButton } from "../../../components/button/ShareButton";
-import { UploadButton } from "../../../components/button/UploadButton";
-import { TooltipButton } from "../../../components/button/TooltipButton";
-import { ThreeDButton } from "../../../components/button/ThreeDButton";
-import { ThemeToggleButton } from "../../../components/button/ThemeToggleButton";
-import { SwitchButton } from "../../../components/button/SwitchButton";
-import { SwipeButton } from "../../../components/button/SwipeButton";
-import { StatusButton } from "../../../components/button/StatusButton";
+import { LikeButton } from "../../components/button/LikeButton";
+import { LoadingButton } from "../../components/button/LoadingButton";
+import { LocationButton } from "../../components/button/LocationButton";
+import { MenuButton } from "../../components/button/MenuButton";
+import { NotificationButton } from "../../components/button/NotificationButton";
+import { OutlineButton } from "../../components/button/OutlineButton";
+import { PaginationButton } from "../../components/button/PaginationButton";
+import { PopoverButton } from "../../components/button/PopoverButton";
+import { PressButton } from "../../components/button/PressButton";
+import { PrintButton } from "../../components/button/PrintButton";
+import { ProgressButton } from "../../components/button/ProgressButton";
+import { ScrollToTopButton } from "../../components/button/ScrollToTopButton";
+import { ScrollButton } from "../../components/button/ScrollButton";
+import { SaveButton } from "../../components/button/SaveButton";
+import { SocialButton } from "../../components/button/SocialButton";
+import { ShareButton } from "../../components/button/ShareButton";
+import { UploadButton } from "../../components/button/UploadButton";
+import { TooltipButton } from "../../components/button/TooltipButton";
+import { ThreeDButton } from "../../components/button/ThreeDButton";
+import { ThemeToggleButton } from "../../components/button/ThemeToggleButton";
+import { SwitchButton } from "../../components/button/SwitchButton";
+import { SwipeButton } from "../../components/button/SwipeButton";
+import { StatusButton } from "../../components/button/StatusButton";
 import { useState } from "react";
 import { BsInfo } from "react-icons/bs";
-import { SplitButton } from "../../../components/button/SplitButton";
-import { SortButton } from "../../../components/button/SortButton";
-import { SegmentedButton } from "../../../components/button/SegmentedButton";
-import { RadioButtonGroup } from "../../../components/button/RadioButtonGroup";
-import { VideoPlayButton } from "../../../components/button/VideoPlayButton";
-import { ToolbarButton } from "../../../components/button/ToolbarButton";
-import CustomButton from "../../../components/button/CustomButton";
+import { SplitButton } from "../../components/button/SplitButton";
+import { SortButton } from "../../components/button/SortButton";
+import { SegmentedButton } from "../../components/button/SegmentedButton";
+import { RadioButtonGroup } from "../../components/button/RadioButtonGroup";
+import { VideoPlayButton } from "../../components/button/VideoPlayButton";
+import { ToolbarButton } from "../../components/button/ToolbarButton";
+import CustomButton from "../../components/button/CustomButton";
 
 function Button() {
   const [loading, setLoading] = useState(false);
@@ -110,8 +110,6 @@ function Button() {
           <CustomButton variant="warning" size="lg" label="Warning" />
           <CustomButton variant="danger" size="lg" label="Danger" />
           <CustomButton variant="info" size="lg" label="Info" />
-          <CustomButton variant="light" size="lg" label="Light" />
-          <CustomButton variant="dark" size="lg" label="Dark" />
           <CustomButton variant="link" size="lg" label="Link" />
         </div>
       </section>

@@ -1,30 +1,9 @@
 import * as React from "react";
-import { cn } from "../../../utils/cn";
+import { cn } from "../../utils/cn";
 import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
+import { useCarousel } from "./hooks/useCarousel"; // تأكد من المسار الصحيح
+import { TimelineCarouselProps,TimelineEvent } from "./types";
 
-
-interface TimelineEvent {
-  id: string | number;
-  date: string | Date;
-  title: string;
-  description?: string;
-  image?: string;
-  icon?: React.ReactNode;
-  color?: string;
-}
-
-interface TimelineCarouselProps extends React.HTMLAttributes<HTMLDivElement> {
-  events: TimelineEvent[];
-  visibleEvents?: number;
-  autoPlay?: boolean;
-  interval?: number;
-  showArrows?: boolean;
-  showProgress?: boolean;
-  orientation?: "horizontal" | "vertical";
-  animation?: "slide" | "fade";
-  transitionDuration?: number;
-  onEventChange?: (index: number) => void;
-}
 
 const TimelineCarousel = React.forwardRef<HTMLDivElement, TimelineCarouselProps>(
   (
@@ -44,46 +23,20 @@ const TimelineCarousel = React.forwardRef<HTMLDivElement, TimelineCarouselProps>
     },
     ref
   ) => {
-    const [currentIndex, setCurrentIndex] = React.useState(0);
-    const [isPlaying, setIsPlaying] = React.useState(autoPlay);
-    const autoPlayRef = React.useRef<NodeJS.Timeout>();
-
-    const startAutoPlay = React.useCallback(() => {
-      if (autoPlay && events.length > visibleEvents) {
-        autoPlayRef.current = setInterval(() => {
-          handleNext();
-        }, interval);
-      }
-    }, [autoPlay, interval, events.length, visibleEvents]);
-
-    const stopAutoPlay = React.useCallback(() => {
-      if (autoPlayRef.current) {
-        clearInterval(autoPlayRef.current);
-      }
-    }, []);
-
-    React.useEffect(() => {
-      if (isPlaying) {
-        startAutoPlay();
-      }
-      return () => stopAutoPlay();
-    }, [isPlaying, startAutoPlay, stopAutoPlay]);
-
-    const handlePrevious = () => {
-      setCurrentIndex((prev) => {
-        const newIndex = Math.max(0, prev - 1);
-        onEventChange?.(newIndex);
-        return newIndex;
-      });
-    };
-
-    const handleNext = () => {
-      setCurrentIndex((prev) => {
-        const newIndex = Math.min(events.length - visibleEvents, prev + 1);
-        onEventChange?.(newIndex);
-        return newIndex;
-      });
-    };
+    const {
+      currentSlide,
+      handlePrevious,
+      handleNext,
+      setIsPlaying,
+    } = useCarousel(
+      events,
+      autoPlay,
+      interval,
+      visibleEvents,
+      1, // slidesToScroll
+      true, // loop
+      true // pauseOnHover
+    );
 
     const formatDate = (date: string | Date) => {
       return new Date(date).toLocaleDateString("en-US", {
@@ -91,10 +44,6 @@ const TimelineCarousel = React.forwardRef<HTMLDivElement, TimelineCarouselProps>
         month: "short",
         day: "numeric",
       });
-    };
-
-    const getProgressPercentage = () => {
-      return ((currentIndex + visibleEvents) / events.length) * 100;
     };
 
     if (!events.length) return null;
@@ -111,37 +60,6 @@ const TimelineCarousel = React.forwardRef<HTMLDivElement, TimelineCarouselProps>
         )}
         {...props}
       >
-        {/* Progress Bar */}
-        {showProgress && (
-          <div
-            className={cn(
-              "absolute bg-muted",
-              isVertical
-                ? "left-[15px] top-0 h-full w-0.5"
-                : "bottom-0 left-0 h-0.5 w-full"
-            )}
-          >
-            <div
-              className="absolute bg-primary transition-all duration-300"
-              style={{
-                ...(isVertical
-                  ? {
-                      top: 0,
-                      left: 0,
-                      width: "100%",
-                      height: `${getProgressPercentage()}%`,
-                    }
-                  : {
-                      bottom: 0,
-                      left: 0,
-                      height: "100%",
-                      width: `${getProgressPercentage()}%`,
-                    }),
-              }}
-            />
-          </div>
-        )}
-
         {/* Events Container */}
         <div
           className={cn(
@@ -157,8 +75,8 @@ const TimelineCarousel = React.forwardRef<HTMLDivElement, TimelineCarouselProps>
             )}
             style={{
               transform: isVertical
-                ? `translateY(-${(currentIndex * 100) / visibleEvents}%)`
-                : `translateX(-${(currentIndex * 100) / visibleEvents}%)`,
+                ? `translateY(-${(currentSlide * 100) / visibleEvents}%)`
+                : `translateX(-${(currentSlide * 100) / visibleEvents}%)`,
               gap: "2rem",
             }}
           >
@@ -170,8 +88,8 @@ const TimelineCarousel = React.forwardRef<HTMLDivElement, TimelineCarouselProps>
                   isVertical ? "h-[200px]" : "w-[300px]",
                   animation === "fade" &&
                     "transition-opacity duration-300 ease-in-out",
-                  index < currentIndex ||
-                    index >= currentIndex + visibleEvents
+                  index < currentSlide ||
+                    index >= currentSlide + visibleEvents
                     ? "opacity-0"
                     : "opacity-100"
                 )}
@@ -224,7 +142,7 @@ const TimelineCarousel = React.forwardRef<HTMLDivElement, TimelineCarouselProps>
             <button
               type="button"
               onClick={handlePrevious}
-              disabled={currentIndex === 0}
+              disabled={currentSlide === 0}
               className={cn(
                 "absolute rounded-full bg-background/80 p-2 text-foreground/80 shadow-sm hover:bg-background hover:text-foreground disabled:opacity-50",
                 isVertical
@@ -237,7 +155,7 @@ const TimelineCarousel = React.forwardRef<HTMLDivElement, TimelineCarouselProps>
             <button
               type="button"
               onClick={handleNext}
-              disabled={currentIndex >= events.length - visibleEvents}
+              disabled={currentSlide >= events.length - visibleEvents}
               className={cn(
                 "absolute rounded-full bg-background/80 p-2 text-foreground/80 shadow-sm hover:bg-background hover:text-foreground disabled:opacity-50",
                 isVertical

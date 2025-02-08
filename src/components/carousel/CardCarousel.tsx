@@ -1,25 +1,9 @@
 import * as React from "react";
-import { cn } from "../../../utils/cn";
+import { cn } from "../../utils/cn";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
-interface CardCarouselProps extends React.HTMLAttributes<HTMLDivElement> {
-  cards: React.ReactNode[];
-  slidesToShow?: number;
-  slidesToScroll?: number;
-  autoPlay?: boolean;
-  interval?: number;
-  showArrows?: boolean;
-  spacing?: number;
-  centerMode?: boolean;
-  loop?: boolean;
-  breakpoints?: {
-    [key: number]: {
-      slidesToShow?: number;
-      slidesToScroll?: number;
-      spacing?: number;
-    };
-  };
-  onSlideChange?: (index: number) => void;
-}
+import { useCarousel } from "./hooks/useCarousel";
+import { CardCarouselProps } from "./types";
+
 
 const CardCarousel = React.forwardRef<HTMLDivElement, CardCarouselProps>(
   (
@@ -44,13 +28,8 @@ const CardCarousel = React.forwardRef<HTMLDivElement, CardCarouselProps>(
     },
     ref
   ) => {
-    const [currentSlide, setCurrentSlide] = React.useState(0);
-    const [isPlaying, setIsPlaying] = React.useState(autoPlay);
-    const [touchStart, setTouchStart] = React.useState(0);
-    const [touchEnd, setTouchEnd] = React.useState(0);
     const [containerWidth, setContainerWidth] = React.useState(0);
     const containerRef = React.useRef<HTMLDivElement>(null);
-    const autoPlayRef = React.useRef<number>();
 
     // Calculate responsive settings
     const getResponsiveSettings = () => {
@@ -65,8 +44,7 @@ const CardCarousel = React.forwardRef<HTMLDivElement, CardCarouselProps>(
         if (windowWidth >= breakpointWidths[i]) {
           return {
             slidesToShow: breakpoints[breakpointWidths[i]].slidesToShow ?? slidesToShow,
-            slidesToScroll:
-              breakpoints[breakpointWidths[i]].slidesToScroll ?? slidesToScroll,
+            slidesToScroll: breakpoints[breakpointWidths[i]].slidesToScroll ?? slidesToScroll,
             spacing: breakpoints[breakpointWidths[i]].spacing ?? spacing,
           };
         }
@@ -76,6 +54,16 @@ const CardCarousel = React.forwardRef<HTMLDivElement, CardCarouselProps>(
     };
 
     const settings = getResponsiveSettings();
+    const { currentSlide, handlePrevious, handleNext, setIsPlaying } = useCarousel(
+      cards,
+      autoPlay,
+      interval,
+      settings.slidesToShow,
+      settings.slidesToScroll,
+      loop,
+      showArrows,
+      onSlideChange
+    );
 
     // Update container width on resize
     React.useEffect(() => {
@@ -93,85 +81,20 @@ const CardCarousel = React.forwardRef<HTMLDivElement, CardCarouselProps>(
       };
     }, []);
 
-    // Auto play functionality
-    const startAutoPlay = React.useCallback(() => {
-      if (autoPlay && cards.length > settings.slidesToShow) {
-        autoPlayRef.current = setInterval(() => {
-          handleNext();
-        }, interval);
-      }
-    }, [autoPlay, interval, cards.length, settings.slidesToShow]);
-
-    const stopAutoPlay = React.useCallback(() => {
-      if (autoPlayRef.current) {
-        clearInterval(autoPlayRef.current);
-      }
-    }, []);
-
-    React.useEffect(() => {
-      if (isPlaying) {
-        startAutoPlay();
-      }
-      return () => stopAutoPlay();
-    }, [isPlaying, startAutoPlay, stopAutoPlay]);
-
     const getCardWidth = () => {
-      const totalSpacing = spacing * (settings.slidesToShow - 1);
+      const totalSpacing = settings.spacing * (settings.slidesToShow - 1);
       return (containerWidth - totalSpacing) / settings.slidesToShow;
-    };
-
-    const handlePrevious = () => {
-      setCurrentSlide((prev) => {
-        const newIndex = Math.max(
-          prev - settings.slidesToScroll,
-          loop ? -(settings.slidesToShow - 1) : 0
-        );
-        onSlideChange?.(newIndex);
-        return newIndex;
-      });
-    };
-
-    const handleNext = () => {
-      setCurrentSlide((prev) => {
-        const maxSlide = cards.length - settings.slidesToShow;
-        const newIndex = Math.min(
-          prev + settings.slidesToScroll,
-          loop ? maxSlide + (settings.slidesToShow - 1) : maxSlide
-        );
-        onSlideChange?.(newIndex);
-        return newIndex;
-      });
-    };
-
-    const handleTouchStart = (e: React.TouchEvent) => {
-      setTouchStart(e.targetTouches[0].clientX);
-    };
-
-    const handleTouchMove = (e: React.TouchEvent) => {
-      setTouchEnd(e.targetTouches[0].clientX);
-    };
-
-    const handleTouchEnd = () => {
-      if (touchStart - touchEnd > 50) {
-        handleNext();
-      }
-      if (touchStart - touchEnd < -50) {
-        handlePrevious();
-      }
     };
 
     if (!cards.length) return null;
 
     const cardWidth = getCardWidth();
-    const translateX = -(currentSlide * (cardWidth + spacing));
+    const translateX = -(currentSlide * (cardWidth + settings.spacing));
 
     return (
       <div
         ref={ref}
         className={cn("relative overflow-hidden", className)}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
         {...props}
       >
         {/* Cards Container */}
@@ -180,7 +103,7 @@ const CardCarousel = React.forwardRef<HTMLDivElement, CardCarouselProps>(
             className="flex transition-transform duration-300 ease-in-out"
             style={{
               transform: `translateX(${translateX}px)`,
-              gap: `${spacing}px`,
+              gap: `${settings.spacing}px`,
             }}
           >
             {cards.map((card, index) => (
@@ -212,9 +135,7 @@ const CardCarousel = React.forwardRef<HTMLDivElement, CardCarouselProps>(
             <button
               type="button"
               onClick={handleNext}
-              disabled={
-                !loop && currentSlide >= cards.length - settings.slidesToShow
-              }
+              disabled={!loop && currentSlide >= cards.length - settings.slidesToShow}
               className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-background/80 p-2 text-foreground/80 shadow-sm hover:bg-background hover:text-foreground disabled:opacity-50"
               aria-label="Next slide"
             >
