@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FaChevronDown, FaChevronRight } from 'react-icons/fa';
 import * as XLSX from 'xlsx'; // For Excel export
-import { ColumnProps, DataTableProps } from '../../input/utils/type';
+import { ColumnProps, DataTableProps } from '../../../components/input/types/type';
 
 
 

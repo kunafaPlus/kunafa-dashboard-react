@@ -1,25 +1,25 @@
 import React, { useState } from "react";
-import CustomCard from "../components/CustomCard";
-import { Accordion } from "../components/Accordion";
-import { CardPanel } from "../components/CardPanel";
-import { CollapsiblePanel } from "../components/CollapsiblePanel";
-import { CustomTab } from "../components/CustomTab";
-import { DockPanel } from "../components/DockPanel";
-import { Drawer } from "../components/Drawer";
-import { ExpansionPanel } from "../components/ExpansionPanel";
-import { FloatingPanel } from "../components/FloatingPanel";
-import { GridPanel } from "../components/GridPanel";
-import { ResizablePanel } from "../components/ResizablePanel";
-import { ScrollArea } from "../components/ScrollArea";
-import { SidePanel } from "../components/SidePanel";
-import { Stepper } from "../components/Stepper";
+import CustomCard from "../../../components/panel/CustomCard";
+import { Accordion } from "../../../components/panel/Accordion";
+import { CardPanel } from "../../../components/panel/CardPanel";
+import { CollapsiblePanel } from "../../../components/panel/CollapsiblePanel";
+import { CustomTab } from "../../../components/panel/CustomTab";
+import { DockPanel } from "../../../components/panel/DockPanel";
+import { Drawer } from "../../../components/panel/Drawer";
+import { ExpansionPanel } from "../../../components/panel/ExpansionPanel";
+import { FloatingPanel } from "../../../components/panel/FloatingPanel";
+import { GridPanel } from "../../../components/panel/GridPanel";
+import { ResizablePanel } from "../../../components/panel/ResizablePanel";
+import { ScrollArea } from "../../../components/panel/ScrollArea";
+import { SidePanel } from "../../../components/panel/SidePanel";
+import { Stepper } from "../../../components/panel/Stepper";
 import {
   Tab,
   Tabs,
   
-} from "../components/Tabs";
-import { Timeline } from "../components/Timeline";
-import { TreeView } from "../components/TreeView";
+} from "../../../components/panel/Tabs";
+import { Timeline } from "../../../components/panel/Timeline";
+import { TreeView } from "../../../components/panel/TreeView";
 import {
   FiSettings,
   FiUser,
