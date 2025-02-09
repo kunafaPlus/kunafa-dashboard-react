@@ -1,7 +1,7 @@
 import { cva } from "class-variance-authority";
 
 export const sidebarVariants = cva(
-  "relative flex flex-col transition-all duration-300 px-2 pr-4", 
+  "relative flex flex-col transition-all duration-300  pr-4", 
   {
     variants: {
       variant: {
@@ -82,13 +82,13 @@ export const sidebarSectionVariants = cva("", {
     padding: {
       none: "p-0",
       sm: "p-2",
-      default: "p-4",
+      default: "py-2",
       lg: "p-6",
     },
     spacing: {
       none: "space-y-0",
       sm: "space-y-1",
-      default: "space-y-2",
+      default: "space-y-1",
       lg: "space-y-4",
     },
   },

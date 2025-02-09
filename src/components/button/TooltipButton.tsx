@@ -2,7 +2,7 @@ import * as React from "react";
 import { cn } from "../../utils/cn";
 import { buttonVariants, tooltipButtonVariants } from "./variants";
 import { TooltipButtonProps } from "./types";
-import { Tooltip } from "../../pages/misc/components/Tooltip";
+import { Tooltip } from "../misc/Tooltip";
 
 const TooltipButton = React.forwardRef<HTMLButtonElement, TooltipButtonProps>(
   (

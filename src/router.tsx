@@ -1,12 +1,10 @@
 import { Route, Routes } from "react-router-dom";
-import BasicForm from "./pages/input/view/BasicForm";
-import AdditionalForms from "./pages/input/view/AdditionalForms";
-import AdvancedForm from "./pages/input/view/AdvancedForm";
+import BasicForm from "./pages/input/BasicForm";
+import AdditionalForms from "./pages/input/AdditionalForms";
+import AdvancedForm from "./pages/input/AdvancedForm";
 import Button from "./pages/Button/Button";
-import Dialog from "./pages/dialog/view/Dialog";
-import MiscExample from "./pages/misc/views/MiscExample";
+import MiscExample from "./pages/misc/MiscExample";
 import PanelsExample from "./pages/panel/views/PanelsExample";
-import NavigationExample from "./pages/misc/views/NavigationExample";
 import LayoutExample from "./pages/layout/LayoutExample";
 import BasicDataGrid from "./pages/data-table/views/BasicDataGrid";
 import VirtualDataGridExample from "./pages/data-table/views/VirtualDataGrid";
@@ -18,6 +16,8 @@ import SchedulerExample from "./pages/data-table/views/Scheduler";
 import PickListExample from "./pages/data-table/views/PickList";
 import SpreadsheetGridExample from "./pages/data-table/views/SpreadsheetGrid";
 import CarouselExample from "./pages/carousel/CarouselExample";
+import Dialog from "./pages/dialog/Dialog";
+import NavigationExample from "./pages/misc/NavigationExample";
 
 
 // تعريف المسارات

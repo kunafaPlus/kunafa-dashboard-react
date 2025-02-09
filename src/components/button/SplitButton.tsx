@@ -2,7 +2,7 @@ import * as React from "react";
 import { cn } from "../../utils/cn";
 import { buttonVariants, splitButtonVariants } from "./variants";
 import { SplitButtonProps } from "./types";
-import { Popover } from "../../pages/misc/components/Popover";
+import { Popover } from "../misc/Popover";
 import { BiChevronDown } from "react-icons/bi";
 
 const SplitButton = React.forwardRef<HTMLDivElement, SplitButtonProps>(

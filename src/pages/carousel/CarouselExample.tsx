@@ -3,7 +3,7 @@ import { GalleryCarousel } from "../../components/carousel/GalleryCarousel";
 import { HeroCarousel } from "../../components/carousel/HeroCarousel";
 import { InfiniteCarousel } from "../../components/carousel/InfiniteCarousel";
 import { ProductCarousel } from "../../components/carousel/ProductCarousel";
-import CustomCard from "../panel/components/CustomCard";
+import CustomCard from "../../components/panel/CustomCard";
 
 
 

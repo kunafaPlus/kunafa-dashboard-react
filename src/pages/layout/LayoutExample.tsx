@@ -9,7 +9,7 @@ import { Grid } from './Grid';
 import { SimpleNavbar } from './SimpleNavbar';
 import { SimpleSidebar } from './SimpleSidebar';
 import { FiHome, FiUser, FiSettings, FiMail, FiSearch, FiMenu, FiBell } from 'react-icons/fi';
-import CustomCard from '../panel/components/CustomCard';
+import CustomCard from '../../components/panel/CustomCard';
 
 export default function LayoutExample() {
   const [isSidebarOpen, setIsSidebarOpen] = React.useState(false);
